@@ -1,0 +1,45 @@
+
+html, body {
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  font-size: 32px;
+  width: 100%;
+  min-height: 100%;
+  background-color: #F9FAFC;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+a {
+  background-color: transparent;
+  word-wrap: break-word;
+}
+
+span {
+  word-break: break-all;
+}
+
+button {
+  padding: 0;
+  border: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+}

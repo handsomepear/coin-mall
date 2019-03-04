@@ -1,0 +1,127 @@
+.goods-detail-page {
+  background-color: #f4f4f4;
+  //  商品banner
+  .detail-banner {
+    width: 100%;
+    height: 530px;
+    padding: 0 30px;
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+
+  // 会员权益
+  .vip-equity {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 110px;
+    padding: 0 30px;
+    box-sizing: border-box;
+    background-color: #f8f3f0;
+  }
+
+  .vip-price-con {
+    display: flex;
+    align-items: center;
+  }
+
+  .vip-tag {
+    margin-right: 20px;
+    color: #fff;
+    padding: 4px 20px;
+    background-color: #ea5835;
+    border-radius: 6px;
+    font-size: 20px;
+  }
+
+  .vip-price {
+    font-size: 33px;
+  }
+
+  .vip-btn {
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    color: #ea5835;
+
+    p {
+      margin-right: 30px;
+    }
+  }
+
+  .label {
+    color: #9e9e9e;
+  }
+
+  .address-con {
+    display: flex;
+    width: 100%;
+    padding: 20px 30px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 28px;
+    line-height: 46px;
+    background-color: #fff;
+  }
+
+  .address {
+    flex: 1;
+    margin-left: 36px;
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .bottom {
+      color: #444;
+    }
+  }
+
+  .freight-con {
+    display: flex;
+    align-items: center;
+    padding: 10px 30px 30px;
+    box-sizing: border-box;
+    font-size: 28px;
+    line-height: 46px;
+    background-color: #fff;
+  }
+
+  .freight {
+    margin-left: 36px;
+  }
+
+  //  商品详情
+  .detail-con {
+    background-color: #fff;
+    margin-top: 20px;
+    padding: 0 30px;
+    .title {
+      font-size: 30px;
+      line-height: 100px;
+    }
+  }
+  
+  .bottom-con {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding: 30px 80px 60px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    .btn {
+      width: 100%;
+      line-height: 90px;
+      color: #fff;
+      background-color: #dc7035;
+      text-align: center;
+      font-size: 34px;
+      border-radius: 90px
+    }
+  }
+}

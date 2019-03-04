@@ -10,3 +10,12 @@ export const getGoodsList = () => {
   })
 }
 
+export const getGoodsDetail = () => {
+  return fetch({
+    url: '/api/coinsMall/goodsDetail',
+    data: {
+
+    }
+  })
+}
+

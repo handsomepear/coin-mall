@@ -1,7 +1,7 @@
-import * as GoodsServer from '../../API/goods'
+import * as GoodsServer from '@API/goods'
 
 
-import * as types from '../types/goodTypes'
+import * as types from '@store/types/goodTypes'
 
 
 export const getGoodsList = () =>  async (dispatch) => {

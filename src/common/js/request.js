@@ -1,10 +1,12 @@
 import axios from 'axios'
 import store from '../../store'
+import  fetchUrl  from './config'
+
 
 const jcnuserid = store.getState().userReducer.jcnuserid
 
 const service = axios.create({
-  baseURL: 'http://wechat-mp-test.j.cn',
+  baseURL: fetchUrl,
   timeout: 15000
 })
 

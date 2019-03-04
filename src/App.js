@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Index from './pages/Index'
-import GoodsDetail from './pages/GoodsDetail'
+import Index from './pages/Index/Index'
+import GoodsDetail from './pages/GoodsDetail/GoodsDetail'
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom'
 
 class App extends Component {
@@ -14,7 +14,7 @@ class App extends Component {
             <Redirect to="/" />
           </Switch>
         </div>
-</BrowserRouter>
+      </BrowserRouter>
     )
   }
 }
