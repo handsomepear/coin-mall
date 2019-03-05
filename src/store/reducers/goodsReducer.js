@@ -1,8 +1,8 @@
-import * as types from '../types/goodTypes'
+import * as types from '@types/goodTypes'
 
 const initialState = {
   goodsList: [],
-  goodsDetail: []
+  goodsDetail: {}
 }
 
 
@@ -11,17 +11,12 @@ const goodsReducer = (state = initialState, action) => {
     case types.GETGOODSLIST:
       return {
         ...state,
-        goodsList: action.data
-      }
-    case types.ADDGOODS:
-      return {
-        ...state,
-        goodsList: state.goodsList.push(action.data)
+        goodsList: action.goodsList
       }
     case types.GETGOODSDETAIL:
       return {
         ...state,
-        goodsDetail: action.data
+        goodsDetail: action.goodsDetail
       }
     default:
       return state

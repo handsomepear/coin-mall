@@ -9,6 +9,16 @@
     box-sizing: border-box;
   }
 
+  .detail-img {
+    display: flex;
+    height: 360px;
+    justify-content: center;
+    img {
+      width: auto;
+      height: 100%;
+    }
+  }
+
   // 会员权益
   .vip-equity {
     display: flex;
