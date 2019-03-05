@@ -98,7 +98,7 @@ module.exports = function(webpackEnv) {
               stage: 3,
             }),
             require('postcss-pxtorem')({
-              rootValue: 75,
+              rootValue: 37.5,
               propList: ['*']
             })
           ],
