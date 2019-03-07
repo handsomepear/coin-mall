@@ -1,0 +1,2 @@
+
+export const GETHOMEPAGEDATA = 'GETHOMEPAGEDATA' // 获取首页信息

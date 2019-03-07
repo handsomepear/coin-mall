@@ -1,4 +1,4 @@
-import { checkLoggingStatus } from '@actions/userAction'
+import { checkLoggingStatus } from '@actions/userActions'
 
 window.getUserInfo = function (userInfo) {
   const oUserInfo = JSON.parse(userInfo)
@@ -10,8 +10,12 @@ window.getUserInfo = function (userInfo) {
 if(window.app_interface) {
   window.appLoginFinish = (status) => {
     if(status === 200) {
-      window.app_interface.getHersUserInfo('getUserInfo')
+      // 登录成功
+      checkLoggingStatus(true)
+    }else {
+      // 登录失败
+      checkLoggingStatus(false)
     }
-    window.app_interface.getHersUserInfo('getUserInfo')
+
   }
 }

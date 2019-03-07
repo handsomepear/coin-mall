@@ -7,6 +7,7 @@ import { _timeFormate } from '@common/js/tool'
 
 import * as goodsActions from '@actions/goodsActions'
 import * as orderActions from '@actions/orderActions'
+import * as userActions from '@actions/userActions'
 
 
 import SkuModal from '@components/SkuModal/SkuModal'
@@ -14,6 +15,7 @@ import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 
 //css
 import './goodsDetail.scss'
+import { Toast } from 'antd-mobile'
 
 
 const Seckill = props => {
@@ -39,6 +41,7 @@ const Seckill = props => {
   </div>)
 }
 
+
 class GoodsDetail extends Component {
   constructor(props) {
     super(props)
@@ -46,7 +49,7 @@ class GoodsDetail extends Component {
       loading: true,
       isShowSkuModal: false,
       isShowConfirmModal: false,
-      chooseSku: {}
+      choosedSku: null
     }
     this.goAddressEdite = this.goAddressEdite.bind(this)
     this.renderBottomBtn = this.renderBottomBtn.bind(this)
@@ -56,21 +59,24 @@ class GoodsDetail extends Component {
     this.showConfirmModal = this.showConfirmModal.bind(this)
     this.hideConfirmModal = this.hideConfirmModal.bind(this)
     this.goOrderListPage = this.goOrderListPage.bind(this)
+    this.login = this.login.bind(this)
+    this.exchange = this.exchange.bind(this)
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     // 获取到商品Id
     const goodsId = this.props.match.params.goodsId
-
     this.props.goodsActions.getGoodsDetail(goodsId)
-
+    this.props.goodsActions.getBtnStatus(goodsId)
   }
 
-
+  // 去设置地址页面
   goAddressEdite() {
     this.props.history.push('/address')
   }
-  goOrderListPage(){
+
+  // 去订单列表
+  goOrderListPage() {
     this.props.history.push('/order-list')
   }
 
@@ -87,7 +93,7 @@ class GoodsDetail extends Component {
   }
 
   showConfirmModal() {
-    console.log(this)
+    this.hideSkuModal()
     this.setState({
       isShowConfirmModal: true
     })
@@ -100,15 +106,60 @@ class GoodsDetail extends Component {
   }
 
   // 选择商品sku
-  chooseSku(chooseSku = {}) {
-    this.setState({ chooseSku })
+  chooseSku(choosedSku) {
+    this.setState({ choosedSku })
+  }
+
+  // 去赚金币
+  static maskCoins() {
+    window.location.href = ''
+  }
+
+
+  // 去获取兑换资格
+  static getQualification() {
+    window.location.href = ''
+  }
+
+  login() {
+    this.props.userActions.doLogin()
+  }
+
+  // 兑换奖品
+  exchange() {
+    const skuList = this.props.goodsDetail.skuList
+    if (skuList && skuList.length > 0) {
+      if (!this.state.choosedSku) {
+        return Toast.fail('请选择商品规格', 2)
+      }
+    }
+    this.showConfirmModal()
   }
 
   renderBottomBtn() {
     const loggingStatus = this.props.loggingStatus
+    const buttonStatus = this.props.buttonStatus
     if (!loggingStatus) {
       // 未登录
-      return <div className="btn" onClick={this.showConfirmModal}>请先登录</div>
+      return <div className="btn" onClick={this.exchange}>请先登录</div>
+    }
+    switch (buttonStatus) {
+      case 1:
+        return <div className="btn" onClick={this.showConfirmModal}>请先登录</div>
+      case 2:
+        return <div className="btn bg-gray">已兑完</div>
+      case 3:
+        return <div className="btn bg-gray">每日限量已兑完</div>
+      case 4:
+        return <div className="btn" onClick={this.maskCoins}>金币不足，去赚金币 <div className="iconfont arrow-right" /></div>
+      case 5:
+        return <div className="btn" onClick={this.getQualification}>如何获得兑换资格 <div className="iconfont arrow-right" /></div>
+      case 6:
+        return <div className="btn bg-gray">即将开始</div>
+      case 7:
+        return <div className="btn" onClick={this.showConfirmModal}>马上兑换</div>
+      default:
+        return false
     }
   }
 
@@ -116,14 +167,15 @@ class GoodsDetail extends Component {
   render() {
     const goodsDetail = this.props.goodsDetail
     const loggingStatus = this.props.loggingStatus
+    const address = this.props.address
     return (
       goodsDetail ?
-        <div className="goods-detail-page">
+        <section className="goods-detail-page">
           {/* 商品展示 */}
-          <div className="detail-banner">
-            <div className="detail-img">
+          <section className="detail-banner">
+            <section className="detail-img">
               <img src={goodsDetail.mainImage} alt="" />
-            </div>
+            </section>
             <div className="detail-name">
               {
                 goodsDetail.iconList && goodsDetail.iconList.length > 0 ?
@@ -136,21 +188,30 @@ class GoodsDetail extends Component {
               <div className="new-price"><span>{goodsDetail.coinPrice}</span>金币</div>
               <div className="old-price">¥{goodsDetail.cashPrice}</div>
             </div>
-          </div>
+          </section>
           {/* 会员权益 */}
           {
-            goodsDetail.vipDiscountFlag ?
-              <div className="vip-equity">
+            -1 !== goodsDetail.vipCoinPrice ?
+              <section className="vip-equity">
                 <div className="vip-price-con">
                   <div className="vip-tag">
                     <img src={require('../../common/images/vip-tag.png')} alt="" />
                   </div>
-                  <div className="vip-price">3092222金币</div>
+                  <div className="vip-price">{goodsDetail.vipCoinPrice}金币</div>
                 </div>
-                <div className="vip-btn"><p>会员权益</p>
+                <div className="vip-btn" onClick={() => {
+                  if (this.props.isVip) {
+                    // 会员权益
+                    window.location.href = ''
+                  } else {
+                    // 开通会员
+                    window.location.href = ''
+                  }
+                }}>
+                  <p>{this.props.isVip ? '会员权益' : '开通会员'}</p>
                   <div className="iconfont arrow-right" />
                 </div>
-              </div>
+              </section>
               : null
           }
           {/* 秒杀 */}
@@ -163,60 +224,66 @@ class GoodsDetail extends Component {
           {/* 规格 */}
           {
             goodsDetail.skuList && goodsDetail.skuList.length > 0 ?
-              <div className="size-choose">
+              <section className="size-choose">
                 <div className="label">规格</div>
                 <div className="choose-con" onClick={this.showSkuModal}>
-                  <div className="choose">请选择尺码</div>
+                  {
+                    this.state.choosedSku ?
+                      <div className="choose-sku-name">{this.state.choosedSku.skuName}</div>
+                      :
+                      <div className="choose">请选择尺码</div>
+                  }
                   <div className="iconfont arrow-right" />
                 </div>
-              </div> : null
+              </section> : null
           }
           {/* 地址信息 */}
           {
             !loggingStatus ?
-              <div className="address-con" onClick={this.goAddressEdite}>
-                <div className="label">送至</div>
-                {
-                  this.props.address ?
-                    <div className="address">
-                      <div className="top">
-                        <p>郑娜 15210789275</p>
+              <section>
+                <div className="address-con" onClick={this.goAddressEdite}>
+                  <div className="label">送至</div>
+                  {
+                    address ?
+                      <div className="address">
+                        <div className="top">
+                          <p>{address.userName} {address.cellNumber}</p>
+                        </div>
+                        <div className="bottom">
+                          <div className="iconfont location" />
+                          <p>{address.area} {address.detailLocation}</p>
+                        </div>
                       </div>
-                      <div className="bottom">
-                        <div className="iconfont location" />
-                        <p>北京市 北京市 海淀区</p>
+                      :
+                      <div className="address empty">
+                        你还未填写收货信息，马上去填写
                       </div>
-                    </div>
-                    :
-                    <div className="address-empty">
-
-                    </div>
-                }
-              </div>
+                  }
+                </div>
+                {/* 运费 */}
+                <div className="freight-con">
+                  <div className="label">运费</div>
+                  <div className="freight">包邮</div>
+                </div>
+              </section>
               : null
           }
-          {/* 运费 */}
-          <div className="freight-con">
-            <div className="label">运费</div>
-            <div className="freight">包邮</div>
-          </div>
-
           {/* 限兑 */}
           {
             goodsDetail.exchangeLimitList && goodsDetail.exchangeLimitList.length > 0 ?
-              <div className="exchange-limit">
+              <section className="exchange-limit">
                 <div className="label">限兑</div>
                 <div className="limit-con">
                   {goodsDetail.exchangeLimitList.join('、')}
                 </div>
-              </div> : null
+              </section> : null
           }
 
           {/* 商品详情 */}
-          <div className="detail-con">
+          <section className="detail-con">
             <div className="title">商品详情</div>
             <div className="detail" dangerouslySetInnerHTML={{ __html: goodsDetail.detail }} />
-          </div>
+          </section>
 
           {/* sku弹窗 */}
           {
@@ -229,21 +296,21 @@ class GoodsDetail extends Component {
               : null
           }
           {/* 底部按钮 */}
-          <div className="bottom-con">
+          <section className="bottom-con">
             {this.renderBottomBtn()}
-          </div>
+          </section>
           {/* 确认兑换框 */}
           {
             this.state.isShowConfirmModal ?
               <ConfirmModal
                 goOrderListPage={this.goOrderListPage}
                 hideConfirmModal={this.hideConfirmModal}
-                goodsId={this.state.chooseSku.goodsId}
-                skuId={this.state.chooseSku.skuId}
+                oSku={this.state.choosedSku}
+                goodsName={goodsDetail.goodsName}
               />
               : null
           }
-        </div>
+        </section>
         : "您访问的商品不存在"
 
     )
@@ -253,15 +320,18 @@ class GoodsDetail extends Component {
 const mapStateToProps = state => {
   return {
     goodsDetail: state.goodsReducer.goodsDetail,
+    buttonStatus: state.goodsReducer.buttonStatus,
     loggingStatus: state.userReducer.loggingStatus,
-    address: state.userReducer.address
+    address: state.userReducer.address,
+    isVip: state.userReducer.isVip
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     goodsActions: bindActionCreators(goodsActions, dispatch),
-    orderActions: bindActionCreators(orderActions, dispatch)
+    orderActions: bindActionCreators(orderActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

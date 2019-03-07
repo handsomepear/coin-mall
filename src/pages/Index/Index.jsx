@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
 
 import * as goodsActions from '../../store/actions/goodsActions'
+import * as homeActions from '../../store/actions/homeActions'
 
 //css
 import './index.scss'
@@ -32,12 +33,6 @@ class Index extends Component {
       <div className="index-page">
         <span className="name">这是一个标记</span>
         <button onClick={this.goDetailPage}>跳转</button>
-        <ul>
-          {
-            goodsList && goodsList.length > 0 ?
-              goodsList.map(item => <li key={item.taskId}>{item.name}</li>) : null
-          }
-        </ul>
       </div>
     )
   }
@@ -45,13 +40,15 @@ class Index extends Component {
 
 const mapStateToProps = state => {
   return {
-    goodsList: state.goodsReducer.goodsList
+    goodsList: state.goodsReducer.goodsList,
+    homeData: state.homeReducer.homeData
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    goodsActions: bindActionCreators(goodsActions, dispatch)
+    goodsActions: bindActionCreators(goodsActions, dispatch),
+    homeActions: bindActionCreators(homeActions, dispatch)
   }
 }
 

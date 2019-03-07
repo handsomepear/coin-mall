@@ -19,8 +19,8 @@ class ConfirmModal extends Component {
 
   // 下单
   async makeOrder() {
-    const goodsId = this.props.goodsId
-    const skuId = this.props.skuId
+    const goodsId = this.props.oSku.goodsId
+    const skuId = this.props.oSku.skuId
     Toast.loading('兑换中', 10)
     await this.props.orderActions.coinsMallMakeOrder({ goodsId, skuId })
     Toast.hide()
@@ -29,6 +29,7 @@ class ConfirmModal extends Component {
   }
 
   render() {
+    const address = this.props.address
     return (
       <div className="confirm-modal-wrap wrap" onClick={() => {
         this.props.hideConfirmModal()
@@ -40,16 +41,16 @@ class ConfirmModal extends Component {
             <div className="label">收货信息：</div>
             <div className="adress">
               <div className="user">
-                陈宇 <span>18829381688</span>
+                {address.userName} <span>{address.cellNumber}</span>
               </div>
-              <div className="region">北京市海淀区大钟寺中坤广 场E座805-2</div>
+              <div className="region">{address.area} {address.detailLocation}</div>
             </div>
             <div className="iconfont arrow-right" />
           </div>
           {/* sku信息 */}
           <div className="sku-info">
             <div className="label">规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</div>
-            <div className="sku">1号蚊香娃娃头</div>
+            <div className="sku">{this.props.goodsName}{this.props.oSku.skuName}</div>
           </div>
           {/* 兑换金额 */}
           <div className="exchange-coin">

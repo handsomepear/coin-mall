@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import * as userActions from '@actions/userAction'
+import * as userActions from '@actions/userActions'
 
 import Index from '@pages/Index/Index'
 import GoodsDetail from '@pages/GoodsDetail/GoodsDetail'
@@ -15,6 +15,7 @@ class App extends Component {
   componentWillMount(){
     // 获取用户信息
     this.props.userActions.getUserInfo()
+    // this.props.userActions.doLogin()
   }
   render() {
     return (

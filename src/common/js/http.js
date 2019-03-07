@@ -31,7 +31,10 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => {
     if (response.status === 200) {
-      return Promise.resolve(response)
+      if (response.data.errCode === 0) {
+        return Promise.resolve(response)
+      }
+      return Promise.reject(response)
     }
   },
   err => {

@@ -1,9 +1,80 @@
 .address-edit-page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+
   .am-list-item {
+    min-height: 50px;
+
+    &.am-input-item {
+      height: 50px;
+    }
+
+    .am-input-label {
+      color: #888;
+      font-size: 15px;
+    }
+
+    .am-input-control {
+      input {
+        font-size: 15px;
+      }
+    }
+
     .am-list-line {
+      border-bottom-color: #000;
+
       .am-list-extra {
         flex-basis: initial;
+        font-size: 15px;
+        color: #000;
       }
+
+      .am-list-content {
+        flex: initial;
+        width: 85px;
+        color: #888;
+        font-size: 15px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .am-textarea-label {
+    font-size: 15px;
+    color: #888;
+  }
+
+  .am-textarea-control textarea {
+    font-size: 15px;
+  }
+
+  .button-con {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 80px;
+    padding: 0 5px;
+    font-size: 15px;
+
+    div {
+      width: 170px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 40px;
+      box-sizing: border-box;
+    }
+
+    .cancel {
+      border: 1px solid #ccc
+    }
+
+    .save {
+      color: #fff;
+      background-color: red;
+      box-shadow: 0 4px 4px pink;
+
     }
   }
 }

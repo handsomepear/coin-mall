@@ -18,6 +18,11 @@ const goodsReducer = (state = initialState, action) => {
         ...state,
         goodsDetail: action.goodsDetail
       }
+    case types.GETBUTTONSTATUS:
+      return {
+        ...state,
+        buttonStatus: action.buttonStatus
+      }
     default:
       return state
   }
