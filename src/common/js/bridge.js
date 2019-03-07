@@ -1,4 +1,4 @@
-import { checkLoggingStatus, doLogin } from '@actions/userAction'
+import { checkLoggingStatus } from '@actions/userAction'
 
 window.getUserInfo = function (userInfo) {
   const oUserInfo = JSON.parse(userInfo)
@@ -9,7 +9,7 @@ window.getUserInfo = function (userInfo) {
 
 if(window.app_interface) {
   window.appLoginFinish = (status) => {
-    if(status == 200) {
+    if(status === 200) {
       window.app_interface.getHersUserInfo('getUserInfo')
     }
     window.app_interface.getHersUserInfo('getUserInfo')

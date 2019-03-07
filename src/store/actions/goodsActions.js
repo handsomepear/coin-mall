@@ -1,8 +1,6 @@
 import * as GoodsServer from '@API/goods'
 
-
 import * as types from '@store/types/goodTypes'
-
 
 export const getGoodsList = () => async (dispatch) => {
   const goodsList = await GoodsServer.getGoodsList().then(res => res.data.goodsList)
@@ -13,11 +11,17 @@ export const getGoodsList = () => async (dispatch) => {
 }
 
 
-export const getGoodsDetail = () => async (dispatch) => {
-  const goodsDetail = await GoodsServer.getGoodsDetail().then(res => res.data.goods)
+export const getGoodsDetail = goodsId => async (dispatch) => {
+  const goodsDetail = await GoodsServer.getGoodsDetail({ goodsId }).then(res => res.data.goods)
+  if (goodsDetail) {
+    goodsDetail.detail = goodsDetail.detail.replace(/\\/g, '')// 替换返回数据中的 反斜杠 转义字符
+  }
   return dispatch({
     type: types.GETGOODSDETAIL,
     goodsDetail
   })
 }
+
+
+
 

@@ -3,7 +3,9 @@ import { _getQueryString } from '@common/js/tool'
 
 const initialState = {
   jcnuserid: _getQueryString('jcnuserid'),
-  loggingStatus: false // 登录状态
+  loggingStatus: false, // 登录状态
+  address: null,
+  isVip: false
 }
 
 
@@ -18,6 +20,12 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loggingStatus: action.status
+      }
+    case types.GETUSERINFO:
+      return {
+        ...state,
+        address: action.data.userAddress,
+        isVip: action.data.userIsVipFlag
       }
     default:
       return state

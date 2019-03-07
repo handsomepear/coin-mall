@@ -1,21 +1,5 @@
-import fetch from '../common/js/request'
+import req from '../common/js/http'
 
-export const getGoodsList = () => {
-  return fetch({
-    url: '',
-    data: {
-      pageNum: 1,
-      pageSize: 10
-    }
-  })
-}
-// 获取商品详情
-export const getGoodsDetail = () => {
-  return fetch({
-    url: '/api/coinsMallGoodsDetail',
-    data: {
+export const getGoodsList = data => req('', data) // 获取商品列表
 
-    }
-  })
-}
-
+export const getGoodsDetail = data => req('/api/coinsMallGoodsDetail', data)// 获取商品详情

@@ -3,24 +3,30 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { Picker, List } from 'antd-mobile'
 import districtData from '@common/js/_area'
+import arrayTreeFilter from 'array-tree-filter'
+import './AddressEdite.scss'
+
 
 class AddressEdite extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      pickerValue: []
+      region: [],
+      regionCode: [],
     }
-    this.setAddress = this.setAddress.bind(this)
+    this.getRegion = this.getRegion.bind(this)
   }
 
-  setAddress(v) {
-    this.setState({ pickerValue: v })
-    const province = districtData.find(item => item.value === v[0])
-    const city = province.children.find(item => item.value === v[1])
-    const county = city.children.find(item => item.value === v[2])
-
-    console.log(province.label, city.label, county.label)
-
+  // 根据code找到对应的省市区名称
+  getRegion(regionCodeArr) {
+    this.setState({ regionCode: regionCodeArr })
+    const oRegion = arrayTreeFilter(
+      districtData, (item, index) => item.value = regionCodeArr[index]
+    )
+    const region = oRegion.map(item => item.label)
+    this.setState({
+      region
+    })
   }
 
   render() {
@@ -28,12 +34,12 @@ class AddressEdite extends Component {
       <div className="address-edit-page">
         <Picker
           data={districtData}
-          title="选择地区"
-          extra="请选择(可选)"
-          value={this.state.pickerValue}
-          onChange={this.setAddress}
+          value={this.state.regionCode}
+          onChange={this.getRegion}
         >
-          <List.Item arrow="horizontal">213</List.Item>
+          <List.Item extra={this.state.region}>
+            所在地区
+          </List.Item>
         </Picker>
       </div>
     )

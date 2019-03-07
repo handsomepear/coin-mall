@@ -2,7 +2,7 @@ import * as types from '@types/goodTypes'
 
 const initialState = {
   goodsList: [],
-  goodsDetail: {}
+  goodsDetail: null
 }
 
 

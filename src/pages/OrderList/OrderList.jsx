@@ -4,7 +4,7 @@ class OrderList extends Component {
   render() {
     return (
       <div className="order-detail-page">
-        <div className="txt">123</div>
+        <div className="txt">order-list</div>
       </div>
     )
   }
