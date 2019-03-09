@@ -1,5 +1,5 @@
 {
-  "name": "react-learn",
+  "name": "coin-mall",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -64,9 +64,9 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "REACT_APP_MODE=production node scripts/build.js",
     "test": "node scripts/test.js",
-    "alpha": "node scripts/alpha.js"
+    "alpha": "REACT_APP_MODE=alpha node scripts/alpha.js"
   },
   "eslintConfig": {
     "extends": "react-app"

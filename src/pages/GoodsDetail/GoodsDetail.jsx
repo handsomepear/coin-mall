@@ -133,6 +133,9 @@ class GoodsDetail extends Component {
         return Toast.fail('请选择商品规格', 2)
       }
     }
+    if(!this.props.address) {
+      return Toast.fail('请填写收货信息', 2)
+    }
     this.showConfirmModal()
   }
 

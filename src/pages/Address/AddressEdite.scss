@@ -12,13 +12,21 @@
     }
 
     .am-input-label {
-      color: #888;
-      font-size: 15px;
+      color: #656565;
+      font-size: 14px;
     }
 
+     .am-list-arrow-horizontal {
+       flex: 1;
+       text-align: right;
+     }
+    .am-list-arrow {
+      background-position: 100% 50%;
+    }
     .am-input-control {
       input {
-        font-size: 15px;
+        font-size: 14px;
+        //color: #dddddd;
       }
     }
 
@@ -27,38 +35,38 @@
 
       .am-list-extra {
         flex-basis: initial;
-        font-size: 15px;
+        font-size: 14px;
         color: #000;
       }
 
       .am-list-content {
         flex: initial;
         width: 85px;
-        color: #888;
-        font-size: 15px;
+        color: #656565;
+        font-size: 14px;
         margin-right: 5px;
       }
     }
   }
 
   .am-textarea-label {
-    font-size: 15px;
-    color: #888;
+    font-size: 14px;
+    color: #656565;
   }
 
   .am-textarea-control textarea {
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .button-con {
     display: flex;
     justify-content: space-around;
-    margin-top: 80px;
-    padding: 0 5px;
-    font-size: 15px;
+    margin-top: 52px;
+    padding: 0 8px;
+    font-size: 16px;
 
     div {
-      width: 170px;
+      width: 165px;
       height: 40px;
       text-align: center;
       line-height: 40px;
@@ -72,9 +80,7 @@
 
     .save {
       color: #fff;
-      background-color: red;
-      box-shadow: 0 4px 4px pink;
-
+      background-color: #dc7035;
     }
   }
 }

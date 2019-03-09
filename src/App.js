@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, BrowserRouter, Switch, Redirect } from 'react-router-dom'
+import { Route, HashRouter, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import * as userActions from '@actions/userActions'
@@ -9,6 +9,7 @@ import GoodsDetail from '@pages/GoodsDetail/GoodsDetail'
 import Address from '@pages/Address/AddressEdite'
 import OrderList from '@pages/OrderList/OrderList'
 import OrderDetail from '@pages/OrderDetail/OrderDetail'
+import ClassifyList from '@pages/ClassifyList/ClassifyList'
 import { bindActionCreators } from 'redux'
 
 class App extends Component {
@@ -19,7 +20,7 @@ class App extends Component {
   }
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div>
           <Switch>
             <Route path="/" exact component={Index} />
@@ -27,10 +28,11 @@ class App extends Component {
             <Route path="/address" component={Address} />
             <Route path="/order-list" component={OrderList} />
             <Route path="/order-detail" component={OrderDetail} />
+            <Route path="/classify-list/:positionId" component={ClassifyList} />
             <Redirect to="/" />
           </Switch>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

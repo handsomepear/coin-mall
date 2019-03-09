@@ -4,13 +4,14 @@ import * as types from '@types/orderTypes'
 export const getOrderList = (pageNo, pageSize = 10) => async dispatch => {
   const orderList = await orderServer.getOrderList({
     pageNo, pageSize
-  }).then(res => res.data.orderList)
+  }).then(res => res.data.coinsMallOrderList)
 
   return dispatch({
     type: types.GETORDERLIST,
     data: {
       currentPage: pageNo,
-      orderList: orderList
+      orderList,
+      hasMoreOrder: orderList.length < pageSize
     }
   })
 }

@@ -17,7 +17,8 @@ class Index extends Component {
   }
 
   componentWillMount() {
-    this.props.goodsActions.getGoodsList()
+    this.props.homeActions.getHomePageData()
+    // this.props.goodsActions.getGoodsList()
   }
 
   componentDidMount() {
@@ -28,12 +29,20 @@ class Index extends Component {
   }
 
   render() {
-    const goodsList = this.props.goodsList
+
     return (
-      <div className="index-page">
-        <span className="name">这是一个标记</span>
-        <button onClick={this.goDetailPage}>跳转</button>
-      </div>
+      <section className="index-page">
+        {/* banner */}
+        <section className="banner"></section>
+        {/* coin-info */}
+        <section className="coin-info"></section>
+        {/* nav-con */}
+        <section className="nav-con"></section>
+        {/* recommend */}
+        <section className="recommend-con">
+          <div className="title">精选推荐 <span>POPULAR</span></div>
+        </section>
+      </section>
     )
   }
 }

@@ -4,19 +4,28 @@ import * as types from '@store/types/goodTypes'
 
 // 获取首页列表
 export const getGoodsList = (pageNum, pageSize) => async (dispatch) => {
-  const goodsList = await GoodsServer.getGoodsList().then(res => res.data.goodsList)
+  const homeGoodsList = await GoodsServer.getGoodsList().then(res => res.data.goodsList)
   return dispatch({
     type: types.GETGOODSLIST,
-    goodsList
+    homeGoodsList
   })
 }
 
 // 获取分类列表
-
+export const getClassifyGoodsList = (positionId, pageNum, pageSize = 10) => async dispatch => {
+  const classifyGoodsList = await GoodsServer.coinsMallClassifyGoods({positionId, pageNum, pageSize}).then(res => res.data.goodsList)
+  return dispatch({
+    type: types.GETCLASSIFYGOODSLIST,
+    data: {
+      classifyGoodsList,
+      hasMoreGoods: classifyGoodsList.length < pageSize
+    }
+  })
+}
 
 // 获取商品详情
 export const getGoodsDetail = goodsId => async (dispatch) => {
-  const goodsDetail = await GoodsServer.getGoodsDetail({ goodsId }).then(res => res.data.goods)
+  const goodsDetail = await GoodsServer.coinsMallGoodsDetail({ goodsId }).then(res => res.data.goods)
   if (goodsDetail) {
     goodsDetail.detail = goodsDetail.detail.replace(/\\/g, '')// 替换返回数据中的 反斜杠 转义字符
   }

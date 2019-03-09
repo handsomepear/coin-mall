@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from '../../store'
-// import baseURL from './config'
+import baseURL from './config'
 
+console.log(baseURL)
 
 const jcnuserid = store.getState().userReducer.jcnuserid
 

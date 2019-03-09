@@ -1,0 +1,39 @@
+.order-item-component {
+  display: flex;
+  align-items: center;
+  height: 87px;
+  padding-left: 25px;
+  padding-right: 12px;
+  background-color: #fff;
+  border-bottom: 1px solid #efefef;
+  .goods-img {
+    width: 67px;
+    height: 67px;
+    margin-right: 33px;
+    flex-shrink: 0;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .goods-name {
+    width: 200px;
+    font-size: 17px;
+    color: #333;
+    margin-bottom: 13px;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+  }
+  .order-status {
+    font-size: 13px;
+    color: #838383;
+    &.pending {
+      color: #dc7035;
+    }
+  }
+  .iconfont {
+    flex: 1;
+    text-align: right;
+  }
+}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
 import * as userActions from '@actions/userActions'
-import { Picker, List, InputItem, TextareaItem } from 'antd-mobile'
+import { Picker, List, InputItem, TextareaItem, Toast } from 'antd-mobile'
 import districtData from '@common/js/_area'
 import arrayTreeFilter from 'array-tree-filter'
 import './AddressEdite.scss'
@@ -50,6 +50,23 @@ class AddressEdite extends Component {
   }
 
   saveAddress() {
+    const ph = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
+    console.log(this.state.phone.replace(/\s/g, ''))
+    if(!this.state.userName) {
+      return Toast.fail('请输入收货人')
+    }
+    if(!this.state.phone) {
+      return Toast.fail('请输入手机号码')
+    }
+    if(!ph.test(this.state.phone.replace(/\s/g,''))) {
+      return Toast.fail('请输入正确的手机号码')
+    }
+    if(!this.state.region) {
+      return Toast.fail('请选择地区')
+    }
+    if(!this.state.detailLocation) {
+      return Toast.fail('请输入详细地址')
+    }
     // this.props.userActions.saveAddress()
     console.log(this.state)
   }
@@ -78,11 +95,11 @@ class AddressEdite extends Component {
           >手机号码</InputItem>
           <Picker
             data={districtData}
-            extra={this.state.region || '请选择'}
+            extra={this.state.region || ' '}
             value={this.state.regionCode}
             onChange={this.getRegion}
           >
-            <List.Item>所在地区</List.Item>
+            <List.Item arrow="horizontal">所在地区</List.Item>
           </Picker>
           <TextareaItem
             title="详细地区"

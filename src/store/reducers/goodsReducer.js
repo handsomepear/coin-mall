@@ -1,7 +1,8 @@
 import * as types from '@types/goodTypes'
 
 const initialState = {
-  goodsList: [],
+  homeGoodsList: [],
+  classifyGoodsList: [],
   goodsDetail: null
 }
 
@@ -11,7 +12,7 @@ const goodsReducer = (state = initialState, action) => {
     case types.GETGOODSLIST:
       return {
         ...state,
-        goodsList: action.goodsList
+        homeGoodsList: action.homeGoodsList
       }
     case types.GETGOODSDETAIL:
       return {
@@ -22,6 +23,11 @@ const goodsReducer = (state = initialState, action) => {
       return {
         ...state,
         buttonStatus: action.buttonStatus
+      }
+    case types.GETCLASSIFYGOODSLIST:
+      return {
+        ...state,
+        classifyGoodsList: action.data.classifyGoodsList
       }
     default:
       return state
