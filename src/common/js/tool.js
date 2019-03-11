@@ -8,6 +8,7 @@ export function _getQueryString(name) {
 
 export function _timeFormate(ms) {
   const date = new Date(ms)
+  const Y = date.getFullYear()
   let M = date.getMonth() + 1
   M = M > 9 ? M : `0${M}`
   let d = date.getDate()
@@ -16,5 +17,5 @@ export function _timeFormate(ms) {
   h = h > 9 ? h : `0${h}`
   let m = date.getMinutes()
   m = m > 9 ? m : `0${m}`
-  return { M, d, h, m }
+  return { Y, M, d, h, m }
 }

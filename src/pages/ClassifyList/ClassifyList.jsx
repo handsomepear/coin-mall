@@ -29,7 +29,7 @@ class ClassifyList extends Component {
   // 获取分类列表
   async getClassifyGoodsList(positionId) {
 
-    const pageNum = this.state.pageNum
+    let pageNum = this.state.pageNum
     const pageSize = this.state.pageSize
     // 正在加载中 || 没有更多订单
     if (this.state.isLoading || !this.state.hasMoreOrder) {
@@ -44,7 +44,7 @@ class ClassifyList extends Component {
     })
     if (data.hasMoreOrder) {
       this.setState({
-        pageNum: pageNum + 1
+        pageNum: ++pageNum
       })
     } else {
       // 表示已经没有更多数据了

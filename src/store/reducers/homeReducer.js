@@ -1,7 +1,12 @@
-import {GETHOMEPAGEDATA} from '@types/homeTypes'
+import { GETHOMEPAGEDATA } from '@types/homeTypes'
 
 const initialState = {
-  homeData: null
+  homeData: {
+    expireCoin: 0,
+    expireTime: 0,
+    totalCoin: 0,
+    navigationList: []
+  }
 }
 
 

@@ -4,21 +4,26 @@ import * as types from '@store/types/goodTypes'
 
 // 获取首页列表
 export const getGoodsList = (pageNum, pageSize) => async (dispatch) => {
-  const homeGoodsList = await GoodsServer.getGoodsList().then(res => res.data.goodsList)
+  const homeGoodsList = await GoodsServer.getGoodsList({ pageNum, pageSize }).then(res => res.data.goodsList)
   return dispatch({
     type: types.GETGOODSLIST,
-    homeGoodsList
+    data: {
+      homeGoodsList,
+      hasMoreGoods: homeGoodsList.length < pageSize,
+      currentPage: pageNum
+    }
   })
 }
 
 // 获取分类列表
 export const getClassifyGoodsList = (positionId, pageNum, pageSize = 10) => async dispatch => {
-  const classifyGoodsList = await GoodsServer.coinsMallClassifyGoods({positionId, pageNum, pageSize}).then(res => res.data.goodsList)
+  const classifyGoodsList = await GoodsServer.coinsMallClassifyGoods({ positionId, pageNum, pageSize }).then(res => res.data.goodsList)
   return dispatch({
     type: types.GETCLASSIFYGOODSLIST,
     data: {
       classifyGoodsList,
-      hasMoreGoods: classifyGoodsList.length < pageSize
+      hasMoreGoods: classifyGoodsList.length < pageSize,
+      currentPage: pageNum
     }
   })
 }
@@ -37,7 +42,7 @@ export const getGoodsDetail = goodsId => async (dispatch) => {
 
 // 获取按钮状态
 export const getBtnStatus = goodsId => async dispatch => {
-  const buttonStatus = GoodsServer.coinsMallPreMakeOrderBtnStatus({goodsId}).then(res => res.data.btnStatus)
+  const buttonStatus = GoodsServer.coinsMallPreMakeOrderBtnStatus({ goodsId }).then(res => res.data.btnStatus)
   return dispatch({
     type: types.GETBUTTONSTATUS,
     buttonStatus: buttonStatus

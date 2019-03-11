@@ -20,7 +20,7 @@ class ClassifyItem extends Component {
     const rowData = this.props
     return (
       rowData ?
-        <section className="goods-item-component">
+        <section className="classify-goods-item-component">
           <div className="goods-img">
             <img src={rowData.mainImage} alt="" />
           </div>

@@ -1,6 +1,97 @@
 .index-page {
-  width: 375px;
-  .name {
-    color: red;
+  width: 100%;
+
+  .iconfont {
+    color: #888;
+  }
+
+  //  我的金币信息
+  .coin-info {
+    display: flex;
+    justify-content: space-between;
+    height: 63px;
+    padding: 8px 10px 13px;
+    background-color: #fff;
+    font-size: 13px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+
+    .iconfont {
+      margin-right: 5px;
+    }
+
+    .num {
+      display: flex;
+      align-items: center;
+
+      span {
+        color: #dc7035;
+      }
+    }
+
+    .expire-time {
+      padding-left: 18px;
+      color: #c9c9c9;
+    }
+  }
+
+  .my-coin, .coin-else {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .coin-else-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-con {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #fff;
+    padding-top: 10px;
+    margin-bottom: 5px;
+
+    .nav-item {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      padding: 0 20px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+  }
+
+  .recommend-con {
+    .title {
+      font-size: 16px;
+      padding: 0 14px;
+      line-height: 36px;
+
+      span {
+        font-size: 15px;
+        color: #ea463c;
+      }
+    }
+  }
+
+  .list {
+    background-color: #fff;
+  }
+  .list-view-section-body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background: #f5f5f9;
   }
 }

@@ -13,7 +13,7 @@ const orderReducer = (state = initialState, action) => {
     case types.GETORDERLIST:
       // 如果当前页不是第一页，合并保存到store中的数据
       if (action.data.currentPage > 1) {
-        action.data.orderList =state.orderList.concat(action.data.orderList)
+        action.data.orderList = state.orderList.concat(action.data.orderList)
       }
       return {
         ...state,

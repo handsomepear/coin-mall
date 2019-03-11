@@ -11,8 +11,8 @@
   .detail-img {
     display: flex;
     height: 180px;
+    padding: 10px 0;
     justify-content: center;
-
     img {
       width: auto;
       height: 100%;
@@ -178,7 +178,6 @@
 
     .bottom {
       display: flex;
-      align-items: center;
       color: #444;
       margin-left: -2px;
     }
@@ -224,7 +223,12 @@
       line-height: 50px;
       color: #888888;
     }
+    .detail {
+      font-size: 14px;
+      line-height: 1.4;
+    }
   }
+
 
   .bottom-con {
     position: fixed;

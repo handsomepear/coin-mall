@@ -29,7 +29,7 @@ class OrderList extends Component {
   // 获取订单详情
   async getOrderList() {
 
-    const pageNo = this.state.pageNo
+    let pageNo = this.state.pageNo
     const pageSize = this.state.pageSize
     // 正在加载中 || 没有更多订单
     if (this.state.isLoading || !this.state.hasMoreOrder) {
@@ -44,7 +44,7 @@ class OrderList extends Component {
     })
     if (data.hasMoreOrder) {
       this.setState({
-        pageNo: pageNo + 1
+        pageNo: ++pageNo
       })
     } else {
       // 表示已经没有更多数据了
@@ -60,6 +60,7 @@ class OrderList extends Component {
       rowHasChanged: (row1, row2) => row1 !== row2,
     })
     const orderList = dataSource.cloneWithRows(this.props.orderList)
+
     return (
       <div className="order-list-page">
         {
