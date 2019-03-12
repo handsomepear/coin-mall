@@ -24,7 +24,7 @@ class OrderItem extends Component {
             <img src={rowData.goodsImage} alt="" />
           </div>
           <div className="goods-info">
-            <p className="goods-name">{rowData.goodsName}测试哇哇哇哇无哇哇无哇奥哇哇</p>
+            <p className="goods-name">{rowData.goodsName}</p>
             {
               rowData.orderStatus === 0 ?
                 <p className="order-status pending">待发货</p>

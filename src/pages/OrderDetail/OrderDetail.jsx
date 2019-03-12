@@ -61,36 +61,55 @@ class OrderDetail extends Component {
 
   render() {
     const orderDetail = this.props.orderDetail
+    console.log(orderDetail)
+    // console.log(orderDetail.exchangeSuccessComment.split('\n'))
     return (
       orderDetail ?
         <section className="order-detail-page">
           {/*订单状态*/}
           <section className="order-status-con">
             {this.renderStatus()}
-            <section className={["order-tips", this.state.isFoldTips ? 'fold' : ''].join(' ')}>
-              <p>·请您在签收快递前先检查货物是否有损坏。</p>
-              <p>·有损坏的快递请让快递做损坏拒签,我们将为您 更换新的商品</p>
-              <p>·签收后再反馈货物损坏无法分辨损坏时间，也就无法为您更换了。</p>
-              <div className={["fold-arrow", this.state.isFoldTips ? 'fold' : ''].join(' ')} onClick={this.toggleTipsFold}>
-                <div className="iconfont arrow-top" />
-              </div>
-            </section>
+            {
+              orderDetail.orderStatus === 2 ?
+                <section className={["order-tips", this.state.isFoldTips ? 'fold' : ''].join(' ')}>
+                  {
+                    orderDetail.exchangeSuccessComment.split('\n').map((item, index) => <p key={index}>·{item}</p>)
+                  }
+                  <div className={["fold-arrow", this.state.isFoldTips ? 'fold' : ''].join(' ')} onClick={this.toggleTipsFold}>
+                    <div className="iconfont arrow-top" />
+                  </div>
+                </section>
+                : orderDetail.orderStatus === 0 ?
+                <section className={["order-tips", this.state.isFoldTips ? 'fold' : ''].join(' ')}>
+                  {
+                    orderDetail.readySendComment.split('\n').map((item, index) => <p key={index}>·{item}</p>)
+                  }
+                  <div className={["fold-arrow", this.state.isFoldTips ? 'fold' : ''].join(' ')} onClick={this.toggleTipsFold}>
+                    <div className="iconfont arrow-top" />
+                  </div>
+                </section>
+                :
+                orderDetail.orderStatus === 1 ?
+                  <section className="order-tips">
+                    <p>取消原因：{orderDetail.cancelReason}</p>
+                  </section>
+                  :
+                  null
+            }
           </section>
           {/*物流*/}
           {
-            orderDetail.expressName && orderDetail.expressNumber ?
+            !orderDetail.expressName && orderDetail.expressNumber ?
               <section className="logistics-con">
                 <div className="logistics">
                   <div className="logistics-info">
                     <div className="logistics-company">物流公司：{orderDetail.expressName}</div>
                     <div className="logistics-number">
                       快递单号：{orderDetail.expressNumber}
-                      <CopyToClipboard
-                        text={orderDetail.expressNumber}
-                        onCopy={() => Toast.success('复制成功',2)}
-                      >
-                        <div className="clip-btn expressNumber-btn" onClick={this.copyExpressNumber}>复制</div>
-                      </CopyToClipboard>
+                      <div className="clip-btn expressNumber-btn" onClick={() => {
+                        window.location.href = 'http://m.kuaidi100.com/result.jsp?nu=' + orderDetail.expressNumber
+                      }}>查询
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -131,7 +150,7 @@ class OrderDetail extends Component {
               </div>
               <CopyToClipboard
                 text={orderDetail.orderNumber}
-                onCopy={() => Toast.success('复制成功',2)}
+                onCopy={() => Toast.success('复制成功', 2)}
               >
                 <div className="clip-btn orderNumber-btn">复制</div>
               </CopyToClipboard>

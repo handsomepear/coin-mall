@@ -135,7 +135,7 @@ class AddressEdite extends Component {
 
         <div className="button-con">
           <div className="cancel" onClick={() => {
-            this.props.history.go(-1)
+            this.props.history.back()
           }}>取消
           </div>
           <div className="save" onClick={this.saveAddress}>保存</div>

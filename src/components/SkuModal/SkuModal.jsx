@@ -12,15 +12,20 @@ class SkuModal extends Component {
     this.chooseSkuSelf = this.chooseSkuSelf.bind(this)
   }
 
-  chooseSkuSelf(skuItem, skuIndex) {
+  componentWillMount() {
+    if (this.props.choosedSkuInfo) {
+      const chooseSkuIndex = this.props.skuList.findIndex(skuItem => skuItem.skuId === this.props.choosedSkuInfo.skuId)
+      this.setState({ chooseSkuIndex })
+    }
+  }
+
+  chooseSkuSelf(skuIndex) {
     this.setState({
       chooseSkuIndex: skuIndex
     })
-    this.props.chooseSku(skuItem)
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="sku-modal-wrap wrap" onClick={this.props.hideSkuModal}>
         <div className="sku-modal-con" onClick={e => e.stopPropagation()}>
@@ -40,7 +45,7 @@ class SkuModal extends Component {
                   return (
                     <li className={['sku-item', this.state.chooseSkuIndex === skuIndex ? 'active' : ''].join(' ')} key={skuItem.skuId}>
                       <div className="sku-item-con" onClick={() => {
-                        this.chooseSkuSelf(skuItem, skuIndex)
+                        this.chooseSkuSelf(skuIndex)
                       }}>
                         {skuItem.skuName}
                       </div>
@@ -49,6 +54,17 @@ class SkuModal extends Component {
                 })
               }
             </ul>
+          </div>
+          {/*确定按钮*/}
+          <div
+            className={["confirm-btn", this.state.chooseSkuIndex === null ? 'bg-gray' : ''].join(' ')}
+            onClick={() => {
+              if (this.state.chooseSkuIndex !== null) {
+                this.props.chooseSku(this.props.skuList[this.state.chooseSkuIndex])
+                this.props.hideSkuModal()
+              }
+            }}
+          >确定
           </div>
         </div>
       </div>

@@ -34,8 +34,9 @@ const getPublicUrl = appPackageJson =>
 
 // 这里是修改打包路径
 function configPulicUrl() {
-  if(process.env.NODE_ENV === 'production') {
-    return process.env.REACT_APP_MODE === 'production' ? '/pages/coin-mall/build' : '/pages/coin-mall/alpha'
+  if (process.env.NODE_ENV === 'production') {
+    return process.env.REACT_APP_MODE === 'production' ? '/pages/coin-mall/build' :
+      process.env.REACT_APP_MODE === 'pre' ? '/pages/coin-mall/pre' : '/pages/coin-mall/alpha'
   }
   return '/'
 }
@@ -78,7 +79,8 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: process.env.REACT_APP_MODE === 'alpha' ? resolveApp('alpha') : process.env.REACT_APP_MODE === 'production' ? resolveApp('build') : null,
+  appBuild: process.env.REACT_APP_MODE === 'alpha' ? resolveApp('alpha') :
+    process.env.REACT_APP_MODE === 'production' ? resolveApp('build') : process.env.REACT_APP_MODE === 'pre' ? resolveApp('pre') : null,
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),

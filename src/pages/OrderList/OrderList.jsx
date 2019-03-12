@@ -55,6 +55,7 @@ class OrderList extends Component {
   }
 
 
+
   render() {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
@@ -78,9 +79,11 @@ class OrderList extends Component {
               </div>)}
             />
             :
-            <div className="no-order">暂无奖品</div>
+            <div className="no-order">暂无记录，快去兑换吧</div>
         }
-        <div className="activity-btn">查看活动领奖</div>
+        <div className="activity-btn" onClick={() => {
+          window.location.href = 'https://bbs.j.cn/#/change'
+        }}>查看活动领奖</div>
       </div>
     )
   }

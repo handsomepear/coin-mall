@@ -4,11 +4,10 @@
   .sku-modal-con {
     position: absolute;
     left: 0;
-    bottom: 90px;
+    bottom: 0;
     width: 100%;
     background-color: #fff;
     box-sizing: border-box;
-    padding-bottom: 40px;
     transform: translateY(100%);
     animation: skuShow .3s linear forwards;
   }
@@ -31,6 +30,7 @@
     .goods-price {
       font-size: 22px;
       color: #d96122;
+      margin-left: 10px;
     }
   }
 
@@ -78,6 +78,20 @@
     }
 
 
+  }
+
+  .confirm-btn {
+    height: 45px;
+    line-height: 45px;
+    margin: 40px;
+    color: #fff;
+    background-color: #dc7035;
+    border-radius: 45px;
+    text-align: center;
+    font-size: 17px;
+    &.bg-gray {
+      background-color: #888;
+    }
   }
 }
 

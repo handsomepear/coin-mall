@@ -21,7 +21,8 @@ class Index extends Component {
     this.state = {
       pageNum: 1,
       pageSize: 10,
-      hasMoreGoods: true
+      hasMoreGoods: true,
+      isLoading: false
     }
     this.goDetailPage = this.goDetailPage.bind(this)
     Index.coverTime = Index.coverTime.bind(this)
@@ -45,9 +46,19 @@ class Index extends Component {
   }
 
   async getGoodsList() {
+    // 正在加载中 || 没有更多订单
+    if (this.state.isLoading || !this.state.hasMoreGoods) {
+      return false
+    }
+    this.setState({
+      isLoading: true
+    })
     let pageNum = this.state.pageNum
     const pageSize = this.state.pageSize
     const { data } = await this.props.goodsActions.getGoodsList(pageNum, pageSize)
+    this.setState({
+      isLoading: false
+    })
     if (data.hasMoreGoods) {
       this.setState({
         pageNum: ++pageNum
@@ -64,7 +75,7 @@ class Index extends Component {
     return `${oTime.Y}年${oTime.M}月${oTime.d}日`
   }
 
-  goOrderListPage(){
+  goOrderListPage() {
     console.log(123)
     this.props.history.push('/order-list')
   }
@@ -79,18 +90,32 @@ class Index extends Component {
       <section className="index-page">
         {/* banner */}
         <section className="banner">
-          <Carousel autoplay infinite>
-            {
-              homeData.bannerList.map(bannerItem => {
-                return (
-                  <div className="banner-img" key={bannerItem.bannerId}>
-                    {/* 触发 window 的 resize 事件 来改变容器的高度*/}
-                    <img src={bannerItem.imageUrl} alt="" onLoad={() => {window.dispatchEvent(new Event('resize'))}} />
-                  </div>
-                )
-              })
-            }
-          </Carousel>
+          {
+            homeData.bannerList && homeData.bannerList.length ?
+              <Carousel autoplay infinite>
+                {
+                  homeData.bannerList.map(bannerItem => {
+                    return (
+                      <div className="banner-img" key={bannerItem.bannerId}>
+                        {/* 触发 window 的 resize 事件 来改变容器的高度*/}
+                        <img src={bannerItem.imageUrl}
+                             alt=""
+                             onLoad={() => {
+                               window.dispatchEvent(new Event('resize'))
+                             }}
+                             onClick={() => {
+                               window.location.href = bannerItem.redirectUrl
+                             }}
+                        />
+                      </div>
+                    )
+                  })
+                }
+              </Carousel>
+              :
+              null
+          }
+
         </section>
         {/* coin-info */}
         <section className="coin-info">
@@ -109,7 +134,7 @@ class Index extends Component {
               <div className="iconfont exchange" />
               兑换记录
             </div>
-            <div className="coin-else-item">
+            <div className="coin-else-item" onClick={() => { window.location.href = 'https://bbs.j.cn/html/cointask/faq.html' }}>
               <div className="iconfont rule" />
               金币规则
             </div>

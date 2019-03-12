@@ -11,16 +11,17 @@ export const getOrderList = (pageNo, pageSize = 10) => async dispatch => {
     data: {
       currentPage: pageNo,
       orderList,
-      hasMoreOrder: orderList.length < pageSize
+      hasMoreOrder: pageSize <= orderList.length
     }
   })
 }
 
 // 下单
 export const coinsMallMakeOrder = ({ goodsId, skuId }) => async dispatch => {
-  await orderServer.coinsMallMakeOrder({ goodsId, skuId }).then()
+  const res = await orderServer.coinsMallMakeOrder({ goodsId, skuId }).then()
   return dispatch({
-    type: types.MAKEORDER
+    type: types.MAKEORDER,
+    exchangeRes: res
   })
 }
 

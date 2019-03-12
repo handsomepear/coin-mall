@@ -4,7 +4,8 @@ const initialState = {
   homeGoodsList: [],
   classifyGoodsList: [],
   goodsDetail: null,
-  buttonStatus: 1
+  buttonStatus: 1,
+  choosedSkuInfo: null
 }
 
 
@@ -35,6 +36,12 @@ const goodsReducer = (state = initialState, action) => {
       return {
         ...state,
         classifyGoodsList: action.data.classifyGoodsList
+      }
+    // 更新选中的sku信息
+    case types.UPDATECHOOSEDSKUINFO:
+      return {
+        ...state,
+        choosedSkuInfo: action.choosedSkuInfo
       }
     default:
       return state

@@ -18,6 +18,7 @@ import './goodsDetail.scss'
 import { Toast } from 'antd-mobile'
 
 
+// 秒杀组件
 const Seckill = props => {
   const goodsDetail = props.goodsDetail
   let seckillText = ''
@@ -35,10 +36,12 @@ const Seckill = props => {
     seckillText = '当日秒杀时间已结束'
   }
 
-  return (<div className="seckill">
-    <div className="zhongbiao iconfont" />
-    {seckillText}
-  </div>)
+  return (
+    <div className="seckill">
+      <div className="zhongbiao iconfont" />
+      {seckillText}
+    </div>
+  )
 }
 
 
@@ -49,7 +52,7 @@ class GoodsDetail extends Component {
       loading: true,
       isShowSkuModal: false,
       isShowConfirmModal: false,
-      choosedSku: null,
+      choosedSkuInfo: this.props.choosedSkuInfo,
       goodsId: 0
     }
     this.goAddressEdite = this.goAddressEdite.bind(this)
@@ -70,6 +73,14 @@ class GoodsDetail extends Component {
     this.setState({ goodsId })
     this.props.goodsActions.getGoodsDetail(goodsId)
     this.props.goodsActions.getBtnStatus(goodsId)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // 如果不是后退进入的详情页面 就将已选择的SKU信息置为null
+    console.log(nextProps.history.action)
+    if (nextProps.history.action !== 'POP') {
+      this.props.goodsActions.updateChoosedSkuInfo(null)
+    }
   }
 
   // 去设置地址页面
@@ -108,8 +119,9 @@ class GoodsDetail extends Component {
   }
 
   // 选择商品sku
-  chooseSku(choosedSku) {
-    this.setState({ choosedSku })
+  chooseSku(choosedSkuInfo) {
+    this.setState({ choosedSkuInfo })
+    this.props.goodsActions.updateChoosedSkuInfo(choosedSkuInfo)
   }
 
   // 去赚金币
@@ -131,7 +143,7 @@ class GoodsDetail extends Component {
   exchange() {
     const skuList = this.props.goodsDetail.skuList
     if (skuList && skuList.length > 0) {
-      if (!this.state.choosedSku) {
+      if (!this.state.choosedSkuInfo) {
         return Toast.fail('请选择商品规格', 2)
       }
     }
@@ -146,7 +158,7 @@ class GoodsDetail extends Component {
     const buttonStatus = this.props.buttonStatus
     if (!loggingStatus) {
       // 未登录
-      return <div className="btn" onClick={this.exchange}>请先登录</div>
+      return <div className="btn" onClick={this.login}>请先登录</div>
     }
     switch (buttonStatus) {
       case 1:
@@ -227,8 +239,8 @@ class GoodsDetail extends Component {
                 <div className="label">规格</div>
                 <div className="choose-con" onClick={this.showSkuModal}>
                   {
-                    this.state.choosedSku ?
-                      <div className="choose-sku-name">{this.state.choosedSku.skuName}</div>
+                    this.state.choosedSkuInfo ?
+                      <div className="choose-sku-name">{this.state.choosedSkuInfo.skuName}</div>
                       :
                       <div className="choose">请选择尺码</div>
                   }
@@ -285,6 +297,12 @@ class GoodsDetail extends Component {
             <div className="detail" dangerouslySetInnerHTML={{ __html: goodsDetail.detail }} />
           </section>
 
+
+          {/* 底部按钮 */}
+          <section className="bottom-con">
+            {this.renderBottomBtn()}
+          </section>
+
           {/* sku弹窗 */}
           {
             this.state.isShowSkuModal ?
@@ -292,25 +310,23 @@ class GoodsDetail extends Component {
                 hideSkuModal={this.hideSkuModal}
                 chooseSku={this.chooseSku}
                 skuList={goodsDetail.skuList}
+                choosedSkuInfo={this.state.choosedSkuInfo}
                 mainImage={goodsDetail.mainImage}
                 coinPrice={goodsDetail.coinPrice}
               />
               : null
           }
-          {/* 底部按钮 */}
-          <section className="bottom-con">
-            {this.renderBottomBtn()}
-          </section>
+
           {/* 确认兑换框 */}
           {
             this.state.isShowConfirmModal ?
               <ConfirmModal
                 goOrderListPage={this.goOrderListPage}
                 hideConfirmModal={this.hideConfirmModal}
-                skuId={this.state.choosedSku ? this.state.choosedSku.skuId : 0}
+                skuId={this.state.choosedSkuInfo ? this.state.choosedSkuInfo.skuId : 0}
                 goodsId={this.state.goodsId}
-                goodsName={this.state.choosedSku ? this.state.choosedSku.skuName + goodsDetail.goodsName : goodsDetail.goodsName}
-                coinPrice={goodsDetail.coinPrice}
+                goodsName={this.state.choosedSkuInfo ? this.state.choosedSkuInfo.skuName + goodsDetail.goodsName : goodsDetail.goodsName}
+                coinPrice={this.props.isVip ? goodsDetail.vipCoinPrice : goodsDetail.coinPrice}
               />
               : null
           }
@@ -327,7 +343,8 @@ const mapStateToProps = state => {
     buttonStatus: state.goodsReducer.buttonStatus,
     loggingStatus: state.userReducer.loggingStatus,
     address: state.userReducer.address,
-    isVip: state.userReducer.isVip
+    isVip: state.userReducer.isVip,
+    choosedSkuInfo: state.goodsReducer.choosedSkuInfo
   }
 }
 

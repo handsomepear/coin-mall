@@ -21,11 +21,21 @@ class ConfirmModal extends Component {
   async makeOrder() {
     const goodsId = this.props.goodsId
     const skuId = this.props.skuId // 没有skuId默认传0
-    Toast.loading('兑换中', 10)
-    await this.props.orderActions.coinsMallMakeOrder({ goodsId, skuId })
-    Toast.hide()
     this.props.hideConfirmModal()
-    this.props.goOrderListPage()
+    Toast.loading('兑换中', 2)
+    const { exchangeRes } = await this.props.orderActions.coinsMallMakeOrder({ goodsId, skuId })
+    Toast.hide()
+    if (0 === exchangeRes.data.errCode) {
+      if (0 === exchangeRes.data.orderErrorCode) {
+        // 下单成功
+        this.props.goOrderListPage()
+      } else {
+        Toast.fail(exchangeRes.data.orderErrorMsg, 2)
+      }
+      await this.props.goodsActions.getBtnStatus(goodsId)
+    }else {
+      Toast.fail(exchangeRes.data.orderErrorMsg, 2)
+    }
   }
 
   goAddressEditePage() {

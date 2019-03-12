@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 import * as userActions from '@actions/userActions'
 
+import ScrollTop from '@components/ScrollTop'
 import Index from '@pages/Index/Index'
 import GoodsDetail from '@pages/GoodsDetail/GoodsDetail'
 import Address from '@pages/Address/AddressEdite'
@@ -13,18 +14,19 @@ import ClassifyList from '@pages/ClassifyList/ClassifyList'
 import { bindActionCreators } from 'redux'
 
 class App extends Component {
-  componentWillMount(){
+  componentWillMount() {
     // 获取用户信息
-    if(window.app_interface) {
+    if (window.app_interface) {
       this.props.userActions.checkLoggingStatus()
     }
     this.props.userActions.getUserInfo()
     // this.props.userActions.doLogin()
   }
+
   render() {
     return (
       <HashRouter>
-        <div>
+        <ScrollTop>
           <Switch>
             <Route path="/" exact component={Index} />
             <Route path="/goods-detail/:goodsId" component={GoodsDetail} />
@@ -34,7 +36,7 @@ class App extends Component {
             <Route path="/order-detail/:orderNumber" component={OrderDetail} />
             <Redirect to="/" />
           </Switch>
-        </div>
+        </ScrollTop>
       </HashRouter>
     )
   }
@@ -50,4 +52,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

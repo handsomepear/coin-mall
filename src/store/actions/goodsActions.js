@@ -1,3 +1,5 @@
+import store from '@store'
+
 import * as GoodsServer from '@API/goods'
 
 import * as types from '@store/types/goodTypes'
@@ -9,7 +11,7 @@ export const getGoodsList = (pageNum, pageSize) => async (dispatch) => {
     type: types.GETGOODSLIST,
     data: {
       homeGoodsList,
-      hasMoreGoods: homeGoodsList.length < pageSize,
+      hasMoreGoods: pageSize <= homeGoodsList.length,
       currentPage: pageNum
     }
   })
@@ -22,7 +24,7 @@ export const getClassifyGoodsList = (positionId, pageNum, pageSize = 10) => asyn
     type: types.GETCLASSIFYGOODSLIST,
     data: {
       classifyGoodsList,
-      hasMoreGoods: classifyGoodsList.length < pageSize,
+      hasMoreGoods: pageSize <= classifyGoodsList.length,
       currentPage: pageNum
     }
   })
@@ -49,6 +51,9 @@ export const getBtnStatus = goodsId => async dispatch => {
   })
 }
 
+// 更新选中SKU信息
+
+export const updateChoosedSkuInfo = choosedSkuInfo => store.dispatch({ type: types.UPDATECHOOSEDSKUINFO, choosedSkuInfo })
 
 
 
