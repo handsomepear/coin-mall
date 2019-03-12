@@ -8,7 +8,7 @@ window.getUserInfo = function (userInfo) {
 
 
 if(window.app_interface) {
-  window.appLoginFinish = (status) => {
+  window.app_interface.appLoginFinish = (status) => {
     if(status === 200) {
       // 登录成功
       checkLoggingStatus(true)
@@ -16,6 +16,8 @@ if(window.app_interface) {
       // 登录失败
       checkLoggingStatus(false)
     }
-
   }
+  // 获取她社区的账号信息
+  window.app_interface.getHersUserInfo('getUserInfo')
 }
+

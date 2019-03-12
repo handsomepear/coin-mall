@@ -6,6 +6,7 @@ import indexReducer from './reducers/indexReducer'
 
 const store = createStore(
   indexReducer,
+
   compose(
     applyMiddleware(thunk, logger)
   )

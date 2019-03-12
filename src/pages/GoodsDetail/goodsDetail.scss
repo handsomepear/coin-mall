@@ -150,7 +150,9 @@
     color: #888;
     flex-shrink: 0;
   }
-
+  .address-wrap {
+    margin-bottom: 10px;
+  }
   .address-con {
     display: flex;
     width: 100%;
@@ -169,6 +171,8 @@
 
     &.empty {
       color: #888;
+      display: flex;
+      justify-content: space-between;
     }
 
     .top {
@@ -202,7 +206,7 @@
     display: flex;
     padding: 10px 15px;
     background-color: #fff;
-    margin-top: 10px;
+    margin-bottom: 10px;
     font-size: 14px;
     line-height: 24px;
 

@@ -20,15 +20,16 @@ class SkuModal extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className="sku-modal-wrap wrap" onClick={this.props.hideSkuModal}>
         <div className="sku-modal-con" onClick={e => e.stopPropagation()}>
           {/* 商品信息 */}
           <div className="goods-info">
             <div className="goods-pic">
-              <img src="https://yun.duiba.com.cn/images/201901/axbg7eq6eg.jpg?x-oss-process=image/quality,Q_80" alt="" />
+              <img src={this.props.mainImage} alt="" />
             </div>
-            <div className="goods-price">351400金币</div>
+            <div className="goods-price">{this.props.coinPrice}金币</div>
           </div>
           {/* 规格参数 */}
           <div className="sku-con">

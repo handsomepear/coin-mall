@@ -20,7 +20,7 @@ class ClassifyItem extends Component {
     const rowData = this.props
     return (
       rowData ?
-        <section className="classify-goods-item-component">
+        <section className="classify-goods-item-component" onClick={this.goGoodsDetailPage}>
           <div className="goods-img">
             <img src={rowData.mainImage} alt="" />
           </div>
@@ -49,7 +49,7 @@ class ClassifyItem extends Component {
               rowData.zeroInventory ?
                 <div className="exchange-btn no-exchange">兑完</div>
                 :
-                <div className="exchange-btn" onClick={this.goGoodsDetailPage}>兑换</div>
+                <div className="exchange-btn" >兑换</div>
             }
           </div>
         </section>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
 import { Toast } from 'antd-mobile'
@@ -14,18 +14,22 @@ class ConfirmModal extends Component {
   constructor(props) {
     super(props)
     this.makeOrder = this.makeOrder.bind(this)
-    console.log(this.props)
+    this.goAddressEditePage = this.goAddressEditePage.bind(this)
   }
 
   // 下单
   async makeOrder() {
-    const goodsId = this.props.oSku.goodsId
-    const skuId = this.props.oSku.skuId
+    const goodsId = this.props.goodsId
+    const skuId = this.props.skuId // 没有skuId默认传0
     Toast.loading('兑换中', 10)
     await this.props.orderActions.coinsMallMakeOrder({ goodsId, skuId })
     Toast.hide()
     this.props.hideConfirmModal()
     this.props.goOrderListPage()
+  }
+
+  goAddressEditePage() {
+    this.props.history.push('/address')
   }
 
   render() {
@@ -39,7 +43,7 @@ class ConfirmModal extends Component {
           {/* 收货地址 */}
           <div className="receipt-address">
             <div className="label">收货信息：</div>
-            <div className="adress">
+            <div className="adress" onClick={this.goAddressEditePage}>
               <div className="user">
                 {address.userName} <span>{address.cellNumber}</span>
               </div>
@@ -50,12 +54,14 @@ class ConfirmModal extends Component {
           {/* sku信息 */}
           <div className="sku-info">
             <div className="label">规&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</div>
-            <div className="sku">{this.props.goodsName}{this.props.oSku.skuName}</div>
+            {
+              <div className="sku">{this.props.goodsName}</div>
+            }
           </div>
           {/* 兑换金额 */}
           <div className="exchange-coin">
             <div className="label">兑换金额：</div>
-            <div className="coin">8339金币</div>
+            <div className="coin-price">{this.props.coinPrice}金币</div>
           </div>
           {/* 按钮组 */}
           <div className="button-con">
@@ -85,4 +91,4 @@ const mapDispatchToProps = dispatch => {
 
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmModal)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ConfirmModal))

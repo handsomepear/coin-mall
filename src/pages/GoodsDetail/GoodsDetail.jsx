@@ -49,7 +49,8 @@ class GoodsDetail extends Component {
       loading: true,
       isShowSkuModal: false,
       isShowConfirmModal: false,
-      choosedSku: null
+      choosedSku: null,
+      goodsId: 0
     }
     this.goAddressEdite = this.goAddressEdite.bind(this)
     this.renderBottomBtn = this.renderBottomBtn.bind(this)
@@ -66,6 +67,7 @@ class GoodsDetail extends Component {
   componentWillMount() {
     // 获取到商品Id
     const goodsId = this.props.match.params.goodsId
+    this.setState({ goodsId })
     this.props.goodsActions.getGoodsDetail(goodsId)
     this.props.goodsActions.getBtnStatus(goodsId)
   }
@@ -133,7 +135,7 @@ class GoodsDetail extends Component {
         return Toast.fail('请选择商品规格', 2)
       }
     }
-    if(!this.props.address) {
+    if (!this.props.address) {
       return Toast.fail('请填写收货信息', 2)
     }
     this.showConfirmModal()
@@ -148,7 +150,7 @@ class GoodsDetail extends Component {
     }
     switch (buttonStatus) {
       case 1:
-        return <div className="btn" onClick={this.showConfirmModal}>请先登录</div>
+        return <div className="btn" onClick={this.login}>请先登录</div>
       case 2:
         return <div className="btn bg-gray">已兑完</div>
       case 3:
@@ -160,7 +162,7 @@ class GoodsDetail extends Component {
       case 6:
         return <div className="btn bg-gray">即将开始</div>
       case 7:
-        return <div className="btn" onClick={this.showConfirmModal}>马上兑换</div>
+        return <div className="btn" onClick={this.exchange}>马上兑换</div>
       default:
         return false
     }
@@ -182,7 +184,7 @@ class GoodsDetail extends Component {
             <div className="detail-name">
               {
                 goodsDetail.iconList && goodsDetail.iconList.length > 0 ?
-                  goodsDetail.iconList.map((iconItem, iconIndex) => <div className="goods-tag" key={iconIndex}>{iconItem}</div>)
+                  <div className="goods-tag">{goodsDetail.iconList[0]}</div>
                   : null
               }
               <span>{goodsDetail.goodsName}</span>
@@ -203,13 +205,7 @@ class GoodsDetail extends Component {
                   <div className="vip-price">{goodsDetail.vipCoinPrice}金币</div>
                 </div>
                 <div className="vip-btn" onClick={() => {
-                  if (this.props.isVip) {
-                    // 会员权益
-                    window.location.href = ''
-                  } else {
-                    // 开通会员
-                    window.location.href = ''
-                  }
+                  window.location.href = 'jcnhers://my_entrance/id=tehui'
                 }}>
                   <p>{this.props.isVip ? '会员权益' : '开通会员'}</p>
                   <div className="iconfont arrow-right" />
@@ -242,8 +238,8 @@ class GoodsDetail extends Component {
           }
           {/* 地址信息 */}
           {
-            !loggingStatus ?
-              <section>
+            loggingStatus ?
+              <section className="address-wrap">
                 <div className="address-con" onClick={this.goAddressEdite}>
                   <div className="label">送至</div>
                   {
@@ -260,6 +256,7 @@ class GoodsDetail extends Component {
                       :
                       <div className="address empty">
                         你还未填写收货信息，马上去填写
+                        <div className="iconfont arrow-right" />
                       </div>
                   }
                 </div>
@@ -295,6 +292,8 @@ class GoodsDetail extends Component {
                 hideSkuModal={this.hideSkuModal}
                 chooseSku={this.chooseSku}
                 skuList={goodsDetail.skuList}
+                mainImage={goodsDetail.mainImage}
+                coinPrice={goodsDetail.coinPrice}
               />
               : null
           }
@@ -308,13 +307,15 @@ class GoodsDetail extends Component {
               <ConfirmModal
                 goOrderListPage={this.goOrderListPage}
                 hideConfirmModal={this.hideConfirmModal}
-                oSku={this.state.choosedSku}
-                goodsName={goodsDetail.goodsName}
+                skuId={this.state.choosedSku ? this.state.choosedSku.skuId : 0}
+                goodsId={this.state.goodsId}
+                goodsName={this.state.choosedSku ? this.state.choosedSku.skuName + goodsDetail.goodsName : goodsDetail.goodsName}
+                coinPrice={goodsDetail.coinPrice}
               />
               : null
           }
         </section>
-        : "您访问的商品不存在"
+        : ""
 
     )
   }

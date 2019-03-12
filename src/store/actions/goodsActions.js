@@ -42,7 +42,7 @@ export const getGoodsDetail = goodsId => async (dispatch) => {
 
 // 获取按钮状态
 export const getBtnStatus = goodsId => async dispatch => {
-  const buttonStatus = GoodsServer.coinsMallPreMakeOrderBtnStatus({ goodsId }).then(res => res.data.btnStatus)
+  const buttonStatus = await GoodsServer.coinsMallPreMakeOrderBtnStatus({ goodsId }).then(res => res.data.btnStatus)
   return dispatch({
     type: types.GETBUTTONSTATUS,
     buttonStatus: buttonStatus

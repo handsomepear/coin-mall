@@ -2,7 +2,8 @@ import * as types from '@types/orderTypes'
 
 
 const initialState = {
-  orderList: []
+  orderList: [],
+  orderDetail: null
 }
 
 
@@ -22,7 +23,7 @@ const orderReducer = (state = initialState, action) => {
     case types.GETORDERINFO:
       return {
         ...state,
-        orderInfo: action.orderInfo
+        orderDetail: action.orderDetail
       }
     default:
       return state

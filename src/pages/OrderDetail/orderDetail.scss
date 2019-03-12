@@ -1,0 +1,196 @@
+.order-detail-page {
+  color: #333;
+  font-size: 14px;
+
+  .clip-btn {
+    width: 50px;
+    height: 20px;
+    line-height: 20px;
+    border: 1px solid #9f9f9f;
+    border-radius: 20px;
+    box-sizing: border-box;
+    color: #9f9f9f;
+    text-align: center;
+  }
+
+  .color-666 {
+    color: #666;
+  }
+
+
+  .order-status-con {
+    padding: 15px;
+    background-color: #fff;
+    margin-bottom: 10px;
+
+    .status {
+      font-size: 17px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      color: #ea3b4b;
+
+      .iconfont {
+        font-size: 19px;
+        margin-right: 10px;
+      }
+    }
+
+    .order-tips {
+      position: relative;
+      padding: 8px 35px;
+      background-color: #dfdfdf;
+      line-height: 1.8;
+      font-size: 13px;
+      color: #666;
+      transition: all .1s;
+
+      &.fold {
+        height: 58px;
+        box-sizing: border-box;
+        padding-right: 55px;
+        overflow: hidden;
+
+        p:nth-child(2) {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+    }
+
+    .fold-arrow {
+      position: absolute;
+      bottom: 0;
+      right: 35px;
+      transition: all .1s;
+
+      &.fold {
+        transform: rotate(180deg);
+      }
+
+      .iconfont {
+        font-size: 20px;
+      }
+    }
+
+  }
+
+  // 物流
+  .logistics-con {
+    padding: 0 15px;
+    background-color: #fff;
+  }
+
+  .logistics {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #dfdfdf;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 30px;
+      background: url("../../common/images/logistics.png") no-repeat center;
+      background-size: 100%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+  }
+
+  .logistics-info {
+    flex: 1;
+
+
+  }
+
+  .logistics-number {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .order-address-con {
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+    margin-bottom: 10px;
+    background-color: #fff;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 30px;
+      background: url("../../common/images/location.png") no-repeat center;
+      background-size: 100%;
+      margin-right: 12px;
+      flex-shrink: 0;
+    }
+
+    span {
+      color: #666;
+      margin-left: 10px;
+    }
+
+    .address {
+      margin-top: 10px;
+      line-height: 1.2;
+    }
+  }
+
+
+  .goods-con {
+    display: flex;
+    padding: 22px 15px;
+    background-color: #fff;
+    margin-bottom: 10px;
+
+    .goods-img {
+      width: 75px;
+      height: 75px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .goods-info {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: space-around;
+      overflow: hidden;
+    }
+
+    .goods-name, .goods-sku {
+      display: flex;
+      justify-content: space-between;
+    }
+    .goods-name {
+      .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .count {
+        flex-shrink: 0;
+        padding-left: 10px;
+      }
+    }
+  }
+
+  .order-info {
+    padding: 25px 15px;
+    background-color: #fff;
+
+    .order-number {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+  }
+}

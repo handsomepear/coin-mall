@@ -7,9 +7,11 @@ console.log(baseURL)
 const jcnuserid = store.getState().userReducer.jcnuserid
 
 const instance = axios.create({
-  baseURL: '',
+  baseURL: baseURL,
   timeout: 15000
 })
+
+
 
 // 请求配置
 instance.interceptors.request.use(

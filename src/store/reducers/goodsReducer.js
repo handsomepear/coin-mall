@@ -3,7 +3,8 @@ import * as types from '@types/goodTypes'
 const initialState = {
   homeGoodsList: [],
   classifyGoodsList: [],
-  goodsDetail: null
+  goodsDetail: null,
+  buttonStatus: 1
 }
 
 

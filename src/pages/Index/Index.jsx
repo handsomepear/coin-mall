@@ -13,6 +13,7 @@ import { _timeFormate } from '@/common/js/tool'
 
 //css
 import './index.scss'
+
 class Index extends Component {
 
   constructor(props) {
@@ -26,6 +27,7 @@ class Index extends Component {
     Index.coverTime = Index.coverTime.bind(this)
     this.goClassifyListPage = this.goClassifyListPage.bind(this)
     this.getGoodsList = this.getGoodsList.bind(this)
+    this.goOrderListPage = this.goOrderListPage.bind(this)
   }
 
   componentWillMount() {
@@ -46,11 +48,11 @@ class Index extends Component {
     let pageNum = this.state.pageNum
     const pageSize = this.state.pageSize
     const { data } = await this.props.goodsActions.getGoodsList(pageNum, pageSize)
-    if(data.hasMoreGoods) {
+    if (data.hasMoreGoods) {
       this.setState({
         pageNum: ++pageNum
       })
-    }else {
+    } else {
       this.setState({
         hasMoreGoods: false
       })
@@ -60,6 +62,11 @@ class Index extends Component {
   static coverTime(time) {
     const oTime = _timeFormate(time)
     return `${oTime.Y}年${oTime.M}月${oTime.d}日`
+  }
+
+  goOrderListPage(){
+    console.log(123)
+    this.props.history.push('/order-list')
   }
 
   render() {
@@ -73,15 +80,16 @@ class Index extends Component {
         {/* banner */}
         <section className="banner">
           <Carousel autoplay infinite>
-            <div className="banner-img">
-              <img src={require('../../common/images/1-2.jpg')} alt="" />
-            </div>
-            <div className="banner-img">
-              <img src={require('../../common/images/2-2.jpg')} alt="" />
-            </div>
-            <div className="banner-img">
-              <img src={require('../../common/images/3-2.jpg')} alt="" />
-            </div>
+            {
+              homeData.bannerList.map(bannerItem => {
+                return (
+                  <div className="banner-img" key={bannerItem.bannerId}>
+                    {/* 触发 window 的 resize 事件 来改变容器的高度*/}
+                    <img src={bannerItem.imageUrl} alt="" onLoad={() => {window.dispatchEvent(new Event('resize'))}} />
+                  </div>
+                )
+              })
+            }
           </Carousel>
         </section>
         {/* coin-info */}
@@ -97,7 +105,7 @@ class Index extends Component {
             </div>
           </div>
           <div className="coin-else">
-            <div className="coin-else-item">
+            <div className="coin-else-item" onClick={this.goOrderListPage}>
               <div className="iconfont exchange" />
               兑换记录
             </div>
@@ -108,22 +116,28 @@ class Index extends Component {
           </div>
         </section>
         {/* nav-con */}
-        <section className="nav-con">
-          {
-            homeData.navigationList.map(navItem => {
-              return (
-                <div key={navItem.positionId} className="nav-item" onClick={() => {
-                  this.goClassifyListPage(navItem.positionId)
-                }}>
-                  <div className="icon">
-                    <img src={navItem.positionImage} alt="" />
-                  </div>
-                  <div className="name">{navItem.positionName}</div>
-                </div>
-              )
-            })
-          }
-        </section>
+        {
+          homeData.navigationList.length ?
+            <section className="nav-con">
+              {
+                homeData.navigationList.map(navItem => {
+                  return (
+                    <div key={navItem.positionId} className="nav-item" onClick={() => {
+                      this.goClassifyListPage(navItem.positionId)
+                    }}>
+                      <div className="icon">
+                        <img src={navItem.positionImage} alt="" />
+                      </div>
+                      <div className="name">{navItem.positionName}</div>
+                    </div>
+                  )
+                })
+              }
+            </section>
+            :
+            null
+        }
+
         {/* recommend */}
         <section className="recommend-con">
           <header className="title">精选推荐 <span>POPULAR</span></header>

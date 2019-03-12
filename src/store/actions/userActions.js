@@ -27,9 +27,14 @@ export const getUserInfo = () => async dispatch => {
 }
 
 // 保存地址
-export const saveAddress = () => async dispatch => {
-  await userServer.saveAddress().then(res => res.data).catch(err => err.data)
+export const saveAddress = (oAddress) => async dispatch => {
+  const res = await userServer.saveAddress(oAddress).then(res => res.data).catch(err => err.data)
   return dispatch({
-    type: types.SAVEADDRESS
+    type: types.SAVEADDRESS,
+    data: res,
+    address: {
+      ...oAddress,
+      area:`${oAddress.province} ${oAddress.city} ${oAddress.county}`
+    }
   })
 }

@@ -15,6 +15,9 @@ import { bindActionCreators } from 'redux'
 class App extends Component {
   componentWillMount(){
     // 获取用户信息
+    if(window.app_interface) {
+      this.props.userActions.checkLoggingStatus()
+    }
     this.props.userActions.getUserInfo()
     // this.props.userActions.doLogin()
   }
@@ -27,8 +30,8 @@ class App extends Component {
             <Route path="/goods-detail/:goodsId" component={GoodsDetail} />
             <Route path="/address" component={Address} />
             <Route path="/order-list" component={OrderList} />
-            <Route path="/order-detail" component={OrderDetail} />
             <Route path="/classify-list/:positionId" component={ClassifyList} />
+            <Route path="/order-detail/:orderNumber" component={OrderDetail} />
             <Redirect to="/" />
           </Switch>
         </div>

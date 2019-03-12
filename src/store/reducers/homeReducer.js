@@ -5,7 +5,8 @@ const initialState = {
     expireCoin: 0,
     expireTime: 0,
     totalCoin: 0,
-    navigationList: []
+    navigationList: [],
+    bannerList: []
   }
 }
 

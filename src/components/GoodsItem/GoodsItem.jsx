@@ -7,11 +7,11 @@ import './goodsItem.scss'
 class GoodsItem extends Component {
   constructor(props) {
     super(props)
-    this.goOrderDetailPage = this.goOrderDetailPage.bind(this)
+    this.goGoodsDetailPage = this.goGoodsDetailPage.bind(this)
   }
 
-  goOrderDetailPage() {
-    this.props.history.push('/order-detail/' + this.props.orderNumber)
+  goGoodsDetailPage() {
+    this.props.history.push('/goods-detail/' + this.props.goodsId)
   }
 
 
@@ -19,9 +19,14 @@ class GoodsItem extends Component {
     const rowData = this.props
     return (
       rowData ?
-        <section className="home-goods-item-component" onClick={this.goOrderDetailPage}>
+        <section className="home-goods-item-component" onClick={this.goGoodsDetailPage}>
           <div className="goods-img">
             <img src={rowData.mainImage} alt="" />
+            {
+              rowData.icon ?
+                <div className={['goods-mark', rowData.icon === '兑完' ? 'bg-gray' : ''].join(' ')}>{rowData.icon}</div>
+                : null
+            }
           </div>
           <div className="goods-info">
             <p className="goods-name">{rowData.goodsName}</p>

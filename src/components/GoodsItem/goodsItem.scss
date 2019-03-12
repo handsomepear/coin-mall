@@ -4,6 +4,7 @@
   background-color: #fff;
   margin-bottom: 7px;
   .goods-img {
+    position: relative;
     width: 100%;
     height: 130px;
     padding: 5px 0;
@@ -14,6 +15,17 @@
       display: inline-block;
       width: auto;
       height: 100%;
+    }
+    .goods-mark {
+      position: absolute;
+      left: 12px;
+      bottom: 4px;
+      background-color: #e0483d;
+      color: #fff;
+      padding:3px 5px;
+      &.bg-gray {
+        background-color: #a0a0a0;
+      }
     }
   }
 
@@ -39,8 +51,8 @@
   }
 
   .vip-tag {
-    width: 41px;
-    height: 11px;
+    width: 71px;
+    height: 21px;
     margin-left: 10px;
   }
 }
