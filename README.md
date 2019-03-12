@@ -8,7 +8,11 @@ react + redux + react-router
 
 ### 开发环境打包
 
-- `yarn alpha` ：测试环境包 => `dist`
+- `yarn alpha` ：测试环境包 => `alpha`
+
+### 生成环境打包
+
+- `yarn pre` ：预发布环境打包 => `pre`
 
 ### 生成环境打包
 
