@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
+import { Toast } from 'antd-mobile'
 
 import { _timeFormate } from '@common/js/tool'
 
 import * as goodsActions from '@actions/goodsActions'
 import * as orderActions from '@actions/orderActions'
 import * as userActions from '@actions/userActions'
+import * as homeActions from '@actions/homeActions'
 
 
 import SkuModal from '@components/SkuModal/SkuModal'
@@ -15,7 +17,6 @@ import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 
 //css
 import './goodsDetail.scss'
-import { Toast } from 'antd-mobile'
 
 
 // 秒杀组件
@@ -52,7 +53,7 @@ class GoodsDetail extends Component {
       loading: true,
       isShowSkuModal: false,
       isShowConfirmModal: false,
-      choosedSkuInfo: this.props.choosedSkuInfo,
+      choosedSkuInfo: null,
       goodsId: 0
     }
     this.goAddressEdite = this.goAddressEdite.bind(this)
@@ -70,21 +71,23 @@ class GoodsDetail extends Component {
   componentWillMount() {
     // 获取到商品Id
     const goodsId = this.props.match.params.goodsId
-    this.setState({ goodsId })
+    const prevPathname = this.props.prevPathname
+    const choosedSkuInfo = this.props.choosedSkuInfo
+    if (prevPathname !== '/address') {
+      this.props.goodsActions.updateChoosedSkuInfo(null)
+    } else {
+      console.log(123)
+      this.props.homeActions.setPrevpathname(null)
+    }
+
+    this.setState({ goodsId, choosedSkuInfo })
     this.props.goodsActions.getGoodsDetail(goodsId)
     this.props.goodsActions.getBtnStatus(goodsId)
   }
 
-  componentWillReceiveProps(nextProps) {
-    // 如果不是后退进入的详情页面 就将已选择的SKU信息置为null
-    console.log(nextProps.history.action)
-    if (nextProps.history.action !== 'POP') {
-      this.props.goodsActions.updateChoosedSkuInfo(null)
-    }
-  }
-
   // 去设置地址页面
   goAddressEdite() {
+
     this.props.history.push('/address')
   }
 
@@ -143,7 +146,7 @@ class GoodsDetail extends Component {
   exchange() {
     const skuList = this.props.goodsDetail.skuList
     if (skuList && skuList.length > 0) {
-      if (!this.state.choosedSkuInfo) {
+      if (!this.props.choosedSkuInfo) {
         return Toast.fail('请选择商品规格', 2)
       }
     }
@@ -158,7 +161,7 @@ class GoodsDetail extends Component {
     const buttonStatus = this.props.buttonStatus
     if (!loggingStatus) {
       // 未登录
-      return <div className="btn" onClick={this.login}>请先登录</div>
+      return <div className="btn" onClick={this.exchange}>请先登录</div>
     }
     switch (buttonStatus) {
       case 1:
@@ -175,6 +178,8 @@ class GoodsDetail extends Component {
         return <div className="btn bg-gray">即将开始</div>
       case 7:
         return <div className="btn" onClick={this.exchange}>马上兑换</div>
+      case 8:
+        return <div className="btn bg-gray">已兑换</div>
       default:
         return false
     }
@@ -239,8 +244,8 @@ class GoodsDetail extends Component {
                 <div className="label">规格</div>
                 <div className="choose-con" onClick={this.showSkuModal}>
                   {
-                    this.state.choosedSkuInfo ?
-                      <div className="choose-sku-name">{this.state.choosedSkuInfo.skuName}</div>
+                    this.props.choosedSkuInfo ?
+                      <div className="choose-sku-name">{this.props.choosedSkuInfo.skuName}</div>
                       :
                       <div className="choose">请选择尺码</div>
                   }
@@ -250,7 +255,7 @@ class GoodsDetail extends Component {
           }
           {/* 地址信息 */}
           {
-            loggingStatus ?
+            !loggingStatus ?
               <section className="address-wrap">
                 <div className="address-con" onClick={this.goAddressEdite}>
                   <div className="label">送至</div>
@@ -283,7 +288,7 @@ class GoodsDetail extends Component {
           {/* 限兑 */}
           {
             goodsDetail.exchangeLimitList && goodsDetail.exchangeLimitList.length > 0 ?
-              <section className="exchange-limit">
+              <section className="exchange-limit" onClick={() => { window.location.href = 'https://bbs.j.cn/pages/vipRulePage/index.html' }}>
                 <div className="label">限兑</div>
                 <div className="limit-con">
                   {goodsDetail.exchangeLimitList.join('、')}
@@ -310,7 +315,7 @@ class GoodsDetail extends Component {
                 hideSkuModal={this.hideSkuModal}
                 chooseSku={this.chooseSku}
                 skuList={goodsDetail.skuList}
-                choosedSkuInfo={this.state.choosedSkuInfo}
+                choosedSkuInfo={this.props.choosedSkuInfo}
                 mainImage={goodsDetail.mainImage}
                 coinPrice={goodsDetail.coinPrice}
               />
@@ -323,9 +328,10 @@ class GoodsDetail extends Component {
               <ConfirmModal
                 goOrderListPage={this.goOrderListPage}
                 hideConfirmModal={this.hideConfirmModal}
-                skuId={this.state.choosedSkuInfo ? this.state.choosedSkuInfo.skuId : 0}
+                skuId={this.props.choosedSkuInfo ? this.props.choosedSkuInfo.skuId : 0}
                 goodsId={this.state.goodsId}
-                goodsName={this.state.choosedSkuInfo ? this.state.choosedSkuInfo.skuName + goodsDetail.goodsName : goodsDetail.goodsName}
+                goodsName={this.props.choosedSkuInfo ? goodsDetail.goodsName + ' ' + this.props.choosedSkuInfo.skuName :
+                  goodsDetail.goodsName}
                 coinPrice={this.props.isVip ? goodsDetail.vipCoinPrice : goodsDetail.coinPrice}
               />
               : null
@@ -344,7 +350,8 @@ const mapStateToProps = state => {
     loggingStatus: state.userReducer.loggingStatus,
     address: state.userReducer.address,
     isVip: state.userReducer.isVip,
-    choosedSkuInfo: state.goodsReducer.choosedSkuInfo
+    choosedSkuInfo: state.goodsReducer.choosedSkuInfo,
+    prevPathname: state.homeReducer.prevPathname
   }
 }
 
@@ -352,7 +359,8 @@ const mapDispatchToProps = dispatch => {
   return {
     goodsActions: bindActionCreators(goodsActions, dispatch),
     orderActions: bindActionCreators(orderActions, dispatch),
-    userActions: bindActionCreators(userActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch),
+    homeActions: bindActionCreators(homeActions, dispatch)
   }
 }
 

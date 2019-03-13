@@ -13,26 +13,28 @@ class ClassifyList extends Component {
     super(props)
 
     this.state = {
+      positionId: 0,
       pageNum: 1,
       pageSize: 10,
       isLoading: false, // 是否正在加载中
-      hasMoreOrder: true // 是否还有更多订单
+      hasMoreGoods: true // 是否还有更多订单
     }
     this.getClassifyGoodsList = this.getClassifyGoodsList.bind(this)
   }
 
   componentWillMount() {
     const positionId = this.props.match.params.positionId
+    this.setState({ positionId })
     this.getClassifyGoodsList(positionId)
   }
 
   // 获取分类列表
   async getClassifyGoodsList(positionId) {
-
+    console.log(positionId)
     let pageNum = this.state.pageNum
     const pageSize = this.state.pageSize
     // 正在加载中 || 没有更多订单
-    if (this.state.isLoading || !this.state.hasMoreOrder) {
+    if (this.state.isLoading || !this.state.hasMoreGoods) {
       return false
     }
     this.setState({
@@ -42,14 +44,15 @@ class ClassifyList extends Component {
     this.setState({
       isLoading: false
     })
-    if (data.hasMoreOrder) {
+    console.log(data)
+    if (data.hasMoreGoods) {
       this.setState({
         pageNum: ++pageNum
       })
     } else {
       // 表示已经没有更多数据了
       this.setState({
-        hasMoreOrder: false
+        hasMoreGoods: false
       })
     }
   }
@@ -69,7 +72,9 @@ class ClassifyList extends Component {
               renderRow={ClassifyItem} // 单条数据
               initialListSize={10} // 初次渲染的数据条数
               scrollRenderAheadDistance={500} // 接近屏幕范围多少像素开始渲染
-              onEndReached={this.getClassifyGoodsList} // 上拉加载事件
+              onEndReached={() => {
+                this.getClassifyGoodsList(this.state.positionId)
+              }} // 上拉加载事件
               pageSize={this.state.pageSize}
               useBodyScroll
               renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>

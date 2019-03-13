@@ -6,9 +6,9 @@ import { Carousel, ListView } from 'antd-mobile'
 
 import GoodsItem from '@/components/GoodsItem/GoodsItem'
 
-import * as goodsActions from '../../store/actions/goodsActions'
-import * as homeActions from '../../store/actions/homeActions'
-
+import * as goodsActions from '@actions/goodsActions'
+import * as homeActions from '@actions/homeActions'
+import * as userActions from '@actions/userActions'
 import { _timeFormate } from '@/common/js/tool'
 
 //css
@@ -75,9 +75,15 @@ class Index extends Component {
     return `${oTime.Y}年${oTime.M}月${oTime.d}日`
   }
 
+  // 去我的订单页面
   goOrderListPage() {
-    console.log(123)
-    this.props.history.push('/order-list')
+    const loggingStatus = this.props.loggingStatus
+    if(loggingStatus) {
+      this.props.history.push('/order-list')
+    }else {
+      this.props.userActions.doLogin()
+    }
+
   }
 
   render() {
@@ -191,14 +197,16 @@ class Index extends Component {
 const mapStateToProps = state => {
   return {
     homeGoodsList: state.goodsReducer.homeGoodsList,
-    homeData: state.homeReducer.homeData
+    homeData: state.homeReducer.homeData,
+    loggingStatus: state.userReducer.loggingStatus
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     goodsActions: bindActionCreators(goodsActions, dispatch),
-    homeActions: bindActionCreators(homeActions, dispatch)
+    homeActions: bindActionCreators(homeActions, dispatch),
+    userActions: bindActionCreators(userActions, dispatch)
   }
 }
 

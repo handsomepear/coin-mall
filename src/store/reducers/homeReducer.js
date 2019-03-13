@@ -1,4 +1,4 @@
-import { GETHOMEPAGEDATA } from '@types/homeTypes'
+import { GETHOMEPAGEDATA,SETPREVPATHNAME } from '@types/homeTypes'
 
 const initialState = {
   homeData: {
@@ -6,7 +6,8 @@ const initialState = {
     expireTime: 0,
     totalCoin: 0,
     navigationList: [],
-    bannerList: []
+    bannerList: [],
+    prevPathname: null
   }
 }
 
@@ -18,7 +19,11 @@ const homeReducer = (state = initialState, action) => {
         ...state,
         homeData: action.homeData
       }
-
+    case SETPREVPATHNAME:
+      return {
+        ...state,
+        prevPathname: action.prevPathname
+      }
     default:
       return state
   }

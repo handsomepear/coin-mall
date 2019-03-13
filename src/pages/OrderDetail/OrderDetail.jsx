@@ -99,7 +99,7 @@ class OrderDetail extends Component {
           </section>
           {/*物流*/}
           {
-            !orderDetail.expressName && orderDetail.expressNumber ?
+            orderDetail.expressName && orderDetail.expressNumber ?
               <section className="logistics-con">
                 <div className="logistics">
                   <div className="logistics-info">

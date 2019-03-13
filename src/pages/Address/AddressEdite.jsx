@@ -2,10 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router'
-import * as userActions from '@actions/userActions'
 import { Picker, List, InputItem, TextareaItem, Toast } from 'antd-mobile'
-import districtData from '@common/js/_area'
 import arrayTreeFilter from 'array-tree-filter'
+
+
+import * as userActions from '@actions/userActions'
+import * as homeActions from '@actions/homeActions'
+import districtData from '@common/js/_area'
+
+
 import './AddressEdite.scss'
 
 
@@ -34,6 +39,7 @@ class AddressEdite extends Component {
         detailLocation: address.detailLocation
       })
     }
+    this.props.homeActions.setPrevpathname('/address')
   }
 
 
@@ -135,7 +141,7 @@ class AddressEdite extends Component {
 
         <div className="button-con">
           <div className="cancel" onClick={() => {
-            this.props.history.back()
+            this.props.history.go(-1)
           }}>取消
           </div>
           <div className="save" onClick={this.saveAddress}>保存</div>
@@ -147,13 +153,15 @@ class AddressEdite extends Component {
 
 const mapStateToProps = state => {
   return {
-    address: state.userReducer.address
+    address: state.userReducer.address,
+    prevPathname: state.homeReducer.prevPathname
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    userActions: bindActionCreators(userActions, dispatch)
+    userActions: bindActionCreators(userActions, dispatch),
+    homeActions: bindActionCreators(homeActions, dispatch)
   }
 }
 
