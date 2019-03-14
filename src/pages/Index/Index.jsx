@@ -9,7 +9,7 @@ import GoodsItem from '@/components/GoodsItem/GoodsItem'
 import * as goodsActions from '@actions/goodsActions'
 import * as homeActions from '@actions/homeActions'
 import * as userActions from '@actions/userActions'
-import { _timeFormate } from '@/common/js/tool'
+import { _timeFormate, _send1_1 } from '@/common/js/tool'
 
 //css
 import './index.scss'
@@ -36,6 +36,9 @@ class Index extends Component {
     this.getGoodsList()
   }
 
+  componentDidMount(){
+    _send1_1('index')
+  }
 
   goDetailPage() {
     this.props.history.push('/goods-detail/' + 2)
@@ -78,6 +81,7 @@ class Index extends Component {
   // 去我的订单页面
   goOrderListPage() {
     const loggingStatus = this.props.loggingStatus
+    //FIXME:check
     if(loggingStatus) {
       this.props.history.push('/order-list')
     }else {
@@ -154,7 +158,11 @@ class Index extends Component {
                 homeData.navigationList.map(navItem => {
                   return (
                     <div key={navItem.positionId} className="nav-item" onClick={() => {
-                      this.goClassifyListPage(navItem.positionId)
+                      if(navItem.positionId === 6) {
+                        window.location.href = 'jcnhers://my_entrance/id=nvshengyouxi'
+                      }else {
+                        this.goClassifyListPage(navItem.positionId)
+                      }
                     }}>
                       <div className="icon">
                         <img src={navItem.positionImage} alt="" />
@@ -182,13 +190,14 @@ class Index extends Component {
               pageSize={this.state.pageSize}
               useBodyScroll
               renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                {this.state.hasMoreOrder ? '加载中...' : '已经没有更多了'}
+                {this.state.hasMoreGoods ? '加载中...' : '已经没有更多了'}
               </div>)}
             />
             :
             null}
 
         </section>
+        <section className="bottom-tips">*本次活动与设备生产商Apple.Inc无关</section>
       </section>
     )
   }

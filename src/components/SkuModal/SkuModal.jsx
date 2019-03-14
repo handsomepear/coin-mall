@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-
+import { connect } from 'react-redux'
+import { Toast } from 'antd-mobile'
 
 import './skuModal.scss'
+
 
 class SkuModal extends Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class SkuModal extends Component {
     this.setState({
       chooseSkuIndex: skuIndex
     })
+
   }
 
   render() {
@@ -61,6 +64,11 @@ class SkuModal extends Component {
             onClick={() => {
               if (this.state.chooseSkuIndex !== null) {
                 this.props.chooseSku(this.props.skuList[this.state.chooseSkuIndex])
+                if (this.props.address) {
+                  this.props.showConfirmModal()
+                } else {
+                  Toast.fail('请填写收货信息', 2)
+                }
                 this.props.hideSkuModal()
               }
             }}
@@ -74,4 +82,8 @@ class SkuModal extends Component {
 }
 
 
-export default SkuModal
+export default connect(state => {
+  return {
+    address: state.userReducer.address
+  }
+})(SkuModal)

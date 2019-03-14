@@ -30,7 +30,6 @@ class ClassifyList extends Component {
 
   // 获取分类列表
   async getClassifyGoodsList(positionId) {
-    console.log(positionId)
     let pageNum = this.state.pageNum
     const pageSize = this.state.pageSize
     // 正在加载中 || 没有更多订单

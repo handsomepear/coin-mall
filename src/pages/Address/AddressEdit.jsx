@@ -11,10 +11,10 @@ import * as homeActions from '@actions/homeActions'
 import districtData from '@common/js/_area'
 
 
-import './AddressEdite.scss'
+import './AddressEdit.scss'
 
 
-class AddressEdite extends Component {
+class AddressEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -166,4 +166,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddressEdite))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AddressEdit))

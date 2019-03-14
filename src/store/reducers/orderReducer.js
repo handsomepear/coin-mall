@@ -1,5 +1,5 @@
-import * as types from '@types/orderTypes'
-
+import { MAKEORDER, GETORDERLIST, GETORDERINFO } from '@types/orderTypes'
+import { handleActions } from 'redux-actions'
 
 const initialState = {
   orderList: [],
@@ -7,27 +7,19 @@ const initialState = {
 }
 
 
-const orderReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case types.MAKEORDER:
-      return state
-    case types.GETORDERLIST:
-      // 如果当前页不是第一页，合并保存到store中的数据
-      if (action.data.currentPage > 1) {
-        action.data.orderList = state.orderList.concat(action.data.orderList)
-      }
-      return {
-        ...state,
-        orderList: action.data.orderList
-      }
-    case types.GETORDERINFO:
-      return {
-        ...state,
-        orderDetail: action.orderDetail
-      }
-    default:
-      return state
-  }
-}
+const orderReducer = handleActions({
+  [MAKEORDER]: (state) => state,
+  [GETORDERLIST]: (state, action) => {
+    // 如果当前页不是第一页，合并保存到store中的数据
+    if (action.data.currentPage > 1) {
+      action.data.orderList = state.orderList.concat(action.data.orderList)
+    }
+    return {
+      ...state,
+      orderList: action.data.orderList
+    }
+  },
+  [GETORDERINFO]: (state, action) => ({...state, orderDetail: action.orderDetail})
+}, initialState)
 
 export default orderReducer

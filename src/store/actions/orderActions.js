@@ -11,7 +11,7 @@ export const getOrderList = (pageNo, pageSize = 10) => async dispatch => {
     data: {
       currentPage: pageNo,
       orderList,
-      hasMoreOrder: pageSize <= orderList.length
+      hasMoreOrder: orderList && pageSize <= orderList.length
     }
   })
 }

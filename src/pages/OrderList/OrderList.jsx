@@ -60,12 +60,13 @@ class OrderList extends Component {
     const dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2,
     })
-    const orderList = dataSource.cloneWithRows(this.props.orderList)
+
+    const orderList = dataSource.cloneWithRows(this.props.orderList || [])
 
     return (
       <div className="order-list-page">
         {
-          this.props.orderList.length ?
+          this.props.orderList && this.props.orderList.length ?
             <ListView
               dataSource={orderList} // 渲染的数据
               renderRow={OrderItem} // 单条数据

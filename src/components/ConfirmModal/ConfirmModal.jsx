@@ -14,7 +14,7 @@ class ConfirmModal extends Component {
   constructor(props) {
     super(props)
     this.makeOrder = this.makeOrder.bind(this)
-    this.goAddressEditePage = this.goAddressEditePage.bind(this)
+    this.goAddressEditPage = this.goAddressEditPage.bind(this)
   }
 
   // 下单
@@ -38,7 +38,7 @@ class ConfirmModal extends Component {
     }
   }
 
-  goAddressEditePage() {
+  goAddressEditPage() {
     this.props.history.push('/address')
   }
 
@@ -53,7 +53,7 @@ class ConfirmModal extends Component {
           {/* 收货地址 */}
           <div className="receipt-address">
             <div className="label">收货信息：</div>
-            <div className="adress" onClick={this.goAddressEditePage}>
+            <div className="adress" onClick={this.goAddressEditPage}>
               <div className="user">
                 {address.userName} <span>{address.cellNumber}</span>
               </div>

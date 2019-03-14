@@ -19,3 +19,18 @@ export function _timeFormate(ms) {
   m = m > 9 ? m : `0${m}`
   return { Y, M, d, h, m }
 }
+
+
+export const _send1_1 = (val, channel = 'coin-mall') => {
+  const img1x1 = new Image()
+  const jcnappid = _getQueryString('jcnappid')
+  const jcnuserid = _getQueryString('jcnuserid')
+  if (val && typeof val == "string") {
+    img1x1.src = "http://share.j.cn/js/1x1.gif?ucs=UTF-8&un=statistic_channel." + channel + "_logname." +
+      val + "_login.0&tamp=" + (new Date() - 0) + "&jcnappid=" + encodeURIComponent(jcnappid) + "&jcnuserid=" +
+      encodeURIComponent(jcnuserid)
+  }
+  img1x1.onload = function () {
+    console.log('1*1 loaded')
+  }
+}

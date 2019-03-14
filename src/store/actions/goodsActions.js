@@ -2,7 +2,7 @@ import store from '@store'
 
 import * as GoodsServer from '@API/goods'
 
-import * as types from '@store/types/goodTypes'
+import * as types from '@store/types/goodsTypes'
 
 // 获取首页列表
 export const getGoodsList = (pageNum, pageSize) => async (dispatch) => {

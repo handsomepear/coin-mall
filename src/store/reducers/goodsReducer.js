@@ -1,4 +1,6 @@
-import * as types from '@types/goodTypes'
+
+import { GETGOODSLIST, GETGOODSDETAIL, GETBUTTONSTATUS, GETCLASSIFYGOODSLIST, UPDATECHOOSEDSKUINFO } from '@types/goodsTypes'
+import { handleActions } from 'redux-actions'
 
 const initialState = {
   homeGoodsList: [],
@@ -8,45 +10,29 @@ const initialState = {
   choosedSkuInfo: null
 }
 
-
-const goodsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case types.GETGOODSLIST:
-      if(action.data.currentPage > 1) {
-        action.data.homeGoodsList = state.homeGoodsList.concat(action.data.homeGoodsList)
-      }
-      return {
-        ...state,
-        homeGoodsList: action.data.homeGoodsList
-      }
-    case types.GETGOODSDETAIL:
-      return {
-        ...state,
-        goodsDetail: action.goodsDetail
-      }
-    case types.GETBUTTONSTATUS:
-      return {
-        ...state,
-        buttonStatus: action.buttonStatus
-      }
-    case types.GETCLASSIFYGOODSLIST:
-      if(action.data.currentPage > 1) {
-        action.data.classifyGoodsList = state.classifyGoodsList.concat(action.data.classifyGoodsList)
-      }
-      return {
-        ...state,
-        classifyGoodsList: action.data.classifyGoodsList
-      }
-    // 更新选中的sku信息
-    case types.UPDATECHOOSEDSKUINFO:
-      return {
-        ...state,
-        choosedSkuInfo: action.choosedSkuInfo
-      }
-    default:
-      return state
-  }
-}
+const goodsReducer = handleActions({
+  [GETGOODSLIST]: (state, action) => {
+    if (action.data.currentPage > 1) {
+      action.data.homeGoodsList = state.homeGoodsList.concat(action.data.homeGoodsList)
+    }
+    return {
+      ...state,
+      homeGoodsList: action.data.homeGoodsList
+    }
+  },
+  [GETGOODSDETAIL]: (state, action) => ({ ...state, goodsDetail: action.goodsDetail }),
+  [GETBUTTONSTATUS]: (state, action) => ({ ...state, buttonStatus: action.buttonStatus }),
+  [GETCLASSIFYGOODSLIST]: (state, action) => {
+    if (action.data.currentPage > 1) {
+      action.data.classifyGoodsList = state.classifyGoodsList.concat(action.data.classifyGoodsList)
+    }
+    return {
+      ...state,
+      classifyGoodsList: action.data.classifyGoodsList
+    }
+  },
+  [UPDATECHOOSEDSKUINFO]: (state, action) => ({ ...state, choosedSkuInfo: action.choosedSkuInfo })
+}, initialState)
 
 
 export default goodsReducer

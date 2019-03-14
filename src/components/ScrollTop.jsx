@@ -1,17 +1,16 @@
-import React, { Component } from 'react'
-
-
+import { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 
+// 使路由跳转之后回到页面顶部
 class ScrollTop extends Component {
   componentDidUpdate(prevProps) {
-    if(this.props.location.pathname !== prevProps.location.pathname) {
-      window.scrollTo(0,0)
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      window.scrollTo(0, 0)
     }
   }
-  render(){
 
+  render() {
     return this.props.children
   }
 }

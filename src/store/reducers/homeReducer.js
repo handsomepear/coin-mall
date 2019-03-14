@@ -1,4 +1,5 @@
-import { GETHOMEPAGEDATA,SETPREVPATHNAME } from '@types/homeTypes'
+import { GETHOMEPAGEDATA, SETPREVPATHNAME } from '@types/homeTypes'
+import { handleActions } from 'redux-actions'
 
 const initialState = {
   homeData: {
@@ -11,23 +12,10 @@ const initialState = {
   }
 }
 
-
-const homeReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case GETHOMEPAGEDATA:
-      return {
-        ...state,
-        homeData: action.homeData
-      }
-    case SETPREVPATHNAME:
-      return {
-        ...state,
-        prevPathname: action.prevPathname
-      }
-    default:
-      return state
-  }
-}
+const homeReducer = handleActions({
+  [GETHOMEPAGEDATA]: (state, action) => ({ ...state, homeData: action.homeData }),
+  [SETPREVPATHNAME]: (state, action) => ({ ...state, prevPathname: action.prevPathname })
+}, initialState)
 
 
 export default homeReducer

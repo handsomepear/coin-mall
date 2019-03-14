@@ -54,9 +54,11 @@ class GoodsDetail extends Component {
       isShowSkuModal: false,
       isShowConfirmModal: false,
       choosedSkuInfo: null,
-      goodsId: 0
+      goodsId: 0,
+      goodsDetail: null,
+      buttonStatus: 0
     }
-    this.goAddressEdite = this.goAddressEdite.bind(this)
+    this.goAddressEdit = this.goAddressEdit.bind(this)
     this.renderBottomBtn = this.renderBottomBtn.bind(this)
     this.showSkuModal = this.showSkuModal.bind(this)
     this.hideSkuModal = this.hideSkuModal.bind(this)
@@ -68,7 +70,7 @@ class GoodsDetail extends Component {
     this.exchange = this.exchange.bind(this)
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     // 获取到商品Id
     const goodsId = this.props.match.params.goodsId
     const prevPathname = this.props.prevPathname
@@ -76,17 +78,18 @@ class GoodsDetail extends Component {
     if (prevPathname !== '/address') {
       this.props.goodsActions.updateChoosedSkuInfo(null)
     } else {
-      console.log(123)
       this.props.homeActions.setPrevpathname(null)
     }
 
     this.setState({ goodsId, choosedSkuInfo })
-    this.props.goodsActions.getGoodsDetail(goodsId)
-    this.props.goodsActions.getBtnStatus(goodsId)
+    const { goodsDetail } = await this.props.goodsActions.getGoodsDetail(goodsId)
+    this.setState({ goodsDetail })
+    const { buttonStatus } = await this.props.goodsActions.getBtnStatus(goodsId)
+    this.setState({ buttonStatus })
   }
 
   // 去设置地址页面
-  goAddressEdite() {
+  goAddressEdit() {
 
     this.props.history.push('/address')
   }
@@ -127,17 +130,6 @@ class GoodsDetail extends Component {
     this.props.goodsActions.updateChoosedSkuInfo(choosedSkuInfo)
   }
 
-  // 去赚金币
-  static maskCoins() {
-    window.location.href = ''
-  }
-
-
-  // 去获取兑换资格
-  static getQualification() {
-    window.location.href = ''
-  }
-
   login() {
     this.props.userActions.doLogin()
   }
@@ -147,7 +139,7 @@ class GoodsDetail extends Component {
     const skuList = this.props.goodsDetail.skuList
     if (skuList && skuList.length > 0) {
       if (!this.props.choosedSkuInfo) {
-        return Toast.fail('请选择商品规格', 2)
+        return this.showSkuModal()
       }
     }
     if (!this.props.address) {
@@ -158,10 +150,11 @@ class GoodsDetail extends Component {
 
   renderBottomBtn() {
     const loggingStatus = this.props.loggingStatus
-    const buttonStatus = this.props.buttonStatus
+    const buttonStatus = this.state.buttonStatus
     if (!loggingStatus) {
       // 未登录
-      return <div className="btn" onClick={this.exchange}>请先登录</div>
+      // FIXME:check
+      return <div className="btn" onClick={this.login}>请先登录</div>
     }
     switch (buttonStatus) {
       case 1:
@@ -171,9 +164,13 @@ class GoodsDetail extends Component {
       case 3:
         return <div className="btn bg-gray">每日限量已兑完</div>
       case 4:
-        return <div className="btn" onClick={this.maskCoins}>金币不足，去赚金币 <div className="iconfont arrow-right" /></div>
+        return <div className="btn" onClick={() => {
+          window.location.href = 'http://bbs.j.cn/html/cointask/index.html'
+        }}>金币不足，去赚金币 <div className="iconfont arrow-right" /></div>
       case 5:
-        return <div className="btn" onClick={this.getQualification}>如何获得兑换资格 <div className="iconfont arrow-right" /></div>
+        return <div className="btn" onClick={() => {
+          window.location.href = 'https://bbs.j.cn/pages/vipRulePage/index.html'
+        }}>如何获得兑换资格 <div className="iconfont arrow-right" /></div>
       case 6:
         return <div className="btn bg-gray">即将开始</div>
       case 7:
@@ -187,7 +184,7 @@ class GoodsDetail extends Component {
 
 
   render() {
-    const goodsDetail = this.props.goodsDetail
+    const goodsDetail = this.state.goodsDetail
     const loggingStatus = this.props.loggingStatus
     const address = this.props.address
     return (
@@ -224,7 +221,7 @@ class GoodsDetail extends Component {
                 <div className="vip-btn" onClick={() => {
                   window.location.href = 'jcnhers://my_entrance/id=tehui'
                 }}>
-                  <p>{this.props.isVip ? '会员权益' : '开通会员'}</p>
+                  <p>{this.props.isVip === true ? '会员权益' : '开通会员'}</p>
                   <div className="iconfont arrow-right" />
                 </div>
               </section>
@@ -255,9 +252,10 @@ class GoodsDetail extends Component {
           }
           {/* 地址信息 */}
           {
-            !loggingStatus ?
+            // FIXME: check
+            loggingStatus ?
               <section className="address-wrap">
-                <div className="address-con" onClick={this.goAddressEdite}>
+                <div className="address-con" onClick={this.goAddressEdit}>
                   <div className="label">送至</div>
                   {
                     address ?
@@ -288,7 +286,7 @@ class GoodsDetail extends Component {
           {/* 限兑 */}
           {
             goodsDetail.exchangeLimitList && goodsDetail.exchangeLimitList.length > 0 ?
-              <section className="exchange-limit" onClick={() => { window.location.href = 'https://bbs.j.cn/pages/vipRulePage/index.html' }}>
+              <section className="exchange-limit">
                 <div className="label">限兑</div>
                 <div className="limit-con">
                   {goodsDetail.exchangeLimitList.join('、')}
@@ -318,6 +316,7 @@ class GoodsDetail extends Component {
                 choosedSkuInfo={this.props.choosedSkuInfo}
                 mainImage={goodsDetail.mainImage}
                 coinPrice={goodsDetail.coinPrice}
+                showConfirmModal={this.showConfirmModal}
               />
               : null
           }
@@ -332,7 +331,7 @@ class GoodsDetail extends Component {
                 goodsId={this.state.goodsId}
                 goodsName={this.props.choosedSkuInfo ? goodsDetail.goodsName + ' ' + this.props.choosedSkuInfo.skuName :
                   goodsDetail.goodsName}
-                coinPrice={this.props.isVip ? goodsDetail.vipCoinPrice : goodsDetail.coinPrice}
+                coinPrice={this.props.isVip === true && -1 !== goodsDetail.vipCoinPrice ? goodsDetail.vipCoinPrice : goodsDetail.coinPrice}
               />
               : null
           }

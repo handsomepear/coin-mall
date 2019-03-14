@@ -61,8 +61,13 @@ class OrderDetail extends Component {
 
   render() {
     const orderDetail = this.props.orderDetail
-    console.log(orderDetail)
-    // console.log(orderDetail.exchangeSuccessComment.split('\n'))
+    let exchangeSuccessCommentArr = []
+    let readySendCommentArr = []
+    if (orderDetail) {
+      exchangeSuccessCommentArr = orderDetail.exchangeSuccessComment.split('\n').filter(item => item !== '')
+      readySendCommentArr = orderDetail.readySendComment.split('\n').filter(item => item !== '')
+    }
+
     return (
       orderDetail ?
         <section className="order-detail-page">
@@ -71,22 +76,35 @@ class OrderDetail extends Component {
             {this.renderStatus()}
             {
               orderDetail.orderStatus === 2 ?
-                <section className={["order-tips", this.state.isFoldTips ? 'fold' : ''].join(' ')}>
+                <section className={["order-tips", this.state.isFoldTips && exchangeSuccessCommentArr.length > 2 ? 'fold' : ''].join(' ')}>
                   {
-                    orderDetail.exchangeSuccessComment.split('\n').map((item, index) => <p key={index}>·{item}</p>)
+                    orderDetail.exchangeSuccessComment &&
+                    exchangeSuccessCommentArr.map((item, index) => <p key={index}>·{item}</p>)
                   }
-                  <div className={["fold-arrow", this.state.isFoldTips ? 'fold' : ''].join(' ')} onClick={this.toggleTipsFold}>
-                    <div className="iconfont arrow-top" />
-                  </div>
+                  {
+                    exchangeSuccessCommentArr.length > 2 ?
+                      <div className={["fold-arrow", this.state.isFoldTips ? 'fold' : ''].join(' ')} onClick={this.toggleTipsFold}>
+                        <div className="iconfont arrow-top" />
+                      </div>
+                      :
+                      null
+                  }
+
                 </section>
                 : orderDetail.orderStatus === 0 ?
-                <section className={["order-tips", this.state.isFoldTips ? 'fold' : ''].join(' ')}>
+                <section className={["order-tips", this.state.isFoldTips && readySendCommentArr.length > 2 ? 'fold' : ''].join(' ')}>
                   {
-                    orderDetail.readySendComment.split('\n').map((item, index) => <p key={index}>·{item}</p>)
+                    orderDetail.readySendComment &&
+                    readySendCommentArr.map((item, index) => <p key={index}>·{item}</p>)
                   }
-                  <div className={["fold-arrow", this.state.isFoldTips ? 'fold' : ''].join(' ')} onClick={this.toggleTipsFold}>
-                    <div className="iconfont arrow-top" />
-                  </div>
+                  {
+                    readySendCommentArr.length > 2 ?
+                      <div className={["fold-arrow", this.state.isFoldTips ? 'fold' : ''].join(' ')} onClick={this.toggleTipsFold}>
+                        <div className="iconfont arrow-top" />
+                      </div>
+                      :
+                      null
+                  }
                 </section>
                 :
                 orderDetail.orderStatus === 1 ?
