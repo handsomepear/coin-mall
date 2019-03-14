@@ -8,6 +8,7 @@ const jcnuserid = store.getState().userReducer.jcnuserid
 
 const instance = axios.create({
   baseURL: baseURL,
+  // baseURL: 'https://bbs.j.cn',
   timeout: 15000
 })
 

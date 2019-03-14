@@ -1,15 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import 'lib-flexible'
+import 'amfe-flexible'
+
 import '@common/styles/reset.css'
 import '@common/styles/common.scss'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { Provider } from 'react-redux'
 import store from './store'
-
 import '@common/js/bridge'
+
+
 
 ReactDOM.render(
   (

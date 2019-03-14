@@ -10,9 +10,7 @@ export const getGoodsList = (pageNum, pageSize) => async (dispatch) => {
   return dispatch({
     type: types.GETGOODSLIST,
     data: {
-      homeGoodsList,
-      hasMoreGoods: pageSize <= homeGoodsList.length,
-      currentPage: pageNum
+      homeGoodsList
     }
   })
 }

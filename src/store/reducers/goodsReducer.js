@@ -4,6 +4,9 @@ import { handleActions } from 'redux-actions'
 
 const initialState = {
   homeGoodsList: [],
+  pageNum: 1,
+  pageSize: 10,
+  hasMoreGoods: true,
   classifyGoodsList: [],
   goodsDetail: null,
   buttonStatus: 1,
@@ -11,8 +14,14 @@ const initialState = {
 }
 
 const goodsReducer = handleActions({
+  // 获取首页商品列表
   [GETGOODSLIST]: (state, action) => {
-    if (action.data.currentPage > 1) {
+    if(action.data.homeGoodsList.length >= state.pageSize) {
+      state.pageNum = ++state.pageNum
+    }else{
+      state.hasMoreGoods = false
+    }
+    if (state.pageNum > 1) {
       action.data.homeGoodsList = state.homeGoodsList.concat(action.data.homeGoodsList)
     }
     return {

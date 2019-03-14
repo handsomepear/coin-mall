@@ -17,7 +17,7 @@ export const doLogin = () => dispatch => {
 // 获取用户信息
 export const getUserInfo = () => async dispatch => {
   const userInfo = await userServer.coinsMallOrderUserInfo().then(res => {
-    return { userAddress: res.data.userAddress, userIsVipFlag: res.data.userIsVipFlag, coinsCount: res.data.coinsCount }
+    return { userAddress: res.data.userAddress, userIsVipFlag: res.data.userIsVipFlag, coinsCount: res.data.coinsCount, errCode: res.data.errCode }
   }).catch(err => err.data)
 
   return dispatch({

@@ -8,12 +8,13 @@ const initialState = {
     totalCoin: 0,
     navigationList: [],
     bannerList: [],
-    prevPathname: null
+    prevPathname: null,
+    hasHomeData: false
   }
 }
 
 const homeReducer = handleActions({
-  [GETHOMEPAGEDATA]: (state, action) => ({ ...state, homeData: action.homeData }),
+  [GETHOMEPAGEDATA]: (state, action) => ({ ...state, homeData: {...action.homeData, hasHomeData: true} }),
   [SETPREVPATHNAME]: (state, action) => ({ ...state, prevPathname: action.prevPathname })
 }, initialState)
 

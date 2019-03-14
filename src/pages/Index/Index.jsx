@@ -9,7 +9,7 @@ import GoodsItem from '@/components/GoodsItem/GoodsItem'
 import * as goodsActions from '@actions/goodsActions'
 import * as homeActions from '@actions/homeActions'
 import * as userActions from '@actions/userActions'
-import { _timeFormate, _send1_1 } from '@/common/js/tool'
+import { _timeFormate, _send1_1, _getQueryString } from '@/common/js/tool'
 
 //css
 import './index.scss'
@@ -19,24 +19,28 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      pageNum: 1,
-      pageSize: 10,
+
       hasMoreGoods: true,
-      isLoading: false
+      isLoading: false,
+      isIOS: _getQueryString('jcnsource') === 'ios'
     }
     this.goDetailPage = this.goDetailPage.bind(this)
     Index.coverTime = Index.coverTime.bind(this)
     this.goClassifyListPage = this.goClassifyListPage.bind(this)
     this.getGoodsList = this.getGoodsList.bind(this)
+    this.getGoodsListWrap = this.getGoodsListWrap.bind(this)
     this.goOrderListPage = this.goOrderListPage.bind(this)
   }
 
   componentWillMount() {
-    this.props.homeActions.getHomePageData()
-    this.getGoodsList()
+    if (!this.props.homeData.hasHomeData) {
+      this.props.homeActions.getHomePageData()
+    }
+
+    this.getGoodsListWrap()
   }
 
-  componentDidMount(){
+  componentDidMount() {
     _send1_1('index')
   }
 
@@ -48,29 +52,26 @@ class Index extends Component {
     this.props.history.push('/classify-list/' + positionId)
   }
 
+  getGoodsListWrap() {
+    if (!this.props.homeGoodsList.length) {
+      this.getGoodsList()
+    }
+  }
+
   async getGoodsList() {
     // 正在加载中 || 没有更多订单
-    if (this.state.isLoading || !this.state.hasMoreGoods) {
+    if (this.state.isLoading || !this.props.hasMoreGoods) {
       return false
     }
     this.setState({
       isLoading: true
     })
-    let pageNum = this.state.pageNum
-    const pageSize = this.state.pageSize
-    const { data } = await this.props.goodsActions.getGoodsList(pageNum, pageSize)
+    let pageNum = this.props.pageNum
+    const pageSize = this.props.pageSize
+    await this.props.goodsActions.getGoodsList(pageNum, pageSize)
     this.setState({
       isLoading: false
     })
-    if (data.hasMoreGoods) {
-      this.setState({
-        pageNum: ++pageNum
-      })
-    } else {
-      this.setState({
-        hasMoreGoods: false
-      })
-    }
   }
 
   static coverTime(time) {
@@ -82,9 +83,9 @@ class Index extends Component {
   goOrderListPage() {
     const loggingStatus = this.props.loggingStatus
     //FIXME:check
-    if(loggingStatus) {
+    if (loggingStatus) {
       this.props.history.push('/order-list')
-    }else {
+    } else {
       this.props.userActions.doLogin()
     }
 
@@ -144,7 +145,9 @@ class Index extends Component {
               <div className="iconfont exchange" />
               兑换记录
             </div>
-            <div className="coin-else-item" onClick={() => { window.location.href = 'https://bbs.j.cn/html/cointask/faq.html' }}>
+            <div className="coin-else-item" onClick={() => {
+              window.location.href = 'https://bbs.j.cn/html/cointask/faq.html'
+            }}>
               <div className="iconfont rule" />
               金币规则
             </div>
@@ -158,9 +161,9 @@ class Index extends Component {
                 homeData.navigationList.map(navItem => {
                   return (
                     <div key={navItem.positionId} className="nav-item" onClick={() => {
-                      if(navItem.positionId === 6) {
+                      if (navItem.positionId === 6) {
                         window.location.href = 'jcnhers://my_entrance/id=nvshengyouxi'
-                      }else {
+                      } else {
                         this.goClassifyListPage(navItem.positionId)
                       }
                     }}>
@@ -187,17 +190,22 @@ class Index extends Component {
               initialListSize={10} // 初次渲染的数据条数
               scrollRenderAheadDistance={500} // 接近屏幕范围多少像素开始渲染
               onEndReached={this.getGoodsList} // 上拉加载事件
-              pageSize={this.state.pageSize}
+              pageSize={this.props.pageSize}
               useBodyScroll
               renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                {this.state.hasMoreGoods ? '加载中...' : '已经没有更多了'}
+                {this.props.hasMoreGoods ? '加载中...' : '已经没有更多了'}
               </div>)}
             />
             :
             null}
 
         </section>
-        <section className="bottom-tips">*本次活动与设备生产商Apple.Inc无关</section>
+        {
+          this.state.isIOS ?
+            <section className="bottom-tips">*本次活动与设备生产商Apple.Inc无关</section>
+            :
+            null
+        }
       </section>
     )
   }
@@ -206,6 +214,9 @@ class Index extends Component {
 const mapStateToProps = state => {
   return {
     homeGoodsList: state.goodsReducer.homeGoodsList,
+    pageNum: state.goodsReducer.pageNum,
+    pageSize: state.goodsReducer.pageSize,
+    hasMoreGoods: state.goodsReducer.hasMoreGoods,
     homeData: state.homeReducer.homeData,
     loggingStatus: state.userReducer.loggingStatus
   }
