@@ -10,11 +10,11 @@ react + redux + react-router
 
 - `yarn alpha` ：测试环境包 => `alpha`
 
-### 生成环境打包
+### 预发布环境打包
 
 - `yarn pre` ：预发布环境打包 => `pre`
 
-### 生成环境打包
+### 生产环境打包
 
-- `yarn build` ：测试环境包 => `build`
+- `yarn build` ：生产环境包 => `build`
 
