@@ -16,7 +16,7 @@ class GoodsItem extends Component {
   }
 
   goGoodsDetailPage() {
-    const scrollPositionY = window.scrollY
+    const scrollPositionY = document.body.scrollTop
     this.props.homeActions.setIndexScrollPosition(scrollPositionY)
     this.props.history.push('/goods-detail/' + this.props.goodsId)
   }

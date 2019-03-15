@@ -42,7 +42,7 @@ class Index extends Component {
   componentDidMount() {
     // 记录滚动条的位置
     const scrollPositionY = this.props.scrollPositionY
-    window.scrollTo(0, scrollPositionY)
+    document.body.scrollTop = scrollPositionY
     _send1_1('index')
   }
 
