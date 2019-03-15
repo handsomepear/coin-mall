@@ -11,6 +11,7 @@
     box-sizing: border-box;
     color: #9f9f9f;
     text-align: center;
+    font-size: 11px;
   }
 
   .color-666 {
@@ -27,6 +28,7 @@
       font-size: 17px;
       display: flex;
       justify-content: center;
+      font-weight: 700;
       align-items: center;
       margin-bottom: 10px;
       color: #ea3b4b;
@@ -155,6 +157,10 @@
       height: 75px;
       margin-right: 10px;
       flex-shrink: 0;
+      img {
+        height: 100%;
+        max-width: 100%;
+      }
     }
 
     .goods-info {

@@ -19,7 +19,6 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-
       hasMoreGoods: true,
       isLoading: false,
       isIOS: _getQueryString('jcnsource') === 'ios'
@@ -41,6 +40,9 @@ class Index extends Component {
   }
 
   componentDidMount() {
+    // 记录滚动条的位置
+    const scrollPositionY = this.props.scrollPositionY
+    window.scrollTo(0, scrollPositionY)
     _send1_1('index')
   }
 
@@ -218,7 +220,8 @@ const mapStateToProps = state => {
     pageSize: state.goodsReducer.pageSize,
     hasMoreGoods: state.goodsReducer.hasMoreGoods,
     homeData: state.homeReducer.homeData,
-    loggingStatus: state.userReducer.loggingStatus
+    loggingStatus: state.userReducer.loggingStatus,
+    scrollPositionY: state.homeReducer.indexScrollPositionY
   }
 }
 

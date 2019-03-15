@@ -45,8 +45,8 @@ class OrderDetail extends Component {
     } else if (orderStatus === 1) {
       return (
         <div className="status">
-          <p className="iconfont success" />
-          取消订单
+          <p className="iconfont close" />
+          已取消
         </div>
       )
     } else if (orderStatus === 2) {
@@ -145,7 +145,9 @@ class OrderDetail extends Component {
             </div>
           </section>
           {/*商品*/}
-          <section className="goods-con">
+          <section className="goods-con" onClick={() => {
+            -1 !== orderDetail.goodsId && this.props.history.push('/goods-detail/' + orderDetail.goodsId)
+          }}>
             <div className="goods-img">
               <img src={orderDetail.goodsImage} alt="" />
             </div>

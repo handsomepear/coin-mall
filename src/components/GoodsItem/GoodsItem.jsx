@@ -3,6 +3,11 @@ import { withRouter } from 'react-router/'
 
 
 import './goodsItem.scss'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
+
+import * as homeActions from '@actions/homeActions'
 
 class GoodsItem extends Component {
   constructor(props) {
@@ -11,6 +16,8 @@ class GoodsItem extends Component {
   }
 
   goGoodsDetailPage() {
+    const scrollPositionY = window.scrollY
+    this.props.homeActions.setIndexScrollPosition(scrollPositionY)
     this.props.history.push('/goods-detail/' + this.props.goodsId)
   }
 
@@ -48,5 +55,11 @@ class GoodsItem extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return {
+    homeActions: bindActionCreators(homeActions, dispatch)
+  }
+}
 
-export default withRouter(GoodsItem)
+
+export default withRouter(connect(() => ({}), mapDispatchToProps)(GoodsItem))

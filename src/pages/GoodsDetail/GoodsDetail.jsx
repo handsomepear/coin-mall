@@ -271,9 +271,9 @@ class GoodsDetail extends Component {
                       :
                       <div className="address empty">
                         你还未填写收货信息，马上去填写
-                        <div className="iconfont arrow-right" />
                       </div>
                   }
+                  <div className="iconfont arrow-right" />
                 </div>
                 {/* 运费 */}
                 <div className="freight-con">
@@ -289,7 +289,7 @@ class GoodsDetail extends Component {
               <section className="exchange-limit">
                 <div className="label">限兑</div>
                 <div className="limit-con">
-                  {goodsDetail.exchangeLimitList.join('、')}
+                  {goodsDetail.exchangeLimitList.join('、')}可兑。
                 </div>
               </section> : null
           }
