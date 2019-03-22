@@ -70,7 +70,7 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "PORT=80 node scripts/start.js",
     "build": "REACT_APP_MODE=production node scripts/build.js",
     "test": "node scripts/test.js",
     "alpha": "REACT_APP_MODE=alpha node scripts/build.js",

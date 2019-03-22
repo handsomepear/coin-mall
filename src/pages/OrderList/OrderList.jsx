@@ -19,16 +19,14 @@ class OrderList extends Component {
       isLoading: false, // 是否正在加载中
       hasMoreOrder: true // 是否还有更多订单
     }
-    this.getOrderList = this.getOrderList.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getOrderList()
   }
 
   // 获取订单详情
-  async getOrderList() {
-
+  getOrderList = async () => {
     let pageNo = this.state.pageNo
     const pageSize = this.state.pageSize
     // 正在加载中 || 没有更多订单
@@ -55,6 +53,15 @@ class OrderList extends Component {
   }
 
 
+  renderListViewFooter = () => (
+    <div style={{ padding: 30, textAlign: 'center' }}>
+      {this.state.hasMoreOrder ? '加载中...' : '已经没有更多了'}
+    </div>
+  )
+
+  handleActivityBtnClick = () => {
+    window.location.href = 'https://bbs.j.cn/#/change'
+  }
 
   render() {
     const dataSource = new ListView.DataSource({
@@ -75,16 +82,13 @@ class OrderList extends Component {
               onEndReached={this.getOrderList} // 上拉加载事件
               pageSize={this.state.pageSize}
               useBodyScroll
-              renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                {this.state.hasMoreOrder ? '加载中...' : '已经没有更多了'}
-              </div>)}
+              renderFooter={this.renderListViewFooter}
             />
             :
             <div className="no-order">暂无记录，快去兑换吧</div>
         }
-        <div className="activity-btn" onClick={() => {
-          window.location.href = 'https://bbs.j.cn/#/change'
-        }}>查看活动领奖</div>
+        <div className="activity-btn" onClick={this.handleActivityBtnClick}>查看活动领奖
+        </div>
       </div>
     )
   }

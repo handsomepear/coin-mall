@@ -47,7 +47,15 @@
       font-size: 13px;
       color: #666;
       transition: all .1s;
-
+      &.pending-pay {
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        .count-down-component {
+          color: #000;
+          margin: 0 10px;
+        }
+      }
       &.fold {
         height: 58px;
         box-sizing: border-box;
@@ -157,6 +165,7 @@
       height: 75px;
       margin-right: 10px;
       flex-shrink: 0;
+
       img {
         height: 100%;
         max-width: 100%;
@@ -175,12 +184,14 @@
       display: flex;
       justify-content: space-between;
     }
+
     .goods-name {
       .name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
+
       .count {
         flex-shrink: 0;
         padding-left: 10px;
@@ -198,5 +209,19 @@
       align-items: center;
       margin-bottom: 14px;
     }
+  }
+
+  .pay-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    background-color: #dc7035;
+    color: #fff;
   }
 }

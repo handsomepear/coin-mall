@@ -9,8 +9,7 @@ import GoodsItem from '@/components/GoodsItem/GoodsItem'
 import * as goodsActions from '@actions/goodsActions'
 import * as homeActions from '@actions/homeActions'
 import * as userActions from '@actions/userActions'
-import { _timeFormate, _send1_1, _getQueryString } from '@/common/js/tool'
-
+import { _getQueryString, _send1_1, _timeFormate } from '@/common/js/tool'
 //css
 import './index.scss'
 
@@ -23,44 +22,36 @@ class Index extends Component {
       isLoading: false,
       isIOS: _getQueryString('jcnsource') === 'ios'
     }
-    this.goDetailPage = this.goDetailPage.bind(this)
-    Index.coverTime = Index.coverTime.bind(this)
-    this.goClassifyListPage = this.goClassifyListPage.bind(this)
-    this.getGoodsList = this.getGoodsList.bind(this)
-    this.getGoodsListWrap = this.getGoodsListWrap.bind(this)
-    this.goOrderListPage = this.goOrderListPage.bind(this)
-  }
-
-  componentWillMount() {
-    if (!this.props.homeData.hasHomeData) {
-      this.props.homeActions.getHomePageData()
-    }
-
-    this.getGoodsListWrap()
   }
 
   componentDidMount() {
-    // 记录滚动条的位置
-    const scrollPositionY = this.props.scrollPositionY
-    document.body.scrollTop = scrollPositionY
+    if (!this.props.homeData.hasHomeData) {
+      this.props.homeActions.getHomePageData()
+    }
+    this.getGoodsListWrap()
     _send1_1('index')
   }
 
-  goDetailPage() {
+  componentDidUpdate() {
+    // 记录滚动条的位置
+    document.body.scrollTop = this.props.scrollPositionY
+  }
+
+  goDetailPage = () => {
     this.props.history.push('/goods-detail/' + 2)
   }
 
-  goClassifyListPage(positionId) {
+  goClassifyListPage = (positionId) => {
     this.props.history.push('/classify-list/' + positionId)
   }
 
-  getGoodsListWrap() {
+  getGoodsListWrap = () => {
     if (!this.props.homeGoodsList.length) {
       this.getGoodsList()
     }
   }
 
-  async getGoodsList() {
+  getGoodsList = async () => {
     // 正在加载中 || 没有更多订单
     if (this.state.isLoading || !this.props.hasMoreGoods) {
       return false
@@ -76,13 +67,13 @@ class Index extends Component {
     })
   }
 
-  static coverTime(time) {
+  static coverTime = (time) => {
     const oTime = _timeFormate(time)
     return `${oTime.Y}年${oTime.M}月${oTime.d}日`
   }
 
   // 去我的订单页面
-  goOrderListPage() {
+  goOrderListPage = () => {
     const loggingStatus = this.props.loggingStatus
     //FIXME:check
     if (loggingStatus) {
@@ -92,6 +83,32 @@ class Index extends Component {
     }
 
   }
+
+  goExchangeRule = () => {
+    window.location.href = 'https://bbs.j.cn/html/cointask/faq.html'
+  }
+
+  handleBannerImgLoad = () => {
+    window.dispatchEvent(new Event('resize'))
+  }
+
+  handleBannerImgClick = bannerItem => {
+    window.location.href = bannerItem.redirectUrl
+  }
+
+  handleNavItemClick = (navItem) => {
+    if (navItem.positionId === 6) {
+      window.location.href = 'jcnhers://my_entrance/id=nvshengyouxi'
+    } else {
+      this.goClassifyListPage(navItem.positionId)
+    }
+  }
+
+  renderListViewFooter = () => (
+    <div style={{ padding: 30, textAlign: 'center' }}>
+      {this.props.hasMoreGoods ? '加载中...' : '已经没有更多了'}
+    </div>
+  )
 
   render() {
     const homeData = this.props.homeData
@@ -113,11 +130,9 @@ class Index extends Component {
                         {/* 触发 window 的 resize 事件 来改变容器的高度*/}
                         <img src={bannerItem.imageUrl}
                              alt=""
-                             onLoad={() => {
-                               window.dispatchEvent(new Event('resize'))
-                             }}
+                             onLoad={this.handleBannerImgLoad}
                              onClick={() => {
-                               window.location.href = bannerItem.redirectUrl
+                               this.handleBannerImgClick(bannerItem)
                              }}
                         />
                       </div>
@@ -125,6 +140,7 @@ class Index extends Component {
                   })
                 }
               </Carousel>
+
               :
               null
           }
@@ -147,9 +163,7 @@ class Index extends Component {
               <div className="iconfont exchange" />
               兑换记录
             </div>
-            <div className="coin-else-item" onClick={() => {
-              window.location.href = 'https://bbs.j.cn/html/cointask/faq.html'
-            }}>
+            <div className="coin-else-item" onClick={this.goExchangeRule}>
               <div className="iconfont rule" />
               金币规则
             </div>
@@ -163,11 +177,7 @@ class Index extends Component {
                 homeData.navigationList.map(navItem => {
                   return (
                     <div key={navItem.positionId} className="nav-item" onClick={() => {
-                      if (navItem.positionId === 6) {
-                        window.location.href = 'jcnhers://my_entrance/id=nvshengyouxi'
-                      } else {
-                        this.goClassifyListPage(navItem.positionId)
-                      }
+                      this.handleNavItemClick(navItem)
                     }}>
                       <div className="icon">
                         <img src={navItem.positionImage} alt="" />
@@ -194,9 +204,7 @@ class Index extends Component {
               onEndReached={this.getGoodsList} // 上拉加载事件
               pageSize={this.props.pageSize}
               useBodyScroll
-              renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                {this.props.hasMoreGoods ? '加载中...' : '已经没有更多了'}
-              </div>)}
+              renderFooter={this.renderListViewFooter}
             />
             :
             null}
@@ -234,3 +242,5 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Index))
+
+

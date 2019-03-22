@@ -33,7 +33,13 @@ class ClassifyItem extends Component {
               }
             </div>
             <div className="price">
-              <p>{rowData.coinPrice}金币</p>
+              {
+                rowData.paymentType === 1
+                  ? <p>{rowData.coinPrice}金币</p>
+                  :
+                  <p>{rowData.coinPrice}金币 + {rowData.exchangeCashPrice}元</p>
+              }
+
               {
                 rowData.vipDiscount ?
                   <div className="vip-tag">
@@ -49,7 +55,7 @@ class ClassifyItem extends Component {
               rowData.zeroInventory ?
                 <div className="exchange-btn no-exchange">兑完</div>
                 :
-                <div className="exchange-btn" >兑换</div>
+                <div className="exchange-btn">兑换</div>
             }
           </div>
         </section>

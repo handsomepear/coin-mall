@@ -34,7 +34,13 @@ class OrderItem extends Component {
                   :
                   rowData.orderStatus === 2 ?
                     <p className="order-status">已发货</p>
-                    : null
+                    :
+                    rowData.orderStatus === -1 ?
+                      <p className="order-status pending">待支付</p>
+                      :
+                      rowData.orderStatus === -2 ?
+                        <p className="order-status ">关闭</p>
+                      : null
             }
           </div>
           <div className="iconfont arrow-right" />

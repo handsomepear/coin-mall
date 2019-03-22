@@ -9,8 +9,9 @@ import Address from '@pages/Address/AddressEdit'
 import OrderList from '@pages/OrderList/OrderList'
 import OrderDetail from '@pages/OrderDetail/OrderDetail'
 import ClassifyList from '@pages/ClassifyList/ClassifyList'
+import Pay from '@pages/Pay/Pay'
 
-import { getTkl } from '@/API/home'
+// import { getTkl } from '@/API/home'
 import Clipboard from 'clipboard'
 import { _send1_1 } from '@/common/js/tool'
 
@@ -20,7 +21,6 @@ class App extends Component {
     this.state = {
       ticket: ''
     }
-    this.copyTkl = this.copyTkl.bind(this)
   }
 
   async componentDidMount() {
@@ -33,14 +33,13 @@ class App extends Component {
       this.props.userActions.checkLoggingStatus(false)
     }
     // 获取淘口令
-    const { ticket } = await getTkl().then(res => res.data).catch(res => res.data)
-    this.setState({ ticket })
+    // const { ticket } = await getTkl().then(res => res.data).catch(res => res.data)
+    // this.setState({ ticket })
   }
 
   // 复制淘口令
-  async copyTkl() {
+  copyTkl = async () => {
     const _this = this
-    console.log(this.state.ticket)
     const clipboard = new Clipboard('#clip-con', {
       text() {
         return _this.state.ticket
@@ -55,15 +54,14 @@ class App extends Component {
     return (
       <HashRouter>
         <div>
-          <div id="clip-con" onClick={this.copyTkl}>
-            <Switch>
-              <Route path="/" exact component={Index} />
-              <Route path="/classify-list/:positionId" component={ClassifyList} />
-              <Route path="/goods-detail/:goodsId" component={GoodsDetail} when="always" />
-              <Route path="/order-list" component={OrderList} />
-              <Route path="/order-detail/:orderNumber" component={OrderDetail} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/" exact component={Index} />
+            <Route path="/classify-list/:positionId" component={ClassifyList} />
+            <Route path="/goods-detail/:goodsId" component={GoodsDetail} when="always" />
+            <Route path="/order-list" component={OrderList} />
+            <Route path="/order-detail/:orderNumber" component={OrderDetail} />
+            <Route path="/pay" component={Pay} />
+          </Switch>
           <Route path="/address" component={Address} />
         </div>
       </HashRouter>

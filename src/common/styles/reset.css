@@ -9,8 +9,8 @@ html, body {
   font-family: HanHei SC,PingFang SC,Helvetica Neue,Helvetica,sans-serif;
   }
 
-#app {
-  font-size: 16px!important;
+#root {
+  font-size: 14px!important;
   width: 100%;
   min-height: 100%;
   background-color: #F9FAFC;

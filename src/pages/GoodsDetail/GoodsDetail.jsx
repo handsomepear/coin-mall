@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router-dom'
 import { Toast } from 'antd-mobile'
 
-import { _timeFormate } from '@common/js/tool'
+import { _getQueryString, _timeFormate } from '@common/js/tool'
 
 import * as goodsActions from '@actions/goodsActions'
 import * as orderActions from '@actions/orderActions'
@@ -45,8 +45,27 @@ const Seckill = props => {
   )
 }
 
+// IOS不可支付的异常弹窗
+function ErrorModal(props) {
+  return (
+    <section className="error-modal-wrap">
+      <section className="error-modal">
+        <div className="error-title">
+          <img src={require('../../common/images/warn.png')} alt="" />
+          <p>ios用户暂时不支持支付现金！</p>
+        </div>
+        <div className="error-tip">请更换为安卓手机兑换</div>
+        <div className="error-customer" onClick={props.contactCustomer}>联系客服</div>
+        <div className="iconfont close-x" onClick={props.onCloseModal} />
+      </section>
+    </section>
+  )
+}
+
 
 class GoodsDetail extends Component {
+  // isIos = _getQueryString('jcnsource') === 'ios'
+  isIos = false
   constructor(props) {
     super(props)
     this.state = {
@@ -56,21 +75,12 @@ class GoodsDetail extends Component {
       choosedSkuInfo: null,
       goodsId: 0,
       goodsDetail: null,
-      buttonStatus: 0
+      buttonStatus: 0,
+      isShowErrorModal: false
     }
-    this.goAddressEdit = this.goAddressEdit.bind(this)
-    this.renderBottomBtn = this.renderBottomBtn.bind(this)
-    this.showSkuModal = this.showSkuModal.bind(this)
-    this.hideSkuModal = this.hideSkuModal.bind(this)
-    this.chooseSku = this.chooseSku.bind(this)
-    this.showConfirmModal = this.showConfirmModal.bind(this)
-    this.hideConfirmModal = this.hideConfirmModal.bind(this)
-    this.goOrderListPage = this.goOrderListPage.bind(this)
-    this.login = this.login.bind(this)
-    this.exchange = this.exchange.bind(this)
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     // 获取到商品Id
     const goodsId = this.props.match.params.goodsId
     const prevPathname = this.props.prevPathname
@@ -89,54 +99,63 @@ class GoodsDetail extends Component {
   }
 
   // 去设置地址页面
-  goAddressEdit() {
-
+  goAddressEdit = () => {
     this.props.history.push('/address')
   }
 
   // 去订单列表
-  goOrderListPage() {
+  goOrderListPage = () => {
     this.props.history.push('/order-list')
   }
 
-  showSkuModal() {
+  showSkuModal = () => {
     this.setState({
       isShowSkuModal: true
     })
   }
 
-  hideSkuModal() {
+  hideSkuModal = () => {
     this.setState({
       isShowSkuModal: false
     })
   }
 
-  showConfirmModal() {
+  showConfirmModal = () => {
     this.hideSkuModal()
     this.setState({
       isShowConfirmModal: true
     })
   }
 
-  hideConfirmModal() {
+  hideConfirmModal = () => {
     this.setState({
       isShowConfirmModal: false
     })
   }
 
   // 选择商品sku
-  chooseSku(choosedSkuInfo) {
+  chooseSku = (choosedSkuInfo) => {
     this.setState({ choosedSkuInfo })
     this.props.goodsActions.updateChoosedSkuInfo(choosedSkuInfo)
   }
 
-  login() {
+  login = () => {
     this.props.userActions.doLogin()
   }
 
+  // 联系客服
+  contactCustomer = () => {
+    window.location.href = 'jcnhers://customer/imService={hers}'
+  }
+
   // 兑换奖品
-  exchange() {
+  exchange = () => {
     const skuList = this.props.goodsDetail.skuList
+
+    if (this.props.goodsDetail.paymentType === 2 && this.isIos) {
+      //  组合支付
+      return this.setState({ isShowErrorModal: true })
+    }
     if (skuList && skuList.length > 0) {
       if (!this.props.choosedSkuInfo) {
         return this.showSkuModal()
@@ -148,7 +167,30 @@ class GoodsDetail extends Component {
     this.showConfirmModal()
   }
 
-  renderBottomBtn() {
+  goMakeMoney = () => {
+    window.location.href = 'http://bbs.j.cn/html/cointask/index.html'
+  }
+
+  // 获得兑换资格
+  goGainQualification = () => {
+    window.location.href = 'https://bbs.j.cn/pages/vipRulePage/index.html'
+  }
+
+  // 会员权益点击事件
+  handleVipEquityClick = () => {
+    window.location.href = 'jcnhers://my_entrance/id=tehui'
+  }
+
+  // 关闭错误弹窗
+  closeErrorModal = () => {
+    this.setState({ isShowErrorModal: false })
+  }
+
+  showErrorModal = () => {
+    this.setState({ isShowErrorModal: true })
+  }
+
+  renderBottomBtn = () => {
     const loggingStatus = this.props.loggingStatus
     const buttonStatus = this.state.buttonStatus
     if (!loggingStatus) {
@@ -164,13 +206,9 @@ class GoodsDetail extends Component {
       case 3:
         return <div className="btn bg-gray">每日限量已兑完</div>
       case 4:
-        return <div className="btn" onClick={() => {
-          window.location.href = 'http://bbs.j.cn/html/cointask/index.html'
-        }}>金币不足，去赚金币 <div className="iconfont arrow-right" /></div>
+        return <div className="btn" onClick={this.goMakeMoney}>金币不足，去赚金币 <div className="iconfont arrow-right" /></div>
       case 5:
-        return <div className="btn" onClick={() => {
-          window.location.href = 'https://bbs.j.cn/pages/vipRulePage/index.html'
-        }}>如何获得兑换资格 <div className="iconfont arrow-right" /></div>
+        return <div className="btn" onClick={this.goGainQualification}>如何获得兑换资格 <div className="iconfont arrow-right" /></div>
       case 6:
         return <div className="btn bg-gray">即将开始</div>
       case 7:
@@ -204,7 +242,18 @@ class GoodsDetail extends Component {
               <span>{goodsDetail.goodsName}</span>
             </div>
             <div className="detail-price">
-              <div className="new-price"><span>{goodsDetail.coinPrice}</span>金币</div>
+
+              {
+                goodsDetail.paymentType === 2 ?
+                  <div className="new-price">
+                    <span>{goodsDetail.coinPrice}</span>金币 + <span><span
+                    className="coin-mark">￥</span>{goodsDetail.exchangeCashPrice}元</span>
+                  </div>
+                  : <div className="new-price">
+                    <span>{goodsDetail.coinPrice}</span>金币
+                  </div>
+              }
+
               <div className="old-price">¥{goodsDetail.cashPrice}</div>
             </div>
           </section>
@@ -218,9 +267,7 @@ class GoodsDetail extends Component {
                   </div>
                   <div className="vip-price">{goodsDetail.vipCoinPrice}金币</div>
                 </div>
-                <div className="vip-btn" onClick={() => {
-                  window.location.href = 'jcnhers://my_entrance/id=tehui'
-                }}>
+                <div className="vip-btn" onClick={this.handleVipEquityClick}>
                   <p>{this.props.isVip === true ? '会员权益' : '开通会员'}</p>
                   <div className="iconfont arrow-right" />
                 </div>
@@ -327,14 +374,20 @@ class GoodsDetail extends Component {
               <ConfirmModal
                 goOrderListPage={this.goOrderListPage}
                 hideConfirmModal={this.hideConfirmModal}
+                showErrorModal={this.showErrorModal}
                 skuId={this.props.choosedSkuInfo ? this.props.choosedSkuInfo.skuId : 0}
                 goodsId={this.state.goodsId}
                 goodsName={this.props.choosedSkuInfo ? goodsDetail.goodsName + ' ' + this.props.choosedSkuInfo.skuName :
                   goodsDetail.goodsName}
                 coinPrice={this.props.isVip === true && -1 !== goodsDetail.vipCoinPrice ? goodsDetail.vipCoinPrice : goodsDetail.coinPrice}
+                exchangeCashPrice={goodsDetail.paymentType === 1 ? 0 : goodsDetail.exchangeCashPrice}
+                paymentType={goodsDetail.paymentType}
               />
               : null
           }
+
+          {/*错误弹窗*/}
+          {this.state.isShowErrorModal && <ErrorModal onCloseModal={this.closeErrorModal} contactCustomer={this.contactCustomer} />}
         </section>
         : ""
 

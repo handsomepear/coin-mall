@@ -19,17 +19,26 @@ class ClassifyList extends Component {
       isLoading: false, // 是否正在加载中
       hasMoreGoods: true // 是否还有更多订单
     }
-    this.getClassifyGoodsList = this.getClassifyGoodsList.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const positionId = this.props.match.params.positionId
     this.setState({ positionId })
     this.getClassifyGoodsList(positionId)
   }
 
+  handleListViewOnEndReached = () => {
+    this.getClassifyGoodsList(this.state.positionId)
+  }
+
+  renderListViewFooter = () =>  (
+    <div style={{ padding: 30, textAlign: 'center' }}>
+      {this.state.hasMoreOrder ? '加载中...' : '已经没有更多了'}
+    </div>
+  )
+
   // 获取分类列表
-  async getClassifyGoodsList(positionId) {
+  getClassifyGoodsList = async positionId => {
     let pageNum = this.state.pageNum
     const pageSize = this.state.pageSize
     // 正在加载中 || 没有更多订单
@@ -71,14 +80,10 @@ class ClassifyList extends Component {
               renderRow={ClassifyItem} // 单条数据
               initialListSize={10} // 初次渲染的数据条数
               scrollRenderAheadDistance={500} // 接近屏幕范围多少像素开始渲染
-              onEndReached={() => {
-                this.getClassifyGoodsList(this.state.positionId)
-              }} // 上拉加载事件
+              onEndReached={this.handleListViewOnEndReached} // 上拉加载事件
               pageSize={this.state.pageSize}
               useBodyScroll
-              renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                {this.state.hasMoreOrder ? '加载中...' : '已经没有更多了'}
-              </div>)}
+              renderFooter={this.renderListViewFooter}
             />
             :
             null

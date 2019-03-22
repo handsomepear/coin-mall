@@ -57,6 +57,9 @@
       letter-spacing: 2px;
       margin-right: 2px;
     }
+    .coin-mark {
+      font-size: 16px;
+    }
   }
 
   .old-price {
@@ -262,5 +265,66 @@
         margin-left: 5px;
       }
     }
+  }
+
+ // 错误弹窗
+  .error-modal-wrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.8);
+  }
+  .error-modal {
+    position: absolute;
+    width: 290px;
+    height: 220px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px 0 30px;
+    box-sizing: border-box;
+    .iconfont {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 10px;
+      font-size: 18px;
+    }
+  }
+  .error-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    img {
+      width: 32px;
+      height: 27px;
+      margin-bottom: 25px;
+    }
+    p {
+      font-size: 19px;
+      color: #333;
+    }
+  }
+  .error-tip {
+    text-align: center;
+    font-size: 17px;
+    color: #666;
+    margin: 15px 0 30px
+  }
+  .error-customer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 172px;
+    height: 41px;
+    border-radius: 10px;
+    color: #fff;
+    background-color: #ea706e;
+    margin: 0 auto;
+    font-size: 19px;
   }
 }

@@ -5,3 +5,5 @@ export const coinsMallMakeOrder = data => req('/api/coinsMallMakeOrder', data) /
 export const coinsMallOrderList = data => req('/api/coinsMallOrderList', data) // 获取订单列表
 
 export const coinsMallOrderInfo = data => req('/api/coinsMallOrderInfo', data) // 获取订单详情
+
+export const coinsMallWechatH5PayQueryOrder = data => req('/api/coinsMallWechatH5PayQueryOrder', data) // 查询支付订单状态

@@ -17,8 +17,8 @@ export const getOrderList = (pageNo, pageSize = 10) => async dispatch => {
 }
 
 // 下单
-export const coinsMallMakeOrder = ({ goodsId, skuId }) => async dispatch => {
-  const res = await orderServer.coinsMallMakeOrder({ goodsId, skuId }).then()
+export const coinsMallMakeOrder = ({ goodsId, skuId, os }) => async dispatch => {
+  const res = await orderServer.coinsMallMakeOrder({ goodsId, skuId, os }).then()
   return dispatch({
     type: types.MAKEORDER,
     exchangeRes: res

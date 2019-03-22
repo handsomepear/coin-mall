@@ -34,3 +34,7 @@ export const _send1_1 = (val, channel = 'coin-mall') => {
     console.log('1*1 loaded')
   }
 }
+// 给Url添加参数
+// export const addUrlParams = (key, value) => {
+//   let search = window.location.search
+// }

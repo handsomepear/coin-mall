@@ -25,11 +25,9 @@ class AddressEdit extends Component {
       phone: '',
       detailLocation: '' // 详细地址
     }
-    this.getRegion = this.getRegion.bind(this)
-    this.saveAddress = this.saveAddress.bind(this)
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const address = this.props.address
     if (address) {
       this.setState({
@@ -43,22 +41,37 @@ class AddressEdit extends Component {
   }
 
 
+  handlerUsernameInputChange = v => {
+    this.setState({ userName: v })
+  }
+
+  handlePhoneInputChange = v => {
+    this.setState({ phone: v })
+  }
+
+  handleDetailLocationInputChange = v => {
+    this.setState({ detailLocation: v })
+  }
+
+  cancelSave = () => {
+    this.props.history.go(-1)
+  }
+
+
   // 根据code找到对应的省市区名称
-  getRegion(regionCodeArr) {
+  getRegion = regionCodeArr => {
     this.setState({ regionCode: regionCodeArr })
     const oRegion = arrayTreeFilter(
       districtData, (item, index) => item.value === regionCodeArr[index]
     )
     const region = oRegion.map(item => item.label).join(' ')
 
-    this.setState({
-      region
-    })
+    this.setState({ region })
   }
 
   // 保存地址
-  async saveAddress() {
-    const ph = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/
+  saveAddress = async () => {
+    const ph = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57]|19[0-9])[0-9]{8}$/
     let regionArray = this.state.region.split(' ')
     if (!this.state.userName) {
       return Toast.fail('请输入收货人')
@@ -76,7 +89,7 @@ class AddressEdit extends Component {
       return Toast.fail('请输入详细地址')
     }
 
-    const {data} = await this.props.userActions.saveAddress({
+    const { data } = await this.props.userActions.saveAddress({
       cellNumber: this.state.phone.replace(/\s/g, ''),
       province: regionArray[0],
       city: regionArray[1],
@@ -85,14 +98,12 @@ class AddressEdit extends Component {
       userName: this.state.userName
     })
     // 处理异常 TODO:如何优雅的处理这类型异常
-    if(data.errCode === 0) {
+    if (data.errCode === 0) {
       Toast.success('保存成功', 2, () => {
         this.props.history.go(-1)
       })
-    }else {
-      Toast.fail('保存失败，请稍后重试', 2, () => {
-        this.props.history.go(-1)
-      })
+    } else {
+      Toast.fail('保存失败，请稍后重试', 2)
     }
 
   }
@@ -106,18 +117,14 @@ class AddressEdit extends Component {
             placeholder="请输入收货人名字"
             clear={true}
             value={this.state.userName}
-            onChange={v => {
-              this.setState({ userName: v })
-            }}
+            onChange={this.handlerUsernameInputChange}
           >收货人</InputItem>
           <InputItem
             type="phone"
             placeholder="收货人的电话，方便联系"
             clear={true}
             value={this.state.phone}
-            onChange={v => {
-              this.setState({ phone: v })
-            }}
+            onChange={this.handlePhoneInputChange}
           >手机号码</InputItem>
           <Picker
             data={districtData}
@@ -133,16 +140,12 @@ class AddressEdit extends Component {
             rows="2"
             clear={true}
             value={this.state.detailLocation}
-            onChange={v => {
-              this.setState({ detailLocation: v })
-            }}
+            onChange={this.handleDetailLocationInputChange}
           />
         </List>
 
         <div className="button-con">
-          <div className="cancel" onClick={() => {
-            this.props.history.go(-1)
-          }}>取消
+          <div className="cancel" onClick={this.cancelSave}>取消
           </div>
           <div className="save" onClick={this.saveAddress}>保存</div>
         </div>
