@@ -50,7 +50,7 @@ class OrderDetail extends Component {
 
   // 重载详情页面 更改订单状态
   reloadPage = () => {
-    // window.location.reload()
+    window.location.reload()
   }
 
   wxPay = () => {
@@ -101,12 +101,18 @@ class OrderDetail extends Component {
           待支付
         </div>
       )
-    }
-    else if (orderStatus === -2) {
+    } else if (orderStatus === -2) {
       return (
         <div className="status">
           <p className="iconfont close" />
           订单关闭
+        </div>
+      )
+    } else if (orderStatus === -3) {
+      return (
+        <div className="status">
+          <p className="iconfont close" />
+          支付失败
         </div>
       )
     }
@@ -160,7 +166,7 @@ class OrderDetail extends Component {
                   }
                 </section>
                 :
-                orderDetail.orderStatus === 1 ||  orderDetail.orderStatus === -2?
+                orderDetail.orderStatus === 1 || orderDetail.orderStatus === -2 || orderDetail.orderStatus === -3 ?
                   <section className="order-tips">
                     <p>取消原因：{orderDetail.cancelReason}</p>
                   </section>

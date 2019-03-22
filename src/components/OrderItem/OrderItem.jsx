@@ -40,6 +40,9 @@ class OrderItem extends Component {
                       :
                       rowData.orderStatus === -2 ?
                         <p className="order-status ">关闭</p>
+                        :
+                        rowData.orderStatus === -3 ?
+                          <p className="order-status ">支付失败</p>
                       : null
             }
           </div>

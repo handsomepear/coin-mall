@@ -45,7 +45,6 @@ class Pay extends Component {
 
         mwebUrl && (window.location.href = mwebUrl)
       } else {
-        console.log(payInfo)
         this.setState({
           coinPrice: payInfo.coinPrice,
           mwebUrl: payInfo.payRedirectUrl || '',
@@ -92,7 +91,7 @@ class Pay extends Component {
     return (
       <section className="pay-page">
         <section className="main">
-          <header>您已支付{this.state.coinPrice}金币，请确认<span>{this.state.exchangeCashPrice}</span>元是否支付完成</header>
+          <header>您已支付{this.state.coinPrice}金币，请确认是否已支付<span>{this.state.exchangeCashPrice}</span>元</header>
           {/*支付剩余时间*/}
           {this.state.orderExpireTime > 0
           &&
