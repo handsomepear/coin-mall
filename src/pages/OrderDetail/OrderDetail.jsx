@@ -218,7 +218,7 @@ class OrderDetail extends Component {
               <div className="goods-sku">
                 <span className="color-666">{orderDetail.skuName}</span>
                 {
-                  orderDetail === 1 ?
+                  orderDetail.paymentType === 1 ?
                     <span>{orderDetail.coinPriceReal}金币</span>
                     :
                     <span>{orderDetail.coinPriceReal}金币 + ￥{orderDetail.cashPriceReal}元</span>

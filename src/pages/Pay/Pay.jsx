@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import CountDown from '@components/CountDown'
 
-import { Toast } from 'antd-mobile'
 import './pay.scss'
 import { coinsMallWechatH5PayQueryOrder } from '@API/order'
 

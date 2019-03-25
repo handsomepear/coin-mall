@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { Toast } from 'antd-mobile'
 
-import { _getQueryString, _timeFormate } from '@common/js/tool'
+import { _timeFormate } from '@common/js/tool'
 
 import * as goodsActions from '@actions/goodsActions'
 import * as orderActions from '@actions/orderActions'

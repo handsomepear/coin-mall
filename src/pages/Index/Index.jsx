@@ -29,12 +29,9 @@ class Index extends Component {
       this.props.homeActions.getHomePageData()
     }
     this.getGoodsListWrap()
-    _send1_1('index')
-  }
-
-  componentDidUpdate() {
     // 记录滚动条的位置
     document.body.scrollTop = this.props.scrollPositionY
+    _send1_1('index')
   }
 
   goDetailPage = () => {

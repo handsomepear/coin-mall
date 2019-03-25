@@ -12,6 +12,7 @@ import * as homeActions from '@actions/homeActions'
 class GoodsItem extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
     this.goGoodsDetailPage = this.goGoodsDetailPage.bind(this)
   }
 
@@ -38,7 +39,12 @@ class GoodsItem extends Component {
           <div className="goods-info">
             <p className="goods-name">{rowData.goodsName}</p>
             <div className="goods-price">
-              <p className="coin-num">{rowData.coinPrice}金币</p>
+              {
+                rowData.paymentType === 1
+                  ? <p className="coin-num">{rowData.coinPrice}金币</p>
+                  :
+                  <p className="coin-num">{rowData.coinPrice}金币 + {rowData.exchangeCashPrice}元</p>
+              }
               {
                 rowData.vipDiscount ?
                   <div className="vip-tag">
