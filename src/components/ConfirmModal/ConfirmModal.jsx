@@ -10,12 +10,15 @@ import * as goodsActions from '../../store/actions/goodsActions'
 import './confirmModal.scss'
 import { bindActionCreators } from 'redux'
 import { _getQueryString } from '@/common/js/tool'
+
 //
 class ConfirmModal extends Component {
   // isIos = _getQueryString('jcnsource') === 'ios'
   isIos = false
+
   constructor(props) {
     super(props)
+    console.log(props)
     this.makeOrder = this.makeOrder.bind(this)
     this.goAddressEditPage = this.goAddressEditPage.bind(this)
   }
@@ -26,12 +29,12 @@ class ConfirmModal extends Component {
     const skuId = this.props.skuId // 没有skuId默认传0
     const paymentType = this.props.paymentType // 支付类型 1=金币支付 2=金币+现金支付
     this.props.hideConfirmModal()
-    if(this.isIos) {
+    if (this.isIos) {
       // IOS 不支持微信支付
       return this.props.showErrorModal()
     }
     Toast.loading('兑换中', 2)
-    const { exchangeRes } = await this.props.orderActions.coinsMallMakeOrder({ goodsId, skuId, os:_getQueryString('jcnsource')  })
+    const { exchangeRes } = await this.props.orderActions.coinsMallMakeOrder({ goodsId, skuId, os: _getQueryString('jcnsource') })
     Toast.hide()
     if (0 === exchangeRes.data.errCode) {
       if (0 === exchangeRes.data.orderErrorCode) {
@@ -50,7 +53,7 @@ class ConfirmModal extends Component {
           })))
           this.props.history.push({
             pathname: '/pay',
-            state: {from: 'goods-detail'}
+            state: { from: 'goods-detail' }
           })
         }
       } else {
@@ -95,35 +98,40 @@ class ConfirmModal extends Component {
           {/* 兑换金额 */}
           <div className="exchange-coin">
             <div className="label">兑换金额：</div>
-            <div className="coin-price">{this.props.coinPrice}金币{this.props.exchangeCashPrice > 0 &&
-            <span> + <span>{this.props.exchangeCashPrice}元</span></span>}</div>
-          </div>
-          {/* 按钮组 */}
-          <div className="button-con">
-            <div className="cancel" onClick={() => {
-              this.props.hideConfirmModal()
-            }}>取消
-            </div>
-            <div className="confirm" onClick={this.makeOrder}>确定</div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
+            <div className="coin-price">{this.props.coinPrice}金币
+              {this.props.rawCoinPrice !== null ?
+                <span className="raw-price">({this.props.rawCoinPrice}金币)</span>
+                  : null}
+                  {this.props.exchangeCashPrice > 0 &&
+                  <span> + <span>{this.props.exchangeCashPrice}元</span></span>}</div>
+              </div>
+              {/* 按钮组 */ }
+              <div className="button-con">
+              <div className="cancel" onClick={() => {
+                this.props.hideConfirmModal()
+              }}>取消
+              </div>
+              <div className="confirm" onClick={this.makeOrder}>确定</div>
+              </div>
+              </div>
+              </div>
+              )
+            }
+              }
 
-const mapStateToProps = state => {
-  return {
-    address: state.userReducer.address
-  }
-}
+              const mapStateToProps = state => {
+                return {
+                address: state.userReducer.address,
+                isVip: state.userReducer.isVip
+              }
+              }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    orderActions: bindActionCreators(orderActions, dispatch),
-    goodsActions: bindActionCreators(goodsActions, dispatch)
-  }
+              const mapDispatchToProps = dispatch => {
+                return {
+                orderActions: bindActionCreators(orderActions, dispatch),
+                goodsActions: bindActionCreators(goodsActions, dispatch)
+              }
 
-}
+              }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ConfirmModal))
+              export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ConfirmModal))

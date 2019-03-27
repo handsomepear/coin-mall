@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
 import { Toast } from 'antd-mobile'
 
-import { _timeFormate } from '@common/js/tool'
+import { _send1_1, _timeFormate } from '@common/js/tool'
 
 import * as goodsActions from '@actions/goodsActions'
 import * as orderActions from '@actions/orderActions'
@@ -78,10 +78,12 @@ class GoodsDetail extends Component {
       buttonStatus: 0,
       isShowErrorModal: false
     }
+
   }
 
   async componentDidMount() {
     // 获取到商品Id
+    _send1_1('goods-index')
     const goodsId = this.props.match.params.goodsId
     const prevPathname = this.props.prevPathname
     const choosedSkuInfo = this.props.choosedSkuInfo
@@ -93,6 +95,7 @@ class GoodsDetail extends Component {
 
     this.setState({ goodsId, choosedSkuInfo })
     const { goodsDetail } = await this.props.goodsActions.getGoodsDetail(goodsId)
+    _send1_1(`goods-index-${goodsDetail.goodsId}`)
     this.setState({ goodsDetail })
     const { buttonStatus } = await this.props.goodsActions.getBtnStatus(goodsId)
     this.setState({ buttonStatus })
@@ -151,7 +154,8 @@ class GoodsDetail extends Component {
   // 兑换奖品
   exchange = () => {
     const skuList = this.props.goodsDetail.skuList
-
+    _send1_1('goods-index-buy')
+    _send1_1(`goods-index-buy-${this.props.goodsDetail.goodsId}`)
     if (this.props.goodsDetail.paymentType === 2 && this.isIos) {
       //  组合支付
       return this.setState({ isShowErrorModal: true })
@@ -311,7 +315,6 @@ class GoodsDetail extends Component {
                           <p>{address.userName} {address.cellNumber}</p>
                         </div>
                         <div className="bottom">
-                          <div className="iconfont location" />
                           <p>{address.area} {address.detailLocation}</p>
                         </div>
                       </div>
@@ -349,7 +352,7 @@ class GoodsDetail extends Component {
 
 
           {/* 底部按钮 */}
-          <section className="bottom-con">
+          <section className="bottom-con shadow">
             {this.renderBottomBtn()}
           </section>
 
@@ -380,6 +383,7 @@ class GoodsDetail extends Component {
                 goodsName={this.props.choosedSkuInfo ? goodsDetail.goodsName + ' ' + this.props.choosedSkuInfo.skuName :
                   goodsDetail.goodsName}
                 coinPrice={this.props.isVip === true && -1 !== goodsDetail.vipCoinPrice ? goodsDetail.vipCoinPrice : goodsDetail.coinPrice}
+                rawCoinPrice={this.props.isVip === true ? goodsDetail.coinPrice : null}
                 exchangeCashPrice={goodsDetail.paymentType === 1 ? 0 : goodsDetail.exchangeCashPrice}
                 paymentType={goodsDetail.paymentType}
               />

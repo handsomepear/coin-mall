@@ -3,6 +3,7 @@ import { withRouter } from 'react-router/'
 
 
 import './classifyItem.scss'
+import { _send1_1 } from '@/common/js/tool'
 
 class ClassifyItem extends Component {
   constructor(props) {
@@ -12,6 +13,8 @@ class ClassifyItem extends Component {
 
   // 跳转到商品详情页
   goGoodsDetailPage() {
+    _send1_1('goods-click')
+    _send1_1(`goods-click-${this.props.goodsId}`)
     this.props.history.push('/goods-detail/' + this.props.goodsId)
   }
 

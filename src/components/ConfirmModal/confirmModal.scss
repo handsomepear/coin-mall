@@ -51,6 +51,12 @@
     .coin-price {
       color: #dc7035;
     }
+    .raw-price {
+      text-decoration: line-through;
+      color: #aeaeae;
+      margin-left: 6px;
+      font-size: 13px;
+    }
   }
 
   .button-con {

@@ -8,16 +8,18 @@ import { connect } from 'react-redux'
 
 
 import * as homeActions from '@actions/homeActions'
+import { _send1_1 } from '@/common/js/tool'
 
 class GoodsItem extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.goGoodsDetailPage = this.goGoodsDetailPage.bind(this)
   }
 
   goGoodsDetailPage() {
     const scrollPositionY = document.body.scrollTop
+    _send1_1('goods-click')
+    _send1_1(`goods-click-${this.props.goodsId}`)
     this.props.homeActions.setIndexScrollPosition(scrollPositionY)
     this.props.history.push('/goods-detail/' + this.props.goodsId)
   }
