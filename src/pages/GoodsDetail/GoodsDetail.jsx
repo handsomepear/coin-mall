@@ -62,6 +62,26 @@ function ErrorModal(props) {
   )
 }
 
+// VIP会员日专场商品兑换个数超过三个显示的弹窗
+function ExhcangeUpperLimitModal(props){
+  return (
+    <section className="error-modal-wrap">
+      <section className="limit-modal">
+        <div className="limit-logo">
+          <img src={require('../../common/images/limit-logo.png')} alt="" />
+        </div>
+        <div className="close-btn" onClick={props.onCloseLimitModal}>
+          <p className="iconfont close-x" />
+        </div>
+        <div className="title">小主手下留情~</div>
+        <div className="limit-tips">
+          商品虽好，但给其他姐妹也留点 呦！休息一会儿下场再来抢吧~
+        </div>
+      </section>
+    </section>
+  )
+}
+
 
 class GoodsDetail extends Component {
   // isIos = _getQueryString('jcnsource') === 'ios'
@@ -76,7 +96,8 @@ class GoodsDetail extends Component {
       goodsId: 0,
       goodsDetail: null,
       buttonStatus: 0,
-      isShowErrorModal: false
+      isShowErrorModal: false,
+      isShowLimitModal: false
     }
 
   }
@@ -156,6 +177,11 @@ class GoodsDetail extends Component {
     const skuList = this.props.goodsDetail.skuList
     _send1_1('goods-index-buy')
     _send1_1(`goods-index-buy-${this.props.goodsDetail.goodsId}`)
+
+    if(this.state.buttonStatus === 9) {
+      return this.showLimitModal()
+    }
+
     if (this.props.goodsDetail.paymentType === 2 && this.isIos) {
       //  组合支付
       return this.setState({ isShowErrorModal: true })
@@ -194,6 +220,14 @@ class GoodsDetail extends Component {
     this.setState({ isShowErrorModal: true })
   }
 
+  showLimitModal = () => {
+    this.setState({ isShowLimitModal : true })
+  }
+
+  hideLimitModal = () => {
+    this.setState({ isShowLimitModal : false })
+  }
+
   renderBottomBtn = () => {
     const loggingStatus = this.props.loggingStatus
     const buttonStatus = this.state.buttonStatus
@@ -219,6 +253,8 @@ class GoodsDetail extends Component {
         return <div className="btn" onClick={this.exchange}>马上兑换</div>
       case 8:
         return <div className="btn bg-gray">已兑换</div>
+      case 9:
+        return <div className="btn" onClick={this.exchange}>马上兑换</div>
       default:
         return false
     }
@@ -386,12 +422,14 @@ class GoodsDetail extends Component {
                 rawCoinPrice={this.props.isVip === true ? goodsDetail.coinPrice : null}
                 exchangeCashPrice={goodsDetail.paymentType === 1 ? 0 : goodsDetail.exchangeCashPrice}
                 paymentType={goodsDetail.paymentType}
+                onError={this.showLimitModal}
               />
               : null
           }
 
           {/*错误弹窗*/}
           {this.state.isShowErrorModal && <ErrorModal onCloseModal={this.closeErrorModal} contactCustomer={this.contactCustomer} />}
+          {this.state.isShowLimitModal && <ExhcangeUpperLimitModal onCloseLimitModal={this.hideLimitModal} />}
         </section>
         : ""
 

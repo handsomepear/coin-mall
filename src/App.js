@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Route, HashRouter, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import Clipboard from 'clipboard'
+
 import * as userActions from '@actions/userActions'
+
 import Index from '@pages/Index/Index'
 import GoodsDetail from '@pages/GoodsDetail/GoodsDetail'
 import Address from '@pages/Address/AddressEdit'
@@ -10,9 +13,10 @@ import OrderList from '@pages/OrderList/OrderList'
 import OrderDetail from '@pages/OrderDetail/OrderDetail'
 import ClassifyList from '@pages/ClassifyList/ClassifyList'
 import Pay from '@pages/Pay/Pay'
+import VipDay from '@/pages/VipDay/VipDay'
 
 // import { getTkl } from '@/API/home'
-import Clipboard from 'clipboard'
+
 import { _send1_1 } from '@/common/js/tool'
 
 class App extends Component {
@@ -61,6 +65,7 @@ class App extends Component {
             <Route path="/order-list" component={OrderList} />
             <Route path="/order-detail/:orderNumber" component={OrderDetail} />
             <Route path="/pay" component={Pay} />
+            <Route path="/vip-day" component={VipDay} />
           </Switch>
           <Route path="/address" component={Address} />
         </div>

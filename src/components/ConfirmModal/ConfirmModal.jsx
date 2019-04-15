@@ -56,6 +56,8 @@ class ConfirmModal extends Component {
             state: { from: 'goods-detail' }
           })
         }
+      } else if (17 === exchangeRes.data.orderErrorCode) {
+        this.props.onError()
       } else {
         Toast.fail(exchangeRes.data.orderErrorMsg, 2)
       }
@@ -101,37 +103,37 @@ class ConfirmModal extends Component {
             <div className="coin-price">{this.props.coinPrice}金币
               {this.props.rawCoinPrice !== null ?
                 <span className="raw-price">({this.props.rawCoinPrice}金币)</span>
-                  : null}
-                  {this.props.exchangeCashPrice > 0 &&
-                  <span> + <span>{this.props.exchangeCashPrice}元</span></span>}</div>
-              </div>
-              {/* 按钮组 */ }
-              <div className="button-con">
-              <div className="cancel" onClick={() => {
-                this.props.hideConfirmModal()
-              }}>取消
-              </div>
-              <div className="confirm" onClick={this.makeOrder}>确定</div>
-              </div>
-              </div>
-              </div>
-              )
-            }
-              }
+                : null}
+              {this.props.exchangeCashPrice > 0 &&
+              <span> + <span>{this.props.exchangeCashPrice}元</span></span>}</div>
+          </div>
+          {/* 按钮组 */}
+          <div className="button-con">
+            <div className="cancel" onClick={() => {
+              this.props.hideConfirmModal()
+            }}>取消
+            </div>
+            <div className="confirm" onClick={this.makeOrder}>确定</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+}
 
-              const mapStateToProps = state => {
-                return {
-                address: state.userReducer.address,
-                isVip: state.userReducer.isVip
-              }
-              }
+const mapStateToProps = state => {
+  return {
+    address: state.userReducer.address,
+    isVip: state.userReducer.isVip
+  }
+}
 
-              const mapDispatchToProps = dispatch => {
-                return {
-                orderActions: bindActionCreators(orderActions, dispatch),
-                goodsActions: bindActionCreators(goodsActions, dispatch)
-              }
+const mapDispatchToProps = dispatch => {
+  return {
+    orderActions: bindActionCreators(orderActions, dispatch),
+    goodsActions: bindActionCreators(goodsActions, dispatch)
+  }
 
-              }
+}
 
-              export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ConfirmModal))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ConfirmModal))
