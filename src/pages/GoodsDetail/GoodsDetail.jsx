@@ -17,18 +17,21 @@ import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 
 //css
 import './goodsDetail.scss'
+import CountDown from '@/components/CountDown'
 
 
 // 秒杀组件
 const Seckill = props => {
   const goodsDetail = props.goodsDetail
+
   let seckillText = ''
   const seckillTime = _timeFormate(goodsDetail.nextExchangeTimestamp)
   if (goodsDetail.seckillStatus === 0) {
     return null
   } else if (goodsDetail.seckillStatus === 1) {
-    //  秒杀未开始
+
     seckillText = `${seckillTime.M}月${seckillTime.d}日  ${seckillTime.h}:${seckillTime.m}准时开抢`
+
   } else if (goodsDetail.seckillStatus === 2) {
     //  秒杀中
     seckillText = '秒杀进行中'
@@ -63,7 +66,7 @@ function ErrorModal(props) {
 }
 
 // VIP会员日专场商品兑换个数超过三个显示的弹窗
-function ExhcangeUpperLimitModal(props){
+function ExhcangeUpperLimitModal(props) {
   return (
     <section className="error-modal-wrap">
       <section className="limit-modal">
@@ -86,6 +89,7 @@ function ExhcangeUpperLimitModal(props){
 class GoodsDetail extends Component {
   // isIos = _getQueryString('jcnsource') === 'ios'
   isIos = false
+
   constructor(props) {
     super(props)
     this.state = {
@@ -178,7 +182,7 @@ class GoodsDetail extends Component {
     _send1_1('goods-index-buy')
     _send1_1(`goods-index-buy-${this.props.goodsDetail.goodsId}`)
 
-    if(this.state.buttonStatus === 9) {
+    if (this.state.buttonStatus === 9) {
       return this.showLimitModal()
     }
 
@@ -221,16 +225,21 @@ class GoodsDetail extends Component {
   }
 
   showLimitModal = () => {
-    this.setState({ isShowLimitModal : true })
+    this.setState({ isShowLimitModal: true })
   }
 
   hideLimitModal = () => {
-    this.setState({ isShowLimitModal : false })
+    this.setState({ isShowLimitModal: false })
+  }
+
+  changeBottomBtnStatus = status => {
+    this.setState({ buttonStatus: status })
   }
 
   renderBottomBtn = () => {
     const loggingStatus = this.props.loggingStatus
     const buttonStatus = this.state.buttonStatus
+    const goodsDetail = this.props.goodsDetail
     if (!loggingStatus) {
       // 未登录
       // FIXME:check
@@ -248,7 +257,20 @@ class GoodsDetail extends Component {
       case 5:
         return <div className="btn" onClick={this.goGainQualification}>如何获得兑换资格 <div className="iconfont arrow-right" /></div>
       case 6:
-        return <div className="btn bg-gray">即将开始</div>
+        const diffTime = goodsDetail.nextExchangeTimestamp - Date.now()
+        let buttonBtn = ''
+        //  秒杀未开始
+        if (diffTime > 0 && diffTime < 1800000) {
+          // 秒杀倒计时(30分钟之内倒计时)
+          buttonBtn = <div className="btn bg-gray">
+            <CountDown endTimeMs={goodsDetail.nextExchangeTimestamp} onTimeEnd={() => {
+              this.changeBottomBtnStatus(7)
+            }} />后开抢
+          </div>
+        } else {
+          buttonBtn = <div className="btn bg-gray">即将开始</div>
+        }
+        return buttonBtn
       case 7:
         return <div className="btn" onClick={this.exchange}>马上兑换</div>
       case 8:
