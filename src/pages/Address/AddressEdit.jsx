@@ -71,8 +71,10 @@ class AddressEdit extends Component {
 
   // 保存地址
   saveAddress = async () => {
-    const ph = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57]|19[0-9])[0-9]{8}$/
+    // const ph = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/
+    const ph = /^1\d{10}$/
     let regionArray = this.state.region.split(' ')
+
     if (!this.state.userName) {
       return Toast.fail('请输入收货人')
     }
