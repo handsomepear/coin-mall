@@ -105,7 +105,7 @@ class VipDay extends Component {
               this.viewMoreGoods(10)
             }}
             title="00:00 会员狂欢"
-            slogan="全场3999金币，你的生活我全包！"
+            slogan="全场3599金币，抢到就是赚到！"
             goodsList={this.state.zeroGoods}
             onViewGoodsDetail={this.viewGoodsDetail}
           />
@@ -114,15 +114,15 @@ class VipDay extends Component {
               this.viewMoreGoods(11)
             }}
             title="09:00 精致生活"
-            slogan="9点，9件，小家电见证你长9的幸福生活！"
+            slogan="9件商品九点开拍，享受5月精致生活！"
             goodsList={this.state.nineGoods}
             onViewGoodsDetail={this.viewGoodsDetail}
             hideMoreGoodsEntry={true}
           />
           <SpecialArea
             onViewGoodsDetail={this.viewGoodsDetail}
-            title="19:00 手机秒杀"
-            slogan="价值3600元的手机，抢到就是赚到！不说了！开抢！"
+            title="19:00 电动车秒杀"
+            slogan="5月出游季必抢，299999金币电动车骑回家~"
             goodsList={this.state.nineteenGoods}
             hideMoreGoodsEntry={true}
           />
