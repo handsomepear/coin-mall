@@ -114,7 +114,7 @@ class VipDay extends Component {
               this.viewMoreGoods(11)
             }}
             title="09:00 精致生活"
-            slogan="9件商品九点开拍，享受5月精致生活！"
+            slogan="9件商品9点开拍，享受5月精致生活！"
             goodsList={this.state.nineGoods}
             onViewGoodsDetail={this.viewGoodsDetail}
             hideMoreGoodsEntry={true}
@@ -185,7 +185,7 @@ function SpecialAreaGoodsList(props) {
 
 // 专场内容
 function SpecialArea(props) {
-  const { goodsList, title, slogan, goodsCount } = props
+  const { goodsList, title, slogan } = props
   const hideMoreGoodsEntry = props.hideMoreGoodsEntry || false // 更多产品
   return (
     <section className="special-area">
@@ -222,7 +222,7 @@ function SpecialArea(props) {
       }
 
       {
-        !hideMoreGoodsEntry ? <div className="view-all-btn" onClick={props.onViewMoreGoods}>查看全部件商品 >></div> : null
+        !hideMoreGoodsEntry ? <div className="view-all-btn" onClick={props.onViewMoreGoods}>查看全部商品 >></div> : null
       }
     </section>
   )
