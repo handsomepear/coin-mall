@@ -72,7 +72,6 @@ class Index extends Component {
   // 去我的订单页面
   goOrderListPage = () => {
     const loggingStatus = this.props.loggingStatus
-    //FIXME:check
     if (loggingStatus) {
       this.props.history.push('/order-list')
     } else {
@@ -81,8 +80,9 @@ class Index extends Component {
 
   }
 
-  goExchangeRule = () => {
-    window.location.href = 'https://bbs.j.cn/html/cointask/faq.html'
+  goCoinTask = () => {
+    // window.location.href = 'https://bbs.j.cn/html/cointask/faq.html'
+    window.location.href = 'https://bbs.j.cn/html/cointask/task-index.html'
   }
 
   handleBannerImgLoad = () => {
@@ -160,9 +160,9 @@ class Index extends Component {
               <div className="iconfont exchange" />
               兑换记录
             </div>
-            <div className="coin-else-item" onClick={this.goExchangeRule}>
+            <div className="coin-else-item" onClick={this.goCoinTask}>
               <div className="iconfont rule" />
-              金币规则
+              金币任务
             </div>
           </div>
         </section>
