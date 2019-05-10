@@ -202,7 +202,7 @@ class GoodsDetail extends Component {
   }
 
   goMakeMoney = () => {
-    window.location.href = 'http://bbs.j.cn/html/cointask/index.html'
+    window.location.href = 'http://bbs.j.cn/html/cointask/task-index.html'
   }
 
   // 获得兑换资格
