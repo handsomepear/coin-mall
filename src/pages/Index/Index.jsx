@@ -81,8 +81,12 @@ class Index extends Component {
   }
 
   goCoinTask = () => {
-    // window.location.href = 'https://bbs.j.cn/html/cointask/faq.html'
-    window.location.href = 'https://bbs.j.cn/html/cointask/task-index.html'
+    const loggingStatus = this.props.loggingStatus
+    if (loggingStatus) {
+      window.location.href = 'https://bbs.j.cn/html/cointask/task-index.html'
+    } else {
+      this.props.userActions.doLogin()
+    }
   }
 
   handleBannerImgLoad = () => {
