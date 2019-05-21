@@ -77,13 +77,12 @@ class Index extends Component {
     } else {
       this.props.userActions.doLogin()
     }
-
   }
 
   goCoinTask = () => {
     const loggingStatus = this.props.loggingStatus
     if (loggingStatus) {
-      window.location.href = 'https://bbs.j.cn/html/cointask/task-index.html'
+      window.location.href = 'https://bbs.j.cn/html/cointask/coin-task.html'
     } else {
       this.props.userActions.doLogin()
     }
