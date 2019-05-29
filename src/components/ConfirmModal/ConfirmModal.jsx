@@ -13,12 +13,11 @@ import { _getQueryString } from '@/common/js/tool'
 
 //
 class ConfirmModal extends Component {
-  // isIos = _getQueryString('jcnsource') === 'ios'
-  isIos = false
+  isIos = _getQueryString('jcnsource') === 'ios'
+  // isIos = false
 
   constructor(props) {
     super(props)
-    console.log(props)
     this.makeOrder = this.makeOrder.bind(this)
     this.goAddressEditPage = this.goAddressEditPage.bind(this)
   }
