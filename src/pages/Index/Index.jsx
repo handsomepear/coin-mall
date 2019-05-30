@@ -98,7 +98,7 @@ class Index extends Component {
 
   handleNavItemClick = (navItem) => {
     if (navItem.positionId === 6) {
-      window.location.href = 'jcnhers://my_entrance/id=nvshengyouxi'
+      window.location.href = 'jcnhers://my_entrance/id=tbhongbao'
     } else {
       this.goClassifyListPage(navItem.positionId)
     }

@@ -13,8 +13,8 @@ import { _getQueryString } from '@/common/js/tool'
 
 //
 class ConfirmModal extends Component {
-  isIos = _getQueryString('jcnsource') === 'ios'
-  // isIos = false
+  // isIos = _getQueryString('jcnsource') === 'ios'
+  isIos = false
 
   constructor(props) {
     super(props)
@@ -28,7 +28,7 @@ class ConfirmModal extends Component {
     const skuId = this.props.skuId // 没有skuId默认传0
     const paymentType = this.props.paymentType // 支付类型 1=金币支付 2=金币+现金支付
     this.props.hideConfirmModal()
-    if (this.isIos) {
+    if (paymentType === 2 && this.isIos) {
       // IOS 不支持微信支付
       return this.props.showErrorModal()
     }
