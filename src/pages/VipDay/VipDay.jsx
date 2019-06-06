@@ -86,7 +86,7 @@ class VipDay extends Component {
         <header>
           {/*banner*/}
           <section className="banner">
-            <img src={require('../../common/images/banner.png')} alt="" />
+            <img src={require('../../common/images/banner.jpg')} alt="" />
           </section>
           {/*开通会员按钮*/}
           {
@@ -105,7 +105,7 @@ class VipDay extends Component {
               this.viewMoreGoods(10)
             }}
             title="00:00 会员狂欢"
-            slogan="全场3599金币，抢到就是赚到！"
+            slogan="99件商品，实惠又实用，勤俭持家必备！"
             goodsList={this.state.zeroGoods}
             onViewGoodsDetail={this.viewGoodsDetail}
           />
@@ -114,15 +114,15 @@ class VipDay extends Component {
               this.viewMoreGoods(11)
             }}
             title="09:00 精致生活"
-            slogan="9件商品9点开拍，享受5月精致生活！"
+            slogan="9件商品9点开拍，专属精致的你"
             goodsList={this.state.nineGoods}
             onViewGoodsDetail={this.viewGoodsDetail}
             hideMoreGoodsEntry={true}
           />
           <SpecialArea
             onViewGoodsDetail={this.viewGoodsDetail}
-            title="19:00 电动车秒杀"
-            slogan="5月出游季必抢，299999金币电动车骑回家~"
+            title="19:00 空调秒杀"
+            slogan="399999空调带回家，享受6月清凉生活"
             goodsList={this.state.nineteenGoods}
             hideMoreGoodsEntry={true}
           />
