@@ -85,6 +85,30 @@ function ExhcangeUpperLimitModal(props) {
   )
 }
 
+// 会员升级提示
+function VipUpgradeModal(props) {
+  return (
+    // <!-- 升级会员 -->
+    <div className="window-wrap vip-upgrade-wrap">
+      <div className="window-modal vip-upgrade-modal">
+        <div className="customer-img">
+          <img src={require('../../common/images/customer-modal.png')} alt="" />
+        </div>
+        <div className="title">该特权为“年度会员”专享!</div>
+        <div className="modal-tips">
+          <p>升级年度会员后立享！</p>
+        </div>
+        <div className="options">
+          <div className="vip-upgrade btn" onClick={props.onClickVipUpgrade}>立即升级</div>
+        </div>
+        <div className="close-btn" onClick={props.onCloseVipUpgradeModal}>
+          <img src={require('../../common/images/close-btn.png')} alt="" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 
 class GoodsDetail extends Component {
   // isIos = _getQueryString('jcnsource') === 'ios'
@@ -101,9 +125,10 @@ class GoodsDetail extends Component {
       goodsDetail: null,
       buttonStatus: 0,
       isShowErrorModal: false,
-      isShowLimitModal: false
+      isShowLimitModal: false,
+      isShowVipUpgradeModal: false // 控制会员升级提示弹窗
     }
-
+    this.getAllReceivedCount = this.getAllReceivedCount.bind(this)
   }
 
   async componentDidMount() {
@@ -117,13 +142,17 @@ class GoodsDetail extends Component {
     } else {
       this.props.homeActions.setPrevpathname(null)
     }
-
     this.setState({ goodsId, choosedSkuInfo })
     const { goodsDetail } = await this.props.goodsActions.getGoodsDetail(goodsId)
     _send1_1(`goods-index-${goodsDetail.goodsId}`)
     this.setState({ goodsDetail })
     const { buttonStatus } = await this.props.goodsActions.getBtnStatus(goodsId)
     this.setState({ buttonStatus })
+  }
+
+  // 获取生日礼物领取次数
+  async getAllReceivedCount () {
+
   }
 
   // 去设置地址页面
@@ -177,10 +206,18 @@ class GoodsDetail extends Component {
   }
 
   // 兑换奖品
-  exchange = () => {
+  exchange = async () => {
     const skuList = this.props.goodsDetail.skuList
     _send1_1('goods-index-buy')
     _send1_1(`goods-index-buy-${this.props.goodsDetail.goodsId}`)
+
+    // 如果是生日礼物 则需要判断可领取次数 做限制 并提示升级为年度会员
+    if(parseFloat(this.state.goodsId) === 31) {
+      const { allReceivedGiftCount } = await this.props.goodsActions.getAllReceivedCount()
+      if(allReceivedGiftCount <= 0) {
+        return this.showVipUpgradeModal()
+      }
+    }
 
     if (this.state.buttonStatus === 9) {
       return this.showLimitModal()
@@ -205,6 +242,11 @@ class GoodsDetail extends Component {
     window.location.href = 'http://bbs.j.cn/html/cointask/task-index.html'
   }
 
+  // 会员升级
+  vipUpgrade = () => {
+    window.location.href = 'https://bbs.j.cn/pages/VIPTEST/index.html?direct=1'
+  }
+
   // 获得兑换资格
   goGainQualification = () => {
     window.location.href = 'https://bbs.j.cn/pages/vipRulePage/index.html'
@@ -213,6 +255,15 @@ class GoodsDetail extends Component {
   // 会员权益点击事件
   handleVipEquityClick = () => {
     window.location.href = 'jcnhers://my_entrance/id=tehui'
+  }
+
+  // 展示会员升级提示
+  showVipUpgradeModal = () => {
+    this.setState({ isShowVipUpgradeModal: true })
+  }
+
+  closeVipUpgradeModal = () => {
+    this.setState({ isShowVipUpgradeModal: false })
   }
 
   // 关闭错误弹窗
@@ -253,7 +304,9 @@ class GoodsDetail extends Component {
       case 3:
         return <div className="btn bg-gray">每日限量已兑完</div>
       case 4:
-        return <div className="btn" onClick={this.goMakeMoney}>金币不足，去赚金币 <div className="iconfont arrow-right" /></div>
+        return <div className="btn" onClick={this.goMakeMoney}>金币不足，去赚金币
+          <div className="iconfont arrow-right" />
+        </div>
       case 5:
         return <div className="btn" onClick={this.goGainQualification}>如何获得兑换资格 <div className="iconfont arrow-right" /></div>
       case 6:
@@ -277,6 +330,8 @@ class GoodsDetail extends Component {
         return <div className="btn bg-gray">已兑换</div>
       case 9:
         return <div className="btn" onClick={this.exchange}>马上兑换</div>
+      case 11:
+        return <div className="btn bg-gray">已兑换</div>
       default:
         return false
     }
@@ -452,6 +507,8 @@ class GoodsDetail extends Component {
           {/*错误弹窗*/}
           {this.state.isShowErrorModal && <ErrorModal onCloseModal={this.closeErrorModal} contactCustomer={this.contactCustomer} />}
           {this.state.isShowLimitModal && <ExhcangeUpperLimitModal onCloseLimitModal={this.hideLimitModal} />}
+          {/*会员更新弹窗*/}
+          {this.state.isShowVipUpgradeModal && <VipUpgradeModal onCloseVipUpgradeModal={this.closeVipUpgradeModal} onClickVipUpgrade={this.vipUpgrade} />}
         </section>
         : ""
 
@@ -464,6 +521,7 @@ const mapStateToProps = state => {
     goodsDetail: state.goodsReducer.goodsDetail,
     buttonStatus: state.goodsReducer.buttonStatus,
     loggingStatus: state.userReducer.loggingStatus,
+    allReceivedGiftCount: state.goodsReducer.allReceivedGiftCount,
     address: state.userReducer.address,
     isVip: state.userReducer.isVip,
     choosedSkuInfo: state.goodsReducer.choosedSkuInfo,

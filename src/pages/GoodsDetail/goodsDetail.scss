@@ -389,3 +389,94 @@
     }
   }
 }
+
+.window-wrap {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.window-wrap .window-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 256px;
+  height: 222px;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+/* 关闭按钮 */
+.window-modal .close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+}
+
+.window-modal .close-btn img {
+  width: 9px;
+  height: 9px;
+}
+
+.window-wrap .title {
+  font-size: 19px;
+  color: #333;
+  text-align: center;
+}
+
+.window-wrap .modal-tips {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+
+.window-wrap .modal-tips p {
+  line-height: 17px;
+}
+
+.window-wrap .options {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.window-wrap .options .btn {
+  width: 98px;
+  height: 38px;
+  line-height: 38px;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  background-color: #fc6769;
+  border-radius: 10px;
+}
+
+
+
+.vip-upgrade-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 66px 0 33px;
+  box-sizing: border-box;
+}
+
+.customer-img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -40px;
+  width: 113px;
+  height: 83px;
+}
+.vip-upgrade-modal .options .btn {
+  width: 172px;
+  height: 44px;
+  line-height: 44px;
+  font-size: 19px;
+}

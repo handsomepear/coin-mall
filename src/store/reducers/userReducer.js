@@ -4,8 +4,8 @@ import { handleActions } from 'redux-actions'
 
 const initialState = {
   // FIXME:check
-  // jcnuserid: _getQueryString('jcnuserid') || '36cb1a3459046e45c02d60ac4372c966',
-  jcnuserid: _getQueryString('jcnuserid'),
+  jcnuserid: _getQueryString('jcnuserid') || '36cb1a3459046e45c02d60ac4372c966',
+  // jcnuserid: _getQueryString('jcnuserid'),
   loggingStatus: false, // 登录状态
   address: {
     area: '',

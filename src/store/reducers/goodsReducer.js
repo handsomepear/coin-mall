@@ -1,7 +1,9 @@
-
-import { GETGOODSLIST, GETGOODSDETAIL, GETBUTTONSTATUS, GETCLASSIFYGOODSLIST, UPDATECHOOSEDSKUINFO } from '@types/goodsTypes'
+import {
+  GETGOODSLIST, GETGOODSDETAIL, GETBUTTONSTATUS, GETCLASSIFYGOODSLIST, UPDATECHOOSEDSKUINFO, GETALLRECEIVEGIFTCOUNT
+} from '@types/goodsTypes'
 import { handleActions } from 'redux-actions'
 import { _send1_1 } from '@/common/js/tool'
+
 const initialState = {
   homeGoodsList: [],
   pageNum: 1,
@@ -10,6 +12,7 @@ const initialState = {
   classifyGoodsList: [],
   goodsDetail: null,
   buttonStatus: 1,
+  allReceivedGiftCount: 0, // 可领取生日礼物的次数
   choosedSkuInfo: null
 }
 
@@ -19,9 +22,9 @@ const goodsReducer = handleActions({
     action.data.homeGoodsList.map(good => {
       _send1_1(`show-${good.goodsId}`)
     })
-    if(action.data.homeGoodsList.length >= state.pageSize) {
+    if (action.data.homeGoodsList.length >= state.pageSize) {
       state.pageNum = ++state.pageNum
-    }else{
+    } else {
       state.hasMoreGoods = false
     }
     if (state.pageNum > 1) {
@@ -47,7 +50,8 @@ const goodsReducer = handleActions({
       classifyGoodsList: action.data.classifyGoodsList
     }
   },
-  [UPDATECHOOSEDSKUINFO]: (state, action) => ({ ...state, choosedSkuInfo: action.choosedSkuInfo })
+  [UPDATECHOOSEDSKUINFO]: (state, action) => ({ ...state, choosedSkuInfo: action.choosedSkuInfo }),
+  [GETALLRECEIVEGIFTCOUNT]: (state, action) => ({ ...state, allReceivedGiftCount: action.allReceivedGiftCount })
 }, initialState)
 
 

@@ -9,3 +9,5 @@ export const coinsMallPreMakeOrderBtnStatus = data => req('/api/coinsMallPreMake
 export const coinsMallClassifyGoods = data => req('/api/coinsMallClassifyGoods', data) // 获取分类商品列表
 
 export const coinsMallVipDayStatus = data => req('/api/coinsMallVipDayStatus', data) // 会员日场次状态
+
+export const getVipRightsInfo = data => req('/api/getVipRightsInfo', data, 'GET') // 获取生日礼物可领取次数

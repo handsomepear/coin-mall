@@ -53,5 +53,15 @@ export const getBtnStatus = goodsId => async dispatch => {
 
 export const updateChoosedSkuInfo = choosedSkuInfo => store.dispatch({ type: types.UPDATECHOOSEDSKUINFO, choosedSkuInfo })
 
+// 获取生日礼物领取次数
+export const getAllReceivedCount = () => async (dispatch, getState) => {
+  const jcnuserid = getState().userReducer.jcnuserid // 获取jcnuserid
+  const allReceivedGiftCount = await GoodsServer.getVipRightsInfo({jcnuserid: jcnuserid, rightsType: 1}).then(res => res.data.allReceivedCount)
+  return dispatch({
+    type: types.GETALLRECEIVEGIFTCOUNT,
+    allReceivedGiftCount: allReceivedGiftCount
+  })
+}
+
 
 
