@@ -18,6 +18,7 @@ import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 //css
 import './goodsDetail.scss'
 import CountDown from '@/components/CountDown'
+import Jvideo from '@/components/Jvideo/Jvideo'
 
 
 // 秒杀组件
@@ -128,7 +129,6 @@ class GoodsDetail extends Component {
       isShowLimitModal: false,
       isShowVipUpgradeModal: false // 控制会员升级提示弹窗
     }
-    this.getAllReceivedCount = this.getAllReceivedCount.bind(this)
   }
 
   async componentDidMount() {
@@ -148,11 +148,6 @@ class GoodsDetail extends Component {
     this.setState({ goodsDetail })
     const { buttonStatus } = await this.props.goodsActions.getBtnStatus(goodsId)
     this.setState({ buttonStatus })
-  }
-
-  // 获取生日礼物领取次数
-  async getAllReceivedCount () {
-
   }
 
   // 去设置地址页面
@@ -496,7 +491,7 @@ class GoodsDetail extends Component {
                 goodsName={this.props.choosedSkuInfo ? goodsDetail.goodsName + ' ' + this.props.choosedSkuInfo.skuName :
                   goodsDetail.goodsName}
                 coinPrice={this.props.isVip === true && -1 !== goodsDetail.vipCoinPrice ? goodsDetail.vipCoinPrice : goodsDetail.coinPrice}
-                rawCoinPrice={this.props.isVip === true ? goodsDetail.coinPrice : null}
+                rawCoinPrice={this.props.isVip === true && -1 !== goodsDetail.vipCoinPrice ? goodsDetail.coinPrice : null}
                 exchangeCashPrice={goodsDetail.paymentType === 1 ? 0 : goodsDetail.exchangeCashPrice}
                 paymentType={goodsDetail.paymentType}
                 onError={this.showLimitModal}
@@ -509,6 +504,7 @@ class GoodsDetail extends Component {
           {this.state.isShowLimitModal && <ExhcangeUpperLimitModal onCloseLimitModal={this.hideLimitModal} />}
           {/*会员更新弹窗*/}
           {this.state.isShowVipUpgradeModal && <VipUpgradeModal onCloseVipUpgradeModal={this.closeVipUpgradeModal} onClickVipUpgrade={this.vipUpgrade} />}
+          <Jvideo />
         </section>
         : ""
 

@@ -7,12 +7,12 @@ const initialState = {
   jcnuserid: _getQueryString('jcnuserid') || '36cb1a3459046e45c02d60ac4372c966',
   // jcnuserid: _getQueryString('jcnuserid'),
   loggingStatus: false, // 登录状态
-  address: {
-    area: '',
-    cellNumber: '',
-    detailLocation: '',
-    userName: ''
-  },
+    address: {
+      area: '',
+      cellNumber: '',
+      detailLocation: '',
+      userName: ''
+    },
   isVip: null, // 是否是vip
   coinsCount: 0 // 金币数
 }

@@ -5,6 +5,7 @@ import { withRouter } from 'react-router'
 import { Carousel, ListView } from 'antd-mobile'
 
 import GoodsItem from '@/components/GoodsItem/GoodsItem'
+import Jvideo from '@/components/Jvideo/Jvideo'
 
 import * as goodsActions from '@actions/goodsActions'
 import * as homeActions from '@actions/homeActions'
@@ -216,6 +217,7 @@ class Index extends Component {
             :
             null
         }
+        <Jvideo />
       </section>
     )
   }
