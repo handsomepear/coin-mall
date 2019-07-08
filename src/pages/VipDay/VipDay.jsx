@@ -45,6 +45,8 @@ class VipDay extends Component {
             statusItem.icon = '手机'
             statusItem.time = '19:00'
             break
+          default:
+            break
         }
         statusItem.state = statusItem.start ? '进行中' : '即将开始'
       })
@@ -121,8 +123,8 @@ class VipDay extends Component {
           />
           <SpecialArea
             onViewGoodsDetail={this.viewGoodsDetail}
-            title="19:00 空调秒杀"
-            slogan="399999空调带回家，享受6月清凉生活"
+            title="19:00 手机秒杀"
+            slogan="VIP专享秒杀，抢到就是赚到~"
             goodsList={this.state.nineteenGoods}
             hideMoreGoodsEntry={true}
           />

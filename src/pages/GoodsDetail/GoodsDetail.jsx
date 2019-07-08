@@ -18,7 +18,6 @@ import ConfirmModal from '@components/ConfirmModal/ConfirmModal'
 //css
 import './goodsDetail.scss'
 import CountDown from '@/components/CountDown'
-import Jvideo from '@/components/Jvideo/Jvideo'
 
 
 // 秒杀组件
@@ -234,7 +233,7 @@ class GoodsDetail extends Component {
   }
 
   goMakeMoney = () => {
-    window.location.href = 'http://bbs.j.cn/html/cointask/task-index.html'
+    window.location.href = 'https://bbs.j.cn/html/cointask/coin-task.html'
   }
 
   // 会员升级
@@ -504,7 +503,6 @@ class GoodsDetail extends Component {
           {this.state.isShowLimitModal && <ExhcangeUpperLimitModal onCloseLimitModal={this.hideLimitModal} />}
           {/*会员更新弹窗*/}
           {this.state.isShowVipUpgradeModal && <VipUpgradeModal onCloseVipUpgradeModal={this.closeVipUpgradeModal} onClickVipUpgrade={this.vipUpgrade} />}
-          <Jvideo />
         </section>
         : ""
 

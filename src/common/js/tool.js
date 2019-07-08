@@ -21,7 +21,7 @@ export function _timeFormate(ms) {
 }
 
 
-export const _send1_1 = (val, channel = 'coin-mall') => {
+export const _send1_1 = (val, channel = 'coin-mall', callback) => {
   const img1x1 = new Image()
   const jcnappid = _getQueryString('jcnappid')
   const jcnuserid = _getQueryString('jcnuserid')
@@ -32,6 +32,7 @@ export const _send1_1 = (val, channel = 'coin-mall') => {
   }
   img1x1.onload = function () {
     console.log('1*1 loaded')
+    ;(typeof callback === 'function') && callback()
   }
 }
 // 给Url添加参数

@@ -19,7 +19,7 @@ const initialState = {
 const goodsReducer = handleActions({
   // 获取首页商品列表
   [GETGOODSLIST]: (state, action) => {
-    action.data.homeGoodsList.map(good => {
+    action.data.homeGoodsList.forEach(good => {
       _send1_1(`show-${good.goodsId}`)
     })
     if (action.data.homeGoodsList.length >= state.pageSize) {
@@ -39,7 +39,7 @@ const goodsReducer = handleActions({
   [GETGOODSDETAIL]: (state, action) => ({ ...state, goodsDetail: action.goodsDetail }),
   [GETBUTTONSTATUS]: (state, action) => ({ ...state, buttonStatus: action.buttonStatus }),
   [GETCLASSIFYGOODSLIST]: (state, action) => {
-    action.data.classifyGoodsList.map(good => {
+    action.data.classifyGoodsList.forEach(good => {
       _send1_1(`show-${good.goodsId}`)
     })
     if (action.data.currentPage > 1) {
