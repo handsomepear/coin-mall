@@ -307,8 +307,8 @@ class GoodsDetail extends Component {
         const diffTime = goodsDetail.nextExchangeTimestamp - Date.now()
         let buttonBtn = ''
         //  秒杀未开始
-        if (diffTime > 0 && diffTime < 1800000) {
-          // 秒杀倒计时(30分钟之内倒计时)
+        if (diffTime > 0 && diffTime < 86400000) {
+          // 秒杀倒计时(一天之内倒计时)
           buttonBtn = <div className="btn bg-gray">
             <CountDown endTimeMs={goodsDetail.nextExchangeTimestamp} onTimeEnd={() => {
               this.changeBottomBtnStatus(7)
@@ -326,6 +326,8 @@ class GoodsDetail extends Component {
         return <div className="btn" onClick={this.exchange}>马上兑换</div>
       case 11:
         return <div className="btn bg-gray">已兑换</div>
+      case 12:
+        return <div className="btn bg-gray">您已是金币商城的老朋友</div>
       default:
         return false
     }

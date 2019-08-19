@@ -83,7 +83,7 @@ class Index extends Component {
   goCoinTask = () => {
     const loggingStatus = this.props.loggingStatus
     if (loggingStatus) {
-      window.location.href = 'https://bbs.j.cn/html/cointask/coin-task.html'
+      window.location.href = 'https://bbs.j.cn/html/cointask/coin-task-prev.html?from=coinMall'
     } else {
       this.props.userActions.doLogin()
     }
@@ -98,11 +98,12 @@ class Index extends Component {
   }
 
   handleNavItemClick = (navItem) => {
-    if (navItem.positionId === 6) {
-      window.location.href = 'jcnhers://my_entrance/id=tbhongbao'
-    } else {
-      this.goClassifyListPage(navItem.positionId)
-    }
+    // if (navItem.positionId === 6) {
+    //   window.location.href = 'jcnhers://my_entrance/id=tbhongbao'
+    // } else {
+    //   this.goClassifyListPage(navItem.positionId)
+    // }
+    this.goClassifyListPage(navItem.positionId)
   }
 
   renderListViewFooter = () => (

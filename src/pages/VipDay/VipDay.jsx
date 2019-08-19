@@ -123,7 +123,7 @@ class VipDay extends Component {
           />
           <SpecialArea
             onViewGoodsDetail={this.viewGoodsDetail}
-            title="19:00 手机秒杀"
+            title="19:00 惊喜秒杀"
             slogan="VIP专享秒杀，抢到就是赚到~"
             goodsList={this.state.nineteenGoods}
             hideMoreGoodsEntry={true}

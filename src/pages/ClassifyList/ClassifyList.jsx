@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
 import ClassifyItem from '@/components/ClassifyItem/ClassifyItem'
+import { _send1_1 } from '@/common/js/tool'
 
 class ClassifyList extends Component {
   constructor(props) {
@@ -23,6 +24,9 @@ class ClassifyList extends Component {
 
   componentDidMount() {
     const positionId = this.props.match.params.positionId
+    if(parseInt(positionId) === 13) {
+      _send1_1('newzone-show')
+    }
     this.setState({ positionId })
     this.getClassifyGoodsList(positionId)
   }
