@@ -25,6 +25,14 @@ export const coinsMallMakeOrder = ({ goodsId, skuId, os }) => async dispatch => 
   })
 }
 
+export const vowEggMakeOrder = ({skuId, vowId, channel=0}) => async dispatch => {
+  const res = await orderServer.vowEggMakeOrder({skuId, vowId, channel}).then()
+  return dispatch({
+    type: types.MAKEVOWORDER,
+    vowOrderRes: res
+  })
+}
+
 export const getOrderDetail = (orderNumber) => async dispatch => {
   const orderDetail = await orderServer.coinsMallOrderInfo({orderNumber}).then(res => res.data)
   return dispatch({

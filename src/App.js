@@ -9,6 +9,7 @@ import * as userActions from '@actions/userActions'
 import Index from '@pages/Index/Index'
 import GoodsDetail from '@pages/GoodsDetail/GoodsDetail'
 import Address from '@pages/Address/AddressEdit'
+import WishAddress from '@pages/WishAddress/AddressEdit'
 import OrderList from '@pages/OrderList/OrderList'
 import OrderDetail from '@pages/OrderDetail/OrderDetail'
 import ClassifyList from '@pages/ClassifyList/ClassifyList'
@@ -68,6 +69,7 @@ class App extends Component {
             <Route path="/vip-day" component={VipDay} />
           </Switch>
           <Route path="/address" component={Address} />
+          <Route path="/wish-address/:vowId" component={WishAddress} />
         </div>
       </HashRouter>
     )

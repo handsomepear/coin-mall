@@ -1,0 +1,160 @@
+.address-edit-page {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+
+  .am-list-item {
+    min-height: 50px;
+
+    &.am-input-item {
+      height: 50px;
+    }
+
+    .am-input-label {
+      color: #656565;
+      font-size: 14px;
+    }
+
+     .am-list-arrow-horizontal {
+       flex: 1;
+       text-align: right;
+     }
+    .am-list-arrow {
+      background-position: 100% 50%;
+    }
+    .am-input-control {
+      input {
+        font-size: 14px;
+        //color: #dddddd;
+      }
+    }
+
+    .am-list-line {
+      border-bottom-color: #000;
+
+      .am-list-extra {
+        flex-basis: initial;
+        font-size: 14px;
+        color: #000;
+      }
+
+      .am-list-content {
+        flex: initial;
+        width: 85px;
+        color: #656565;
+        font-size: 14px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .am-textarea-label {
+    font-size: 14px;
+    color: #656565;
+  }
+
+  .am-textarea-control textarea {
+    font-size: 14px;
+  }
+
+  .button-con {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 52px;
+    padding: 0 8px;
+    font-size: 16px;
+
+    div {
+      width: 165px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 40px;
+      box-sizing: border-box;
+    }
+
+    .cancel {
+      border: 1px solid #ccc
+    }
+
+    .save {
+      color: #fff;
+      background-color: #dc7035;
+    }
+  }
+}
+
+.modal-wrap {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 11;
+}
+.get-succ-modal {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 271px;
+  height: 183px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.get-succ-wrap .close-btn {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+.get-succ-modal .modal-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 45px 0;
+}
+.get-succ-modal .modal-title {
+  font-size: 18px;
+  color: #000;
+  line-height: 1;
+}
+.get-succ-modal .modal-tip {
+  font-size: 12px;
+  color:#626262;
+  line-height: 1;
+}
+
+.get-succ-modal .modal-action {
+  display: flex;
+  height: 44px;
+  border-top: 1px solid #bfbfbf;
+  margin-top: 0;
+}
+.get-succ-modal .modal-action div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  font-size: 16px;
+  color: #626262;
+}
+.get-succ-modal .modal-action .line {
+  width: 1px;
+  height: 100%;
+  background-color: #bfbfbf;
+}
+.get-succ-modal .modal-action .view-btn{
+  color: #e65543;
+}

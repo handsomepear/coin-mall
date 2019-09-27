@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 
 import ClassifyItem from '@/components/ClassifyItem/ClassifyItem'
 import { _send1_1 } from '@/common/js/tool'
+import './classifyList.scss'
 
 class ClassifyList extends Component {
   constructor(props) {
@@ -18,14 +19,21 @@ class ClassifyList extends Component {
       pageNum: 1,
       pageSize: 10,
       isLoading: false, // 是否正在加载中
-      hasMoreGoods: true // 是否还有更多订单
+      hasMoreGoods: true, // 是否还有更多订单
+      isShowBackHomeBtn: false
     }
   }
 
   componentDidMount() {
     const positionId = this.props.match.params.positionId
-    if(parseInt(positionId) === 13) {
+    if (parseInt(positionId) === 13) {
       _send1_1('newzone-show')
+      console.log(this.props.history.length)
+      if (this.props.history.length <= 1) {
+        // 展示回到首页按钮
+        _send1_1('newback-show')
+        this.setState({ isShowBackHomeBtn: true })
+      }
     }
     this.setState({ positionId })
     this.getClassifyGoodsList(positionId)
@@ -35,7 +43,7 @@ class ClassifyList extends Component {
     this.getClassifyGoodsList(this.state.positionId)
   }
 
-  renderListViewFooter = () =>  (
+  renderListViewFooter = () => (
     <div style={{ padding: 30, textAlign: 'center' }}>
       {this.state.hasMoreOrder ? '加载中...' : '已经没有更多了'}
     </div>
@@ -68,6 +76,10 @@ class ClassifyList extends Component {
       })
     }
   }
+  goHome = () => {
+    _send1_1('newback-click')
+    this.props.history.replace('/')
+  }
 
 
   render() {
@@ -89,6 +101,15 @@ class ClassifyList extends Component {
               useBodyScroll
               renderFooter={this.renderListViewFooter}
             />
+            :
+            null
+        }
+        {
+          this.state.isShowBackHomeBtn ?
+            <div className="back-home-icon" onClick={this.goHome}>
+              <span>商城</span>
+              <span>首页</span>
+            </div>
             :
             null
         }

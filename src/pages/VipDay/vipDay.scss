@@ -5,6 +5,30 @@
   .banner {
     width: 100%;
   }
+  // 广告按钮
+  .ad-btn-con {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: #ff6666;
+    //background-color: green;
+    margin-top: -2px;
+    padding-bottom: 15px;
+  }
+  .ad-btn {
+    position: relative;
+    .btn-img {
+      width: 191px;
+      height: 38px;
+    }
+    .btn-mark {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      width: 29px;
+      height: 18px;
+    }
+  }
   // 开通会员按钮
   .join-btn {
     display: flex;
@@ -27,7 +51,7 @@
     padding: 0 16px;
     background-color: #ff6666;
     color: #fff;
-    border-top: 1px solid #eee;
+    //border-top: 1px solid #eee;
     box-sizing: border-box;
   }
   .tab-item {

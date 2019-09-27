@@ -1,6 +1,7 @@
 const baseUrl =
   process.env.NODE_ENV === 'development' ?
     'https://bbstest.j.cn' :
+    // 'http://114.112.164.36:52080':
     // '/' :
     process.env.NODE_ENV === 'production' ?
       process.env.REACT_APP_MODE === 'production' ?

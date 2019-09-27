@@ -81,8 +81,12 @@ class VipDay extends Component {
     window.location.href = 'https://bbs.j.cn/pages/VIP/index.html'
   }
 
+  goAdPage = () => {
+    window.location.href = 'jcnhers://my_entrance/id=vipfree'
+  }
+
   render() {
-    const isVip = this.props.isVip
+    // const isVip = this.props.isVip
     return (
       <section className="vip-day">
         <header>
@@ -90,14 +94,20 @@ class VipDay extends Component {
           <section className="banner">
             <img src={require('../../common/images/banner.jpg')} alt="" />
           </section>
+          <div className="ad-btn-con" onClick={this.goAdPage}>
+            <div className="ad-btn">
+              <img className="btn-img" src={require('../../common/images/ad-btn.png')} alt="" />
+              <img className="btn-mark" src={require('../../common/images/ad-mark.png')} alt="" />
+            </div>
+          </div>
           {/*开通会员按钮*/}
-          {
-            !isVip ?
-              <div className="join-btn" onClick={this.goVipPage}>
-                <img src={require('../../common/images/join-vip.png')} alt="" />
-              </div>
-              : null
-          }
+          {/*{*/}
+            {/*!isVip ?*/}
+              {/*<div className="join-btn" onClick={this.goVipPage}>*/}
+                {/*<img src={require('../../common/images/join-vip.png')} alt="" />*/}
+              {/*</div>*/}
+              {/*: null*/}
+          {/*}*/}
           <Tab tabList={this.state.tabList} />
         </header>
         {/*专场内容*/}

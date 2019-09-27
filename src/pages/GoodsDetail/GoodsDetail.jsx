@@ -307,7 +307,7 @@ class GoodsDetail extends Component {
         const diffTime = goodsDetail.nextExchangeTimestamp - Date.now()
         let buttonBtn = ''
         //  秒杀未开始
-        if (diffTime > 0 && diffTime < 86400000) {
+        if (diffTime > 0 && diffTime < 172800000) {
           // 秒杀倒计时(一天之内倒计时)
           buttonBtn = <div className="btn bg-gray">
             <CountDown endTimeMs={goodsDetail.nextExchangeTimestamp} onTimeEnd={() => {

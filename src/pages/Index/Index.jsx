@@ -83,7 +83,7 @@ class Index extends Component {
   goCoinTask = () => {
     const loggingStatus = this.props.loggingStatus
     if (loggingStatus) {
-      window.location.href = 'https://bbs.j.cn/html/cointask/coin-task-prev.html?from=coinMall'
+      window.location.href = 'https://bbs.j.cn/html/cointask/coin-task.html?from=coinMall'
     } else {
       this.props.userActions.doLogin()
     }
