@@ -410,6 +410,14 @@ class GoodsDetail extends Component {
                 </div>
               </section> : null
           }
+          {/* 秒杀中奖人 */}
+          <section className="winner">
+            <div className="winner-info">
+              <img className="winner-icon" src={require('../../common/images/winner-icon.png')} alt="" />
+              2019.10.09 秒杀中奖小主：<span>ZPS</span>
+            </div>
+            <div className="iconfont arrow-right" />
+          </section>
           {/* 地址信息 */}
           {
             // FIXME: check

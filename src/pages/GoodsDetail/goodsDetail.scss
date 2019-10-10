@@ -156,6 +156,34 @@
     flex-shrink: 0;
   }
 
+  // winner
+  .winner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    margin-top: 10px;
+    padding: 0 15px;
+    height: 40px;
+  }
+  .winner-info {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: #888;
+    line-height: 1;
+    span {
+      color: #000;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+  }
+  .winner-icon {
+    display: block;
+    width: 25px;
+    height: 19px;
+    margin-right: 10px;
+  }
   .address-wrap {
     margin-top: 10px;
   }
