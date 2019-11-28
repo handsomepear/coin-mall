@@ -1,6 +1,47 @@
 .index-page {
   width: 100%;
 
+  .broadcast-con {
+    display: flex;
+    width: 100%;
+    padding: 0 10px;
+    height: 30px;
+    align-items: center;
+    background-color: #f2bb4b;
+    box-sizing: border-box;
+    img {
+      display: block;
+      flex-basis: 16px;
+      width: 16px;
+      height: 14px;
+    }
+    .iconfont {
+      color: #5f5f5f;
+      font-weight: 700;
+    }
+  }
+  .broadcast-list {
+    display: flex;
+    flex: 1 0;
+    align-items: center;
+  }
+  .broadcast-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    margin-left: 6px;
+    p {
+      line-height: 1;
+      font-size: 14px;
+    }
+    span {
+      margin: 0 3px;
+      color: #a43900;
+      font-weight: 500;
+    }
+  }
+
   .iconfont {
     color: #888;
   }

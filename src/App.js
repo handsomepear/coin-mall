@@ -15,6 +15,7 @@ import OrderDetail from '@pages/OrderDetail/OrderDetail'
 import ClassifyList from '@pages/ClassifyList/ClassifyList'
 import Pay from '@pages/Pay/Pay'
 import VipDay from '@/pages/VipDay/VipDay'
+import Turntable from '@/pages/Turntable/turntable'
 
 // import { getTkl } from '@/API/home'
 
@@ -70,6 +71,7 @@ class App extends Component {
           </Switch>
           <Route path="/address" component={Address} />
           <Route path="/wish-address/:vowId" component={WishAddress} />
+          <Route path="/turntable" component={Turntable} />
         </div>
       </HashRouter>
     )

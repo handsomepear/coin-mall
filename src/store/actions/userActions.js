@@ -37,3 +37,11 @@ export const saveAddress = (oAddress) => async dispatch => {
     }
   })
 }
+
+// 获取金币数
+export const setCoinsCount = coinsCount => dispatch => {
+  return dispatch({
+    type: types.SETCOINSCOUNT,
+    coinsCount
+  })
+}

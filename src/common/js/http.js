@@ -35,7 +35,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => {
     if (response.status === 200) {
-      if (response.data.errCode === 0) {
+      if (response.data.errCode === 0 || response.data.bizStatus === 0) {
         return Promise.resolve(response)
       }
       return Promise.reject(response)

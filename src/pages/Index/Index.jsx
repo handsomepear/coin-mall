@@ -21,14 +21,20 @@ class Index extends Component {
     this.state = {
       hasMoreGoods: true,
       isLoading: false,
-      isIOS: _getQueryString('jcnsource') === 'ios'
+      isIOS: _getQueryString('jcnsource') === 'ios',
+      isShowBroadCastList: false // 是否展示广播
     }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.props.homeData.hasHomeData) {
-      this.props.homeActions.getHomePageData()
+      await this.props.homeActions.getHomePageData()
+      if (this.props.homeData.broadcastList) {
+        this.setState({ isShowBroadCastList: true })
+        _send1_1('guangbo-show-index')
+      }
     }
+
     this.getGoodsListWrap()
     // 记录滚动条的位置
     document.body.scrollTop = this.props.scrollPositionY
@@ -98,12 +104,14 @@ class Index extends Component {
   }
 
   handleNavItemClick = (navItem) => {
-    // if (navItem.positionId === 6) {
-    //   window.location.href = 'jcnhers://my_entrance/id=tbhongbao'
-    // } else {
-    //   this.goClassifyListPage(navItem.positionId)
-    // }
-    this.goClassifyListPage(navItem.positionId)
+    if (navItem.positionId === 13) {
+      // window.location.href = 'https://api.nicetui.cn/niceapi/addpostion/V6SSFOBWV5CX08RY'
+      this.props.history.push('/turntable')
+    } else if (navItem.positionId === 1) {
+      window.location.href = 'https://bbs.j.cn/pages/coin-games/index.html'
+    } else {
+      this.goClassifyListPage(navItem.positionId)
+    }
   }
 
   renderListViewFooter = () => (
@@ -111,6 +119,24 @@ class Index extends Component {
       {this.props.hasMoreGoods ? '加载中...' : '已经没有更多了'}
     </div>
   )
+
+  broadcastAfterChange = (index) => {
+    const lastIndex = this.props.homeData.broadcastList.length - 1
+    if (index === lastIndex) {
+      this.timer = setTimeout(() => {
+        this.setState({
+          isShowBroadCastList: false
+        })
+        clearTimeout(this.timer)
+      }, 3000)
+    }
+  }
+
+  // 点击进入个人首页
+  goRewardUserHome = userId => {
+    _send1_1('guangbo-click-index')
+    window.location.href = `jcnhers://user_activity/userId=${userId}`
+  }
 
   render() {
     const homeData = this.props.homeData
@@ -120,6 +146,31 @@ class Index extends Component {
     const homeGoodsList = dataSource.cloneWithRows(this.props.homeGoodsList)
     return (
       <section className="index-page">
+        {/* 中奖广播 */}
+        {
+          homeData.broadcastList && homeData.broadcastList.length && this.state.isShowBroadCastList ?
+            <section className="broadcast-con">
+              <img src={require('../../common/images/broadcast.png')} alt="" />
+              <section className="broadcast-list">
+                <Carousel autoplay={true} dots={false} vertical={true} afterChange={this.broadcastAfterChange}>
+                  {
+                    homeData.broadcastList.map(broadcastItem => {
+                      return (
+                        <div className="broadcast-item" key={broadcastItem.timestamp} onClick={() => {
+                          this.goRewardUserHome(broadcastItem.userId)
+                        }}>
+                          <p>恭喜<span className="username">{broadcastItem.userName}</span>获得了<span
+                            className="reward-name">{broadcastItem.goodsName}</span></p>
+                          <div className="iconfont arrow-right" />
+                        </div>
+                      )
+                    })
+                  }
+                </Carousel>
+              </section>
+            </section>
+            : null
+        }
         {/* banner */}
         <section className="banner">
           {
@@ -154,7 +205,7 @@ class Index extends Component {
             <div className="num">
               <div className="iconfont coin" />
               我的金币
-              <span>{homeData.totalCoin}</span>
+              <span>{this.props.coinsCount}</span>
             </div>
             <div className="expire-time">
               {homeData.expireCoin || 0} 金币将在{Index.coverTime(homeData.expireTime)}到期
@@ -232,7 +283,8 @@ const mapStateToProps = state => {
     hasMoreGoods: state.goodsReducer.hasMoreGoods,
     homeData: state.homeReducer.homeData,
     loggingStatus: state.userReducer.loggingStatus,
-    scrollPositionY: state.homeReducer.indexScrollPositionY
+    scrollPositionY: state.homeReducer.indexScrollPositionY,
+    coinsCount: state.userReducer.coinsCount
   }
 }
 

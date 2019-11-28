@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { withRouter } from 'react-router-dom'
-import { Toast } from 'antd-mobile'
+import { Toast, Carousel } from 'antd-mobile'
 
 import { _send1_1, _timeFormate } from '@common/js/tool'
 
@@ -126,7 +126,7 @@ class GoodsDetail extends Component {
       buttonStatus: 0,
       isShowErrorModal: false,
       isShowLimitModal: false,
-      isShowVipUpgradeModal: false // 控制会员升级提示弹窗
+      isShowVipUpgradeModal: false, // 控制会员升级提示弹窗
     }
   }
 
@@ -143,6 +143,9 @@ class GoodsDetail extends Component {
     }
     this.setState({ goodsId, choosedSkuInfo })
     const { goodsDetail } = await this.props.goodsActions.getGoodsDetail(goodsId)
+    if(goodsDetail.broadcastList) {
+      _send1_1('guangbo-show-detail')
+    }
     _send1_1(`goods-index-${goodsDetail.goodsId}`)
     this.setState({ goodsDetail })
     const { buttonStatus } = await this.props.goodsActions.getBtnStatus(goodsId)
@@ -206,9 +209,9 @@ class GoodsDetail extends Component {
     _send1_1(`goods-index-buy-${this.props.goodsDetail.goodsId}`)
 
     // 如果是生日礼物 则需要判断可领取次数 做限制 并提示升级为年度会员
-    if(parseFloat(this.state.goodsId) === 31) {
+    if (parseFloat(this.state.goodsId) === 31) {
       const { allReceivedGiftCount } = await this.props.goodsActions.getAllReceivedCount()
-      if(allReceivedGiftCount <= 0) {
+      if (allReceivedGiftCount <= 0) {
         return this.showVipUpgradeModal()
       }
     }
@@ -333,6 +336,10 @@ class GoodsDetail extends Component {
     }
   }
 
+  goRewardUserHome = userId => {
+    _send1_1('guangbo-click-detail')
+    window.location.href = `jcnhers://user_activity/userId=${userId}`
+  }
 
   render() {
     const goodsDetail = this.state.goodsDetail
@@ -411,13 +418,31 @@ class GoodsDetail extends Component {
               </section> : null
           }
           {/* 秒杀中奖人 */}
-          <section className="winner">
-            <div className="winner-info">
-              <img className="winner-icon" src={require('../../common/images/winner-icon.png')} alt="" />
-              2019.10.09 秒杀中奖小主：<span>ZPS</span>
-            </div>
-            <div className="iconfont arrow-right" />
-          </section>
+          {
+
+            goodsDetail.broadcastList && goodsDetail.broadcastList.length ?
+              <section className="winner">
+                <img className="winner-icon" src={require('../../common/images/winner-icon.png')} alt="" />
+                <div className="winner-info">
+                  <Carousel autoplay={true} infinite dots={false} vertical={true} afterChange={this.broadcastAfterChange}>
+                    {
+                      goodsDetail.broadcastList.map(broadcastItem => {
+                        let time = _timeFormate(broadcastItem.timestamp)
+                        return (
+                          <div className="winner-item" key={broadcastItem.timestamp} onClick={() => {
+                            this.goRewardUserHome(broadcastItem.userId)
+                          }}>
+                            <p>{time.Y}.{time.M}.{time.d} 秒杀中奖小主：<span>{broadcastItem.userName}</span></p>
+                            <div className="iconfont arrow-right" />
+                          </div>
+                        )
+                      })
+                    }
+                  </Carousel>
+                </div>
+              </section> :
+              null
+          }
           {/* 地址信息 */}
           {
             // FIXME: check
@@ -512,7 +537,8 @@ class GoodsDetail extends Component {
           {this.state.isShowErrorModal && <ErrorModal onCloseModal={this.closeErrorModal} contactCustomer={this.contactCustomer} />}
           {this.state.isShowLimitModal && <ExhcangeUpperLimitModal onCloseLimitModal={this.hideLimitModal} />}
           {/*会员更新弹窗*/}
-          {this.state.isShowVipUpgradeModal && <VipUpgradeModal onCloseVipUpgradeModal={this.closeVipUpgradeModal} onClickVipUpgrade={this.vipUpgrade} />}
+          {this.state.isShowVipUpgradeModal &&
+          <VipUpgradeModal onCloseVipUpgradeModal={this.closeVipUpgradeModal} onClickVipUpgrade={this.vipUpgrade} />}
         </section>
         : ""
 

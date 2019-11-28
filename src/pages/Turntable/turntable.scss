@@ -1,0 +1,256 @@
+div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.lottery-page {
+  width: 100%;
+  background-color: #d5461a;
+}
+
+.banner img{
+  width: 100%;
+}
+
+.container {
+  padding: 15px 18px;
+}
+.diamond-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  color: #ffea99;
+  margin-bottom: 5px;
+}
+.diamond-info span {
+  color: #f7de2e;
+}
+
+
+
+.main {
+  width: 340px;
+  height: 340px;
+  padding: 10px;
+  background: url("https://image.guang.j.cn/static/imgs/tashequ/main-bg.png") no-repeat ;
+  background-size: contain;
+
+}
+
+.turntable {
+  width: 100%;
+  height: 100%;
+  padding: 22px;
+  background: url("https://image.guang.j.cn/static/imgs/tashequ/light.png") no-repeat ;
+  background-size: contain;
+
+}
+.turntable.on {
+  background-image: url("https://image.guang.j.cn/static/imgs/tashequ/light-t.png");
+}
+
+.award {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-content: space-between;
+  width: 276px;
+  height: 276px;
+  background: url("https://image.guang.j.cn/static/imgs/wishEgg/award.png") no-repeat ;
+  background-size: contain;
+}
+
+.award-item {
+  position: relative;
+  align-items: center;
+  width: 90px;
+  height: 90px;
+  /*background-color: green;*/
+}
+.award-item.off::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+  background-color: rgba(0,0,0,.8);
+  z-index: 2;
+}
+.smile-img {
+  position: absolute;
+  left: 50%;
+  top: 23px;
+  transform: translate(-50%);
+  width: 27px;
+  height: 27px;
+}
+.award-item span{
+  width: 100%;
+  position: absolute;
+  line-height: 1;
+  bottom: 20px;
+  left: 0;
+  text-align: center;
+  font-size: 14px;
+  color: #b73713;
+}
+.draw-img {
+  width: 100%;
+  height: 100%;
+}
+.ac-rules {
+  margin-top: 25px;
+}
+
+.ac-rules .title {
+  width: 100%;
+  height: 23px;
+  line-height: 23px;
+  text-align: center;
+  color: #fff;
+  font-size: 13px;
+  background-color: #fb8b03;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  margin-bottom: 15px;
+}
+.ac-rules .rule-item {
+  display: flex;
+  align-items: center;
+  color: #ffea99;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+.ac-rules .rule-item::before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 5px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background-color: #ffea99;
+  margin-right: 5px;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 13px;
+  color: #fd9f2e;
+  margin-top: 20px;
+}
+
+button[plain] {
+  border:none;
+}
+
+.result-modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,.8);
+}
+
+.fail-modal, .win-modal {
+  position: absolute;
+  left: 50%;
+  top: 150px;
+  transform: translate(-50%);
+}
+.fail-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 295px;
+  height: 290px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding-top: 28px;
+}
+.close-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: 1;
+  padding: 15px;
+}
+.close-btn img {
+  width: 14px;
+  height: 14px;
+}
+.fail-title, .win-title {
+  line-height: 1;
+  font-size: 20px;
+  color: #f34c28;
+  margin-bottom: 10px;
+}
+.fail-tips {
+  font-size: 14px;
+  line-height: 1;
+  color: #000;
+  margin-bottom: 13px;
+}
+
+.fail-img {
+  width: 180px;
+  height: 145px;
+  margin-bottom: 5px;
+}
+
+.draw-again {
+  height: 35px;
+  line-height: 35px;
+  font-size: 17px;
+  color: #fff;
+  background-color: #f35331;
+  text-align: center;
+  border-radius: 35px;
+  padding: 0 30px;
+}
+
+.win-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 357px;
+  height: 368px;
+  top:104px;
+  background: url("https://image.guang.j.cn/static/imgs/tashequ/lottery-win.png") no-repeat;
+  background-size: contain;
+  padding-top: 100px;
+}
+.win-modal .close-btn {
+  right: 35px;
+  top: 50px;
+}
+
+.win-title {
+  margin-bottom: 30px;
+}
+
+.win-diamond {
+  line-height: 1;
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.win-img {
+  width: 53px;
+  height: 48px;
+}
+
+.win-tips {
+  line-height: 1;
+  font-size: 14px;
+  color: #666666;
+  margin-top: 31px;
+  margin-bottom: 14px;
+}

@@ -8,4 +8,5 @@ export const GETUSERINFO = 'GETUSERINFO'
 
 export const SAVEADDRESS = 'SAVEADDRESS'
 
+export const SETCOINSCOUNT = 'SETCOINSCOUNT'
 

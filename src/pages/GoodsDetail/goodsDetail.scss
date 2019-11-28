@@ -165,17 +165,32 @@
     margin-top: 10px;
     padding: 0 15px;
     height: 40px;
+    .iconfont {
+      color: #969696;
+    }
   }
   .winner-info {
     display: flex;
+    flex: 1;
     align-items: center;
-    font-size: 11px;
+
     color: #888;
     line-height: 1;
     span {
       color: #000;
       font-weight: 500;
       margin-left: 10px;
+    }
+  }
+  .winner-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    p {
+      height: 100%;
+      line-height: 40px;
+      font-size: 12px;
     }
   }
   .winner-icon {
@@ -202,6 +217,7 @@
     .iconfont {
       display: flex;
       align-items: center;
+      color: #969696;
     }
   }
 

@@ -1,6 +1,6 @@
 const baseUrl =
   process.env.NODE_ENV === 'development' ?
-    'https://bbstest.j.cn' :
+    'https://bbs.j.cn' :
     // 'http://114.112.164.36:52080':
     // '/' :
     process.env.NODE_ENV === 'production' ?
@@ -9,6 +9,7 @@ const baseUrl =
         :
         process.env.REACT_APP_MODE === 'alpha' ?
           'https://bbstest.j.cn'
+          // 'http://114.112.164.36:52080'
           :
           process.env.REACT_APP_MODE === 'pre' ?
             'https://bbspre.j.cn'

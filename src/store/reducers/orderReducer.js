@@ -8,7 +8,7 @@ const initialState = {
 
 
 const orderReducer = handleActions({
-  [MAKEORDER]: (state) => state,
+  [MAKEORDER]: state => state,
   [MAKEVOWORDER]: state => state,
   [GETORDERLIST]: (state, action) => {
     // 如果当前页不是第一页，合并保存到store中的数据
@@ -20,7 +20,7 @@ const orderReducer = handleActions({
       orderList: action.data.orderList
     }
   },
-  [GETORDERINFO]: (state, action) => ({...state, orderDetail: action.orderDetail})
+  [GETORDERINFO]: (state, action) => ({ ...state, orderDetail: action.orderDetail })
 }, initialState)
 
 export default orderReducer

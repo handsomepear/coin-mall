@@ -16,13 +16,13 @@ import './AddressEdit.scss'
 class ConfirmModal extends Component {
   constructor(props) {
     super(props)
+    this.state = {}
   }
 
   cancelHandle = () => {
     this.props.hideConfirmModal()
   }
   confirmHandle = () => {
-    console.log(this.props)
     this.props.confirmHandle()
   }
 
@@ -37,7 +37,7 @@ class ConfirmModal extends Component {
           </div>
           <div className="modal-action">
             <div className="withhold-btn" onClick={this.cancelHandle}>{props.cancelText}</div>
-            <span className="line"></span>
+            <span className="line"/>
             <div className="view-btn" onClick={this.confirmHandle}>{props.confirmText}</div>
           </div>
           <div className="close-btn">
